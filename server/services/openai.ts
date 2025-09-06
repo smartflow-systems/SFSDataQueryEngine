@@ -1,6 +1,6 @@
 import OpenAI from "openai";
 
-// the newest OpenAI model is "gpt-5" which was released August 7, 2025. do not change this unless explicitly requested by the user
+// Using GPT-4o model for natural language to SQL translation
 const openai = new OpenAI({ 
   apiKey: process.env.OPENAI_API_KEY || process.env.OPENAI_API_KEY_ENV_VAR || "default_key"
 });
@@ -32,7 +32,7 @@ Please respond with a JSON object containing:
 Ensure the SQL is safe, properly formatted, and follows best practices. If you're unsure about table names or structure, use common patterns and include comments.`;
 
     const response = await openai.chat.completions.create({
-      model: "gpt-5",
+      model: "gpt-4o",
       messages: [
         {
           role: "system",
@@ -43,8 +43,7 @@ Ensure the SQL is safe, properly formatted, and follows best practices. If you'r
           content: prompt
         }
       ],
-      response_format: { type: "json_object" },
-      temperature: 0.1
+      response_format: { type: "json_object" }
     });
 
     const result = JSON.parse(response.choices[0].message.content || "{}");
@@ -78,7 +77,7 @@ Please respond with a JSON object containing:
 - estimatedPerformance: string indicating performance estimate ('excellent', 'good', 'fair', or 'poor')`;
 
     const response = await openai.chat.completions.create({
-      model: "gpt-5",
+      model: "gpt-4o",
       messages: [
         {
           role: "system",
@@ -89,8 +88,7 @@ Please respond with a JSON object containing:
           content: prompt
         }
       ],
-      response_format: { type: "json_object" },
-      temperature: 0.1
+      response_format: { type: "json_object" }
     });
 
     return JSON.parse(response.choices[0].message.content || "{}");
