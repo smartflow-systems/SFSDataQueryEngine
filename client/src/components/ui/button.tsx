@@ -9,15 +9,15 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-gradient-to-r from-[#d4af37] via-[#f4e4bc] to-[#b8941f] text-[#0b0b0b] font-bold hover:shadow-[0_8px_25px_rgba(212,175,55,0.4)] hover:scale-105 border-2 border-[#d4af37]",
+        default: "sfs-button",
         destructive:
-          "bg-[#8b2020] text-[#e9e6df] hover:bg-[#a52525] border border-[#8b2020]",
+          "bg-[#8b2020] text-[#ffffff] hover:bg-[#a52525] border border-[#8b2020] sfs-card",
         outline:
-          "border-2 border-[rgba(212,175,55,0.3)] bg-transparent text-[#d4af37] hover:bg-[rgba(212,175,55,0.1)] hover:border-[#d4af37]",
+          "border-2 border-[rgba(212,175,55,0.35)] bg-transparent text-[#d4af37] hover:bg-[rgba(212,175,55,0.1)] hover:border-[#d4af37] smooth-transition",
         secondary:
-          "bg-[rgba(45,31,26,0.5)] text-[#d4af37] hover:bg-[rgba(45,31,26,0.8)] border border-[rgba(212,175,55,0.3)]",
-        ghost: "hover:bg-[rgba(212,175,55,0.1)] hover:text-[#f4e4bc] text-[#d4af37]",
-        link: "text-[#d4af37] underline-offset-4 hover:underline hover:text-[#f4e4bc]",
+          "sfs-card text-[#d4af37] hover:transform hover:-translate-y-1",
+        ghost: "hover:bg-[rgba(212,175,55,0.1)] hover:text-[#ffdd00] text-[#d4af37] smooth-transition",
+        link: "text-[#d4af37] underline-offset-4 hover:underline hover:text-[#ffdd00] smooth-transition",
       },
       size: {
         default: "h-11 px-5 py-2",
