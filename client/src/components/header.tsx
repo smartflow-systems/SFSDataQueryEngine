@@ -1,45 +1,58 @@
 import { Bell, HelpCircle, User, ChartLine } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Link, useLocation } from "wouter";
 
 export default function Header() {
+  const [location] = useLocation();
+  
   return (
     <header className="bg-card border-b border-border px-4 py-3 flex items-center justify-between">
       <div className="flex items-center space-x-4">
-        <div className="flex items-center space-x-2">
-          <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-            <ChartLine className="text-primary-foreground text-sm" size={16} />
+        <Link href="/">
+          <div className="flex items-center space-x-2 cursor-pointer">
+            <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
+              <ChartLine className="text-primary-foreground text-sm" size={16} />
+            </div>
+            <h1 className="text-xl font-bold text-foreground">DataLens</h1>
           </div>
-          <h1 className="text-xl font-bold text-foreground">DataLens</h1>
-        </div>
+        </Link>
         <nav className="hidden md:flex items-center space-x-6">
-          <a 
-            href="#" 
-            className="text-foreground hover:text-primary transition-colors font-medium"
+          <Link 
+            href="/"
+            className={`transition-colors font-medium ${
+              location === '/' ? 'text-primary' : 'text-muted-foreground hover:text-primary'
+            }`}
             data-testid="nav-dashboard"
           >
             Dashboard
-          </a>
-          <a 
-            href="#" 
-            className="text-muted-foreground hover:text-primary transition-colors"
+          </Link>
+          <Link 
+            href="/queries"
+            className={`transition-colors ${
+              location === '/queries' ? 'text-primary' : 'text-muted-foreground hover:text-primary'
+            }`}
             data-testid="nav-queries"
           >
             Queries
-          </a>
-          <a 
-            href="#" 
-            className="text-muted-foreground hover:text-primary transition-colors"
+          </Link>
+          <Link 
+            href="/reports"
+            className={`transition-colors ${
+              location === '/reports' ? 'text-primary' : 'text-muted-foreground hover:text-primary'
+            }`}
             data-testid="nav-reports"
           >
             Reports
-          </a>
-          <a 
-            href="#" 
-            className="text-muted-foreground hover:text-primary transition-colors"
+          </Link>
+          <Link 
+            href="/settings"
+            className={`transition-colors ${
+              location === '/settings' ? 'text-primary' : 'text-muted-foreground hover:text-primary'
+            }`}
             data-testid="nav-settings"
           >
             Settings
-          </a>
+          </Link>
         </nav>
       </div>
       <div className="flex items-center space-x-3">
