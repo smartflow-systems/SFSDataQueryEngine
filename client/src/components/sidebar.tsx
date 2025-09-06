@@ -9,18 +9,18 @@ export default function Sidebar() {
   const { data: recentQueries = [] } = useQueries({ recent: true, limit: 5 });
 
   return (
-    <aside className="w-72 bg-card/50 backdrop-blur-sm border-r border-border flex flex-col smooth-transition">
+    <aside className="w-72 bg-[rgba(45,31,26,0.5)] backdrop-blur-[10px] border-r-2 border-[rgba(212,175,55,0.3)] flex flex-col smooth-transition">
       {/* Database Connections */}
-      <div className="p-5 border-b border-border">
+      <div className="p-5 border-b-2 border-[rgba(212,175,55,0.16)]">
         <div className="flex items-center justify-between mb-4">
-          <h3 className="text-sm font-bold text-foreground uppercase tracking-wider flex items-center gap-2">
-            <Database className="text-primary" size={16} />
+          <h3 className="text-sm font-bold text-[#d4af37] uppercase tracking-wider flex items-center gap-2">
+            <Database className="text-[#d4af37]" size={16} />
             Connections
           </h3>
           <Button 
             variant="ghost" 
             size="sm" 
-            className="p-1.5 hover:bg-primary/10 rounded-lg text-muted-foreground hover:text-primary smooth-transition hover:scale-110"
+            className="p-1.5 hover:bg-[rgba(212,175,55,0.1)] rounded-lg text-[#9a8f80] hover:text-[#d4af37] smooth-transition hover:scale-110"
             data-testid="button-add-connection"
           >
             <Plus size={14} />
@@ -30,18 +30,18 @@ export default function Sidebar() {
           {databases.map((db) => (
             <div 
               key={db.id} 
-              className={`flex items-center space-x-3 p-3 rounded-lg cursor-pointer smooth-transition group ${
-                db.isActive ? 'bg-primary/10 border border-primary/20' : 'hover:bg-accent border border-transparent'
+              className={`flex items-center space-x-3 p-3 rounded-lg cursor-pointer smooth-transition group sfs-card ${
+                db.isActive ? 'bg-[rgba(212,175,55,0.15)] border-[#d4af37]' : ''
               }`}
               data-testid={`connection-${db.name}`}
             >
-              <div className={`w-2 h-2 rounded-full animate-pulse ${
-                db.isActive ? 'bg-success shadow-lg shadow-success/50' : 'bg-muted-foreground'
+              <div className={`w-2 h-2 rounded-full ${
+                db.isActive ? 'bg-[#4a7c4a] shadow-lg shadow-[rgba(74,124,74,0.5)] animate-pulse' : 'bg-[#9a8f80]'
               }`} />
-              <Database className={`${db.isActive ? 'text-primary' : 'text-muted-foreground'} group-hover:text-primary smooth-transition`} size={14} />
+              <Database className={`${db.isActive ? 'text-[#d4af37]' : 'text-[#9a8f80]'} group-hover:text-[#d4af37] smooth-transition`} size={14} />
               <span className={`text-sm font-medium ${
-                db.isActive ? 'text-foreground' : 'text-muted-foreground'
-              } group-hover:text-foreground smooth-transition`}>
+                db.isActive ? 'text-[#e9e6df]' : 'text-[#9a8f80]'
+              } group-hover:text-[#e9e6df] smooth-transition`}>
                 {db.name}
               </span>
             </div>
@@ -50,10 +50,10 @@ export default function Sidebar() {
       </div>
 
       {/* Saved Queries */}
-      <div className="p-5 border-b border-border">
+      <div className="p-5 border-b-2 border-[rgba(212,175,55,0.16)]">
         <div className="flex items-center justify-between mb-4">
-          <h3 className="text-sm font-bold text-foreground uppercase tracking-wider flex items-center gap-2">
-            <Code className="text-primary" size={16} />
+          <h3 className="text-sm font-bold text-[#d4af37] uppercase tracking-wider flex items-center gap-2">
+            <Code className="text-[#d4af37]" size={16} />
             Saved Queries
           </h3>
           <Button 
@@ -86,8 +86,8 @@ export default function Sidebar() {
 
       {/* Recent History */}
       <div className="p-5 flex-1">
-        <h3 className="text-sm font-bold text-foreground uppercase tracking-wider mb-4 flex items-center gap-2">
-          <Clock className="text-primary" size={16} />
+        <h3 className="text-sm font-bold text-[#d4af37] uppercase tracking-wider mb-4 flex items-center gap-2">
+          <Clock className="text-[#d4af37]" size={16} />
           Recent History
         </h3>
         <div className="space-y-1">
