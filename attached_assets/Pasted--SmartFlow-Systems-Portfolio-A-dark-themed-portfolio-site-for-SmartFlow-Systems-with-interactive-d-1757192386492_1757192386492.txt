@@ -1,0 +1,162 @@
+# SmartFlow Systems Portfolio
+
+A dark-themed portfolio site for SmartFlow Systems with interactive demos, live metrics, bookings, lead capture, and JSON-driven content management.
+
+## Features
+
+- **Portfolio Showcase**: Interactive system demos with live metrics
+- **Booking System**: Calendly integration for strategy calls
+- **Lead Capture**: Free pack download with Google Sheets logging
+- **Case Studies**: Success story pages
+- **Blog System**: Markdown-based content with build automation
+- **SEO Optimized**: Structured data, sitemaps, meta tags
+
+## Quick Setup
+
+### 1. Booking System
+Edit `site.config.json → calendlyUrl` with your Calendly link, or leave blank to show email fallback.
+
+### 2. Lead Capture to Google Sheets
+Create a Google Apps Script Web App:
+
+1. Go to [Google Apps Script](https://script.google.com)
+2. Create new project → paste this code:
+
+```javascript
+function doPost(e) {
+  const sheet = SpreadsheetApp.openById('YOUR_SHEET_ID').getActiveSheet();
+  const data = JSON.parse(e.postData.contents);
+  sheet.appendRow([
+    new Date(),
+    data.name || '',
+    data.email || '',
+    data.note || '',
+    data.source || 'website'
+  ]);
+  return ContentService.createTextOutput('OK');
+}
+```
+
+3. Deploy → Web App → Execute as "Me", Access "Anyone"
+4. Copy the Web App URL to `site.config.json → leadWebhook`
+
+### 3. Content Management
+- Blog posts: Add `.md` files to `content/posts/`
+- Updates: Add `.md` files to `content/updates/`
+- Run `node scripts/build.js` to regenerate static pages
+
+## File Structure
+
+```
+/
+├── index.html              # Main portfolio page
+├── book.html              # Booking/scheduling page
+├── leads.html             # Lead magnet download
+├── case-study.html        # Success stories
+├── site.config.json       # Editable configuration
+├── data/
+│   ├── site.json         # Site content & settings
+│   ├── systems.json      # Portfolio systems
+│   └── live.json         # Simulated metrics
+├── content/
+│   ├── posts/            # Blog markdown files
+│   └── updates/          # Update markdown files
+├── scripts/
+│   └── build.js         # Content build system
+└── assets/
+    └── lead-magnet-smartflow.pdf
+```
+
+## Configuration
+
+Edit `site.config.json`:
+
+```json
+{
+  "siteUrl": "https://your-domain.com",
+  "siteName": "SmartFlow Systems", 
+  "calendlyUrl": "https://calendly.com/your-handle/30min",
+  "leadWebhook": "https://script.google.com/.../exec",
+  "leadMagnetUrl": "assets/lead-magnet-smartflow.pdf"
+}
+```
+
+## Development
+
+1. `python3 main.py` - Start Flask server
+2. `node scripts/build.js` - Build blog content
+3. Navigate to http://localhost:5000
+
+## Deployment
+
+The site is deployment-ready with proper health checks:
+- Health endpoint: `/health` returns 200 OK
+- Static file serving via Flask
+- Environment variable support for PORT
+
+## Brand Guidelines
+
+- Colors: Dark brown/black background with shiny gold accents
+- Typography: Clean, professional sans-serif
+- Style: Premium, sophisticated automation branding   Transform this project to match the SmartFlow premium design system with these EXACT specifications:
+
+🎨 COLOR SCHEME (EXACT VALUES):
+
+    Primary background: #0b0b0b (dark brown/black)
+    Secondary backgrounds: rgba(20,17,15,.7) for glass panels
+    Gold accent: #d4af37 (primary gold)
+    Bright gold: #ffdd00 (highlights and buttons)
+    Text colors: White primary, rgba(233,230,223,0.8) muted
+
+🌟 VISUAL EFFECTS TO IMPLEMENT:
+
+1. Circuit Board Background Animation:
+
+    Flowing circuit board with golden nodes and connections
+    Data pulses traveling along circuit paths
+    120 slow-moving stars that drift naturally across the screen
+    Glowing nodes with pulsing animation
+    Auto-generated based on screen size (responsive)
+
+2. Interactive Sparkles System:
+
+    Sparkles throughout entire site, not just background
+    Mouse-responsive sparkles that appear when moving cursor
+    Click to create sparkle bursts
+    Multi-layered glow effects with different sizes
+    Twinkling animation with golden colors
+
+3. Ultra-Realistic Glassmorphism:
+Apply to ALL content containers (navigation, cards, sections, buttons):
+
+background: linear-gradient(145deg, rgba(20,17,15,.75), rgba(11,11,11,.6));
+backdrop-filter: saturate(180%) blur(20px) brightness(1.06);
+border: 1px solid rgba(212,175,55,.35);
+border-top: 1px solid rgba(255,255,255,.22);
+border-left: 1px solid rgba(255,255,255,.12);
+border-radius: 20px;
+box-shadow: 0 16px 64px rgba(0,0,0,.4), inset 0 1px 0 rgba(255,255,255,.18), inset 0 -1px 0 rgba(0,0,0,.12), 0 0 0 1px rgba(212,175,55,.12);
+
+4. Enhanced Button Effects:
+
+    Glass buttons with shimmer sweep animations
+    Hover effects with light rays moving across buttons
+    Enhanced glow effects on hover
+    Golden gradient buttons for primary actions
+
+5. Performance Optimizations:
+
+    Disable animations on mobile devices (< 768px width)
+    Pause animations when browser tab is hidden
+    Smooth 60fps animations with requestAnimationFrame
+
+🛠️ TECHNICAL REQUIREMENTS:
+
+File Structure to Create:
+
+    static/js/stars.js - Circuit board and star animation system
+    static/js/sparkles.js - Interactive sparkle particle system
+    Enhanced styles.css with glassmorphism effects
+    Canvas elements for background animations
+
+Apply these effects to ALL content containers: navigation, hero sections, project cards, testimonials, pricing cards, forms, and buttons. The end result should look like a premium tech company website with magical floating glass panels and subtle animated effects.
