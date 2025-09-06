@@ -115,11 +115,12 @@ export default function QueryInput({ onQueryExecuted }: QueryInputProps) {
   };
 
   return (
-    <div className="bg-card border-b border-border p-6">
+    <div className="bg-card border-b border-border p-6 smooth-transition">
       <div className="max-w-4xl mx-auto">
-        <h2 className="text-xl font-semibold text-foreground mb-4">
-          Ask a question about your data
+        <h2 className="text-2xl font-bold text-foreground mb-2 bg-gradient-to-r from-primary to-blue-400 bg-clip-text text-transparent">
+          Ask Your Data Anything
         </h2>
+        <p className="text-muted-foreground mb-4">Transform your questions into powerful SQL queries instantly</p>
         
         {/* Natural Language Input */}
         <div className="mb-4">
@@ -129,19 +130,20 @@ export default function QueryInput({ onQueryExecuted }: QueryInputProps) {
               placeholder="e.g., 'Show me total revenue by month for the last 6 months'"
               value={naturalLanguage}
               onChange={(e) => setNaturalLanguage(e.target.value)}
-              className="w-full p-4 bg-input border border-border rounded-lg text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-ring transition-all pr-12"
+              onKeyPress={(e) => e.key === 'Enter' && handleTranslate()}
+              className="w-full p-5 bg-input/50 backdrop-blur-sm border-2 border-border rounded-xl text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary smooth-transition pr-14 text-base"
               data-testid="input-natural-language"
             />
             <Button
               onClick={handleTranslate}
               disabled={translateMutation.isPending}
-              className="absolute right-3 top-1/2 transform -translate-y-1/2 p-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors"
+              className="absolute right-3 top-1/2 transform -translate-y-1/2 p-3 bg-gradient-to-r from-primary to-blue-500 text-white rounded-lg hover:shadow-lg hover:scale-105 smooth-transition disabled:opacity-50 disabled:scale-100"
               data-testid="button-translate"
             >
               {translateMutation.isPending ? (
-                <div className="animate-spin w-4 h-4 border-2 border-primary-foreground border-t-transparent rounded-full" />
+                <div className="animate-spin w-5 h-5 border-2 border-white border-t-transparent rounded-full" />
               ) : (
-                <Sparkles size={16} />
+                <Sparkles size={20} className="animate-pulse-slow" />
               )}
             </Button>
           </div>
