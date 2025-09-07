@@ -4,7 +4,16 @@
 @tailwind utilities;
 
 :root {
-  /* SmartFlow Systems Exact Color Specifications */
+  /* SmartFlow Systems Standardized Variables */
+  --sf-black: #0D0D0D;
+  --sf-brown: #3B2F2F;
+  --sf-gold: #FFD700;
+  --sf-gold-2: #E6C200;
+  --sf-beige: #F5F5DC;
+  --sf-white: #FFFFFF;
+  --sf-gold-grad: linear-gradient(90deg, #FFD700 0%, #E6C200 100%);
+  
+  /* Legacy Tailwind Compatibility */
   --background: #0b0b0b;
   --foreground: #ffffff;
   --card: rgba(20, 17, 15, 0.7);
@@ -276,6 +285,74 @@
     @apply transition-all duration-300 ease-in-out;
   }
   
+  /* SmartFlow Standardized Utility Classes */
+  .sf-bg {
+    background: var(--sf-black);
+    color: var(--sf-white);
+  }
+  
+  .sf-card {
+    background: color-mix(in oklab, var(--sf-brown) 70%, transparent);
+    border: 1px solid #ffffff22;
+    border-radius: 16px;
+    backdrop-filter: blur(10px);
+    padding: 1rem;
+    box-shadow: 0 8px 24px #00000066;
+  }
+  
+  .sf-btn {
+    background: var(--sf-gold);
+    color: var(--sf-black);
+    border-radius: 12px;
+    padding: 0.7rem 1rem;
+    font-weight: 800;
+  }
+  
+  .sf-btn:hover {
+    background: var(--sf-gold-2);
+  }
+  
+  .sf-glass {
+    position: relative;
+    background: linear-gradient(to bottom right, #ffffff10, #ffffff06);
+    border: 1px solid #ffffff2a;
+    border-radius: 18px;
+    backdrop-filter: blur(12px);
+    box-shadow: 0 10px 30px #00000066;
+  }
+  
+  .sf-shine {
+    background: var(--sf-gold-grad);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  
+  .sf-stars {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .sf-stars:after {
+    content: "";
+    position: absolute;
+    inset: -50%;
+    pointer-events: none;
+    background:
+      radial-gradient(circle at 20% 30%, #fff8 2px, #0000 3px),
+      radial-gradient(circle at 60% 70%, #fff8 1.5px, #0000 2.5px),
+      radial-gradient(circle at 80% 20%, #fff8 2px, #0000 3px),
+      radial-gradient(circle at 30% 80%, #fff8 1.5px, #0000 2.5px);
+    animation: sfTwinkle 6s linear infinite;
+    filter: drop-shadow(0 0 6px #FFD700aa);
+  }
+  
+  @keyframes sfTwinkle {
+    0% { transform: translate3d(0, 0, 0) scale(1); }
+    50% { transform: translate3d(-2%, 1%, 0) scale(1.05); }
+    100% { transform: translate3d(0, 0, 0) scale(1); }
+  }
+  
   /* Performance Optimizations */
   @media (max-width: 768px) {
     .sfs-card::before,
@@ -289,6 +366,10 @@
     
     .circuit-canvas,
     .sparkles-canvas {
+      display: none;
+    }
+    
+    .sf-stars:after {
       display: none;
     }
   }

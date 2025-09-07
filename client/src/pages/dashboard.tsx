@@ -3,6 +3,7 @@ import Sidebar from "@/components/sidebar";
 import QueryInput from "@/components/query-input";
 import QueryResults from "@/components/query-results";
 import ChartBuilder from "@/components/chart-builder";
+import GlassCard from "@/components/GlassCard";
 import { useState, useEffect } from "react";
 import { Activity, BarChart2, TrendingUp } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -50,39 +51,38 @@ export default function Dashboard() {
               {/* Welcome Section */}
               {!queryResults && (
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                  <div className="sfs-card p-6 smooth-transition hover:transform hover:-translate-y-1">
-                    <div className="pb-3">
-                      <h3 className="text-lg font-bold flex items-center gap-2 text-[#d4af37]">
-                        <Activity className="text-[#d4af37]" size={20} />
-                        Quick Start
-                      </h3>
+                  <GlassCard 
+                    title="Quick Start" 
+                    className="smooth-transition hover:transform hover:-translate-y-1"
+                  >
+                    <div className="flex items-center gap-2 mb-2">
+                      <Activity className="text-[#d4af37]" size={20} />
+                      <span className="text-sm font-medium text-[rgba(233,230,223,0.9)]">Natural Language to SQL</span>
                     </div>
-                    <div>
-                      <p className="text-sm text-[#cbbf9b]">Ask questions in natural language and get SQL queries instantly</p>
+                    <p className="text-sm text-[rgba(233,230,223,0.8)]">Ask questions in natural language and get SQL queries instantly with AI-powered translation</p>
+                  </GlassCard>
+                  
+                  <GlassCard 
+                    title="Visualize Data" 
+                    className="smooth-transition hover:transform hover:-translate-y-1"
+                  >
+                    <div className="flex items-center gap-2 mb-2">
+                      <BarChart2 className="text-[#d4af37]" size={20} />
+                      <span className="text-sm font-medium text-[rgba(233,230,223,0.9)]">Interactive Charts</span>
                     </div>
-                  </div>
-                  <div className="sfs-card p-6 smooth-transition hover:transform hover:-translate-y-1">
-                    <div className="pb-3">
-                      <h3 className="text-lg font-bold flex items-center gap-2 text-[#d4af37]">
-                        <BarChart2 className="text-[#d4af37]" size={20} />
-                        Visualize Data
-                      </h3>
+                    <p className="text-sm text-[rgba(233,230,223,0.8)]">Create beautiful, interactive charts and visualizations from your query results</p>
+                  </GlassCard>
+                  
+                  <GlassCard 
+                    title="Track Insights" 
+                    className="smooth-transition hover:transform hover:-translate-y-1"
+                  >
+                    <div className="flex items-center gap-2 mb-2">
+                      <TrendingUp className="text-[#d4af37]" size={20} />
+                      <span className="text-sm font-medium text-[rgba(233,230,223,0.9)]">Smart Dashboards</span>
                     </div>
-                    <div>
-                      <p className="text-sm text-[#cbbf9b]">Create beautiful charts from your query results</p>
-                    </div>
-                  </div>
-                  <div className="sfs-card p-6 smooth-transition hover:transform hover:-translate-y-1">
-                    <div className="pb-3">
-                      <h3 className="text-lg font-bold flex items-center gap-2 text-[#d4af37]">
-                        <TrendingUp className="text-[#d4af37]" size={20} />
-                        Track Insights
-                      </h3>
-                    </div>
-                    <div>
-                      <p className="text-sm text-[#cbbf9b]">Save queries and build custom dashboards</p>
-                    </div>
-                  </div>
+                    <p className="text-sm text-[rgba(233,230,223,0.8)]">Save queries and build custom dashboards to track your key business metrics</p>
+                  </GlassCard>
                 </div>
               )}
               {queryResults && (
