@@ -1,25 +1,2 @@
-{
-  "compilerOptions": {
-    "target": "ES2020",
-    "module": "ESNext",
-    "moduleResolution": "bundler", 
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "strict": false,
-    "lib": ["DOM", "DOM.Iterable", "ES6"],
-    "allowJs": true,
-    "forceConsistentCasingInFileNames": true,
-    "noEmit": true,
-    "jsx": "react-jsx",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "allowSyntheticDefaultImports": true,
-    "baseUrl": ".",
-    "paths": {
-      "@/*": ["client/src/*"],
-      "@shared/*": ["shared/*"],
-      "@assets/*": ["attached_assets/*"]
-    }
-  },
-  "include": ["server/**/*.ts", "client/**/*.ts", "client/**/*.tsx", "shared/**/*.ts", "vite.config.ts"]
-}
+{ "compilerOptions":{"target":"ES2020","module":"ESNext","moduleResolution":"NodeNext","esModuleInterop":true,"skipLibCheck":true},
+  "include":["server/**/*.ts"] }

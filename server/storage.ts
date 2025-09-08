@@ -82,7 +82,11 @@ export class MemStorage implements IStorage {
 
   async createUser(insertUser: InsertUser): Promise<User> {
     const id = randomUUID();
-    const user: User = { ...insertUser, id };
+    const user: User = { 
+      id,
+      username: insertUser.username,
+      password: insertUser.password
+    };
     this.users.set(id, user);
     return user;
   }
@@ -99,10 +103,12 @@ export class MemStorage implements IStorage {
   async createDatabase(insertDatabase: InsertDatabase): Promise<Database> {
     const id = randomUUID();
     const database: Database = { 
-      ...insertDatabase,
+      id,
+      name: insertDatabase.name,
       type: insertDatabase.type || 'sqlite',
-      id, 
-      createdAt: new Date() 
+      connectionString: insertDatabase.connectionString || null,
+      isActive: insertDatabase.isActive || true,
+      createdAt: new Date()
     };
     this.databases.set(id, database);
     return database;
@@ -149,12 +155,16 @@ export class MemStorage implements IStorage {
   async createQuery(insertQuery: InsertQuery): Promise<Query> {
     const id = randomUUID();
     const query: Query = { 
-      ...insertQuery,
-      id, 
-      createdAt: new Date(),
+      id,
+      name: insertQuery.name || null,
+      naturalLanguage: insertQuery.naturalLanguage,
+      sqlQuery: insertQuery.sqlQuery,
+      databaseId: insertQuery.databaseId || null,
       results: null,
       executionTime: null,
-      rowCount: null
+      rowCount: null,
+      isSaved: insertQuery.isSaved || false,
+      createdAt: new Date()
     };
     this.queries.set(id, query);
     return query;
@@ -185,10 +195,12 @@ export class MemStorage implements IStorage {
   async createDashboard(insertDashboard: InsertDashboard): Promise<Dashboard> {
     const id = randomUUID();
     const dashboard: Dashboard = { 
-      ...insertDashboard,
+      id,
+      name: insertDashboard.name,
       description: insertDashboard.description || null,
-      id, 
-      createdAt: new Date() 
+      layout: insertDashboard.layout,
+      isShared: insertDashboard.isShared || false,
+      createdAt: new Date()
     };
     this.dashboards.set(id, dashboard);
     return dashboard;
@@ -223,11 +235,13 @@ export class MemStorage implements IStorage {
   async createChart(insertChart: InsertChart): Promise<Chart> {
     const id = randomUUID();
     const chart: Chart = { 
-      ...insertChart,
+      id,
       dashboardId: insertChart.dashboardId || null,
       queryId: insertChart.queryId || null,
-      id, 
-      createdAt: new Date() 
+      type: insertChart.type,
+      config: insertChart.config,
+      position: insertChart.position,
+      createdAt: new Date()
     };
     this.charts.set(id, chart);
     return chart;

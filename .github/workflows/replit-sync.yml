@@ -1,0 +1,14 @@
+name: Replit Sync
+on: { push: { branches: [ main ] } }
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          curl -sS -X POST "\$REPLIT_URL/gh-sync" \
+            -H "content-type: application/json" \
+            -H "authorization: Bearer \$SYNC_TOKEN" \
+            -d {ref:main}
+    env:
+      REPLIT_URL: https://SFSDataQueryEngine--smart-f-syst.repl.co
+      SYNC_TOKEN: \${{ secrets.SYNC_TOKEN }}
