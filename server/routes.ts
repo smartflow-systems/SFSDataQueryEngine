@@ -2,7 +2,7 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { translateNaturalLanguageToSQL, validateAndOptimizeSQL } from "./services/openai";
-import { databaseService } from "./services/database";
+import { databaseService } from "./services/database-temp";
 import { 
   insertDatabaseSchema, 
   insertQuerySchema, 
