@@ -1,4 +1,5 @@
-// Database service for connecting to PostgreSQL databases
+import sqlite3 from "sqlite3";
+import { Database } from "sqlite3";
 import path from "path";
 import fs from "fs";
 
