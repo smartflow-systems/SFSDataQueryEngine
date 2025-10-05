@@ -1,0 +1,12 @@
+{
+  "name": "sqlite3",
+  "version": "5.1.7-local",
+  "type": "module",
+  "exports": {
+    ".": "./index.js"
+  },
+  "types": "./index.d.ts",
+  "main": "./index.js",
+  "description": "Local stub of sqlite3 for offline testing.",
+  "license": "MIT"
+}
