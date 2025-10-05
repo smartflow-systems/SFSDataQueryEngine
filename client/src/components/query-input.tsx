@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Sparkles, Lightbulb } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -18,9 +19,11 @@ export default function QueryInput({ onQueryExecuted }: QueryInputProps) {
   const [selectedDatabaseId, setSelectedDatabaseId] = useState("");
   const { toast } = useToast();
   const { data: databases = [] } = useDatabases();
+  const userSelectedRef = useRef(false);
 
   useEffect(() => {
     if (databases.length > 0 && !selectedDatabaseId) {
+    if (!userSelectedRef.current && !selectedDatabaseId && databases.length > 0) {
       setSelectedDatabaseId(databases[0].id);
     }
   }, [databases, selectedDatabaseId]);
@@ -154,7 +157,10 @@ export default function QueryInput({ onQueryExecuted }: QueryInputProps) {
             {databases.length > 0 && (
               <select
                 value={selectedDatabaseId}
-                onChange={(e) => setSelectedDatabaseId(e.target.value)}
+                onChange={(e) => {
+                  userSelectedRef.current = true;
+                  setSelectedDatabaseId(e.target.value);
+                }}
                 className="text-xs bg-input border border-border rounded px-2 py-1 text-foreground"
                 data-testid="select-database"
               >
