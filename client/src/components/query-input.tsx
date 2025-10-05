@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Sparkles, Lightbulb } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -19,12 +19,11 @@ export default function QueryInput({ onQueryExecuted }: QueryInputProps) {
   const { toast } = useToast();
   const { data: databases = [] } = useDatabases();
 
-  // Set default database
-  useState(() => {
+  useEffect(() => {
     if (databases.length > 0 && !selectedDatabaseId) {
       setSelectedDatabaseId(databases[0].id);
     }
-  });
+  }, [databases, selectedDatabaseId]);
 
   const translateMutation = useMutation({
     mutationFn: async (data: { naturalLanguage: string; databaseId?: string }) => {
