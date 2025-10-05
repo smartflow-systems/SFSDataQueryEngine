@@ -4,6 +4,8 @@
 - Run `npm ci` to install dependencies (ensure `sqlite3` is present; if registry access is blocked, document the failure).
 - Start the development server with `npm run dev` and ensure it boots without SQLite driver errors.
 - Request `http://localhost:5000/api/databases` or `http://localhost:5000/api/queries` and confirm the response is not a 404.
+- Open the query interface and confirm the database dropdown auto-selects the first connection once connections load.
+- Execute a natural language query end-to-end to ensure translation and execution succeed without needing manual database selection.
 - Run `npm test` and ensure the database API test suite passes.
 - Issue a `POST http://localhost:5000/api/databases` with `{ "name": "test", "type": "sqlite", "isActive": false }` and confirm a subsequent `GET /api/databases` returns the new database with `isActive: false`.
 - Confirm only a single "serving on" log appears to verify the listener is started once.

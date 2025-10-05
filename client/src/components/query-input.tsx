@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { useEffect, useRef, useState } from "react";
 import { Sparkles, Lightbulb } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -21,6 +22,7 @@ export default function QueryInput({ onQueryExecuted }: QueryInputProps) {
   const userSelectedRef = useRef(false);
 
   useEffect(() => {
+    if (databases.length > 0 && !selectedDatabaseId) {
     if (!userSelectedRef.current && !selectedDatabaseId && databases.length > 0) {
       setSelectedDatabaseId(databases[0].id);
     }
