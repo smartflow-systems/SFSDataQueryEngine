@@ -6,6 +6,8 @@
     "esModuleInterop": true,
     "skipLibCheck": true
   },
-  "include": ["server/**/*.ts"]
+  "include": [
+    "server/**/*.ts",
+    "server/**/*.d.ts"
+  ]
 }
-{ "compilerOptions": { "target":"ES2020","module":"ESNext","moduleResolution":"NodeNext","esModuleInterop":true,"skipLibCheck":true }, "include":["server/**/*.ts","server/**/*.d.ts"] }
