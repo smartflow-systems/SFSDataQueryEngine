@@ -5,6 +5,7 @@
 - Start the development server with `npm run dev` and ensure it boots without SQLite driver errors.
 - Request `http://localhost:5000/api/databases` or `http://localhost:5000/api/queries` and confirm the response is not a 404.
 - Execute `npm test` and confirm the storage tests pass, including coverage for inactive databases.
+- Review `docs/task-findings.md` for the latest maintenance task recommendations and triage them as needed.
 
 ## UNDO
 - Revert the commit that introduced this change (e.g. `git revert <commit-hash>`).
