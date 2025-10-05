@@ -3,6 +3,8 @@ import { exec } from "node:child_process";
 import * as path from "node:path";
 import * as fs from "node:fs";
 
+import { registerRoutes } from "./routes";
+
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -22,6 +24,9 @@ app.post("/gh-sync", (req, res) => {
         : res.json({ ok: true, ref, out })
   );
 });
+
+// API routes
+registerRoutes(app);
 
 // Static serve in prod if /dist exists
 const dist = path.resolve("dist");
