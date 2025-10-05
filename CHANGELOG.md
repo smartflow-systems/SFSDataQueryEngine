@@ -4,6 +4,7 @@
 - Run `npm ci` to install dependencies.
 - Start the development server with `npm run dev` and ensure it boots without errors.
 - Request `http://localhost:5000/api/databases` or `http://localhost:5000/api/queries` and confirm the response is not a 404.
+- Exercise `POST http://localhost:5000/api/queries/execute` with a simple SELECT query and confirm it succeeds without SQLite connection errors.
 
 ## UNDO
 - Revert the commit that introduced this change (e.g. `git revert <commit-hash>`).
