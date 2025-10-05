@@ -6,6 +6,9 @@
 - Request `http://localhost:5000/api/databases` or `http://localhost:5000/api/queries` and confirm the response is not a 404.
 - Execute `npm test` and confirm the storage tests pass, including coverage for inactive databases.
 - In the query input UI, confirm the database dropdown selects the first available connection automatically and that queries run without needing to reselect the database.
+- Using the API, create a database with `isActive: false`.
+  Verify that a subsequent `GET /api/databases` response preserves the `false` flag.
+- Review `docs/task-findings.md` for the latest maintenance task recommendations and triage them as needed.
 
 ## UNDO
 - Revert the commit that introduced this change (e.g. `git revert <commit-hash>`).
