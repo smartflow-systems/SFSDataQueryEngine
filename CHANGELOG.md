@@ -16,6 +16,7 @@
 - Send a POST to `http://localhost:5000/api/queries/execute` with a simple query (e.g. `SELECT 1`) to verify SQLite connections open successfully.
 - POST `{"naturalLanguage":"List all customers"}` to `http://localhost:5000/api/queries/translate` and verify a JSON payload is returned without OpenAI module errors.
 - In the query input UI, confirm the database dropdown selects the first available connection automatically and that queries run without needing to reselect the database.
+- After manually selecting a different database in the query input UI, trigger a refresh of the database list and confirm the dropdown preserves the manual choice instead of resetting to the first option.
 - Using the API, create a database with `isActive: false`.
   Verify that a subsequent `GET /api/databases` response preserves the `false` flag.
 - Review `docs/task-findings.md` for the latest maintenance task recommendations and triage them as needed.
@@ -24,6 +25,7 @@
 - Restore the Queries, Reports, and Settings page layouts to their previous ShadCN `Card` implementations if the SmartFlow glass treatment needs to be rolled back.
 - Revert the commit that introduced this change (e.g. `git revert <commit-hash>`).
 - Remove the `sqlite3` dependency from `package.json` and reinstall.
+- Remove the query input guard that checks `userSelectedRef` if the dropdown should always default to the first database when the list reloads.
 - Restart the development server if it was running.
 - Delete any databases created while verifying the change if they are no longer needed.
 - Remove the exported `server` instance from `server/index.ts` if it is no longer needed.
