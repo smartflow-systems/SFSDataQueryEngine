@@ -4,6 +4,7 @@
 - Run `npm ci` to install dependencies (ensure `sqlite3` is present; if registry access is blocked, document the failure).
 - Start the development server with `npm run dev` and ensure it boots without SQLite driver errors.
 - Request `http://localhost:5000/api/databases` or `http://localhost:5000/api/queries` and confirm the response is not a 404.
+- Exercise `POST http://localhost:5000/api/queries/execute` with a simple SELECT query and confirm it succeeds without SQLite connection errors.
 - With the dev server running, `POST http://localhost:5000/api/queries/translate` with a JSON body such as `{ "naturalLanguage": "List customers" }` and confirm it returns a JSON payload instead of an error.
 - Open the query interface and confirm the database dropdown auto-selects the first connection once connections load.
 - Execute a natural language query end-to-end to ensure translation and execution succeed without needing manual database selection.

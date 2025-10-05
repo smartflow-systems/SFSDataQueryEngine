@@ -1,10 +1,13 @@
 // Database service for connecting to PostgreSQL databases
+import sqlite3 from "sqlite3";
 import path from "path";
 import fs from "fs";
 import sqlite3 from "sqlite3";
 import type { Database as SqliteDatabase } from "sqlite3";
 
 const sqlite = sqlite3.verbose();
+
+type Database = sqlite3.Database;
 
 export interface QueryResult {
   rows: any[];
