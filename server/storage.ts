@@ -107,7 +107,7 @@ export class MemStorage implements IStorage {
       name: insertDatabase.name,
       type: insertDatabase.type || 'sqlite',
       connectionString: insertDatabase.connectionString || null,
-      isActive: insertDatabase.isActive || true,
+      isActive: insertDatabase.isActive ?? true,
       createdAt: new Date()
     };
     this.databases.set(id, database);
