@@ -7,6 +7,7 @@
 - Execute `npm test` and confirm the storage tests pass, including coverage for inactive databases.
 - Using the API, create a database with `isActive: false`.
   Verify that a subsequent `GET /api/databases` response preserves the `false` flag.
+- Review `docs/task-findings.md` for the latest maintenance task recommendations and triage them as needed.
 
 ## UNDO
 - Revert the commit that introduced this change (e.g. `git revert <commit-hash>`).
