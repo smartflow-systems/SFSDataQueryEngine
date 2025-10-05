@@ -1,17 +1,14 @@
 import type { Express } from "express";
-import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { translateNaturalLanguageToSQL, validateAndOptimizeSQL } from "./services/openai";
 import { databaseService } from "./services/database";
-import { 
-  insertDatabaseSchema, 
-  insertQuerySchema, 
-  insertDashboardSchema, 
-  insertChartSchema 
-} from "@shared/schema";
-import { z } from "zod";
-
-export async function registerRoutes(app: Express): Promise<Server> {
+import {
+  insertDatabaseSchema,
+  insertQuerySchema,
+  insertDashboardSchema,
+  insertChartSchema
+} from "../shared/schema";
+export function registerRoutes(app: Express): void {
   // Database routes
   app.get("/api/databases", async (req, res) => {
     try {
@@ -249,6 +246,4 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  const httpServer = createServer(app);
-  return httpServer;
 }
