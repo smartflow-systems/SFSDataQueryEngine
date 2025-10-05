@@ -3,6 +3,7 @@
 ## VERIFY
 - Visit the Queries, Reports, and Settings pages to confirm the dashboard-style background, marbled scroll region, and glass cards render consistently with the updated SmartFlow visual system.
 - Run `npm ci` to install dependencies (ensure `sqlite3` is present; if registry access is blocked, document the failure).
+- Confirm `server/services/database.ts` only declares a single `import sqlite3 from "sqlite3";` statement.
 - Start the development server with `npm run dev` and ensure it boots without SQLite driver errors.
 - Request `http://localhost:5000/api/databases` or `http://localhost:5000/api/queries` and confirm the response is not a 404.
 - Exercise `POST http://localhost:5000/api/queries/execute` with a simple SELECT query and confirm it succeeds without SQLite connection errors.
@@ -28,4 +29,5 @@
 - Delete any databases created while verifying the change if they are no longer needed.
 - Remove the exported `server` instance from `server/index.ts` if it is no longer needed.
 - Delete the SQLite import in `server/services/database.ts` if removing the dependency manually.
+- Reintroduce the duplicate `import sqlite3 from "sqlite3";` line in `server/services/database.ts` if this change must be reverted.
 - Delete the `vendor/openai` directory (and re-run dependency installation) to remove the local OpenAI stub if reverting.
