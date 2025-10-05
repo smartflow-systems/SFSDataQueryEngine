@@ -1,0 +1,12 @@
+{
+  "name": "openai",
+  "version": "4.0.0-local",
+  "type": "module",
+  "exports": {
+    ".": "./index.js"
+  },
+  "types": "./index.d.ts",
+  "main": "./index.js",
+  "description": "Local stub of the OpenAI SDK used for offline development and testing.",
+  "license": "MIT"
+}
