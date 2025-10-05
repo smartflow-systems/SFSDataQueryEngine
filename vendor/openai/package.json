@@ -1,5 +1,11 @@
 {
   "name": "openai",
+  "version": "4.56.0",
+  "description": "Mock OpenAI client for offline development",
+  "type": "module",
+  "exports": "./dist/index.js",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts"
   "version": "4.0.0-local",
   "type": "module",
   "exports": {
