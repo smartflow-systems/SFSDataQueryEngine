@@ -1,6 +1,9 @@
 // Database service for connecting to PostgreSQL databases
 import path from "path";
 import fs from "fs";
+import sqlite3, { Database as SqliteDatabase } from "sqlite3";
+
+const sqlite = sqlite3.verbose();
 
 export interface QueryResult {
   rows: any[];
@@ -16,7 +19,7 @@ export interface QueryError {
 }
 
 export class DatabaseService {
-  private connections: Map<string, Database> = new Map();
+  private connections: Map<string, SqliteDatabase> = new Map();
 
   async executeQuery(connectionString: string, sql: string): Promise<QueryResult> {
     const startTime = Date.now();
@@ -145,7 +148,7 @@ export class DatabaseService {
     }
   }
 
-  private async getConnection(connectionString: string): Promise<Database> {
+  private async getConnection(connectionString: string): Promise<SqliteDatabase> {
     if (this.connections.has(connectionString)) {
       return this.connections.get(connectionString)!;
     }
@@ -157,7 +160,7 @@ export class DatabaseService {
     }
 
     return new Promise((resolve, reject) => {
-      const db = new sqlite3.Database(connectionString, (err) => {
+      const db = new sqlite.Database(connectionString, (err) => {
         if (err) {
           reject(this.formatError(err));
           return;
