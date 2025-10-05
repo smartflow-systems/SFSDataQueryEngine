@@ -102,12 +102,14 @@ export class MemStorage implements IStorage {
 
   async createDatabase(insertDatabase: InsertDatabase): Promise<Database> {
     const id = randomUUID();
-    const database: Database = { 
+    const isActive = insertDatabase.isActive ?? true;
+    const database: Database = {
       id,
       name: insertDatabase.name,
       type: insertDatabase.type || 'sqlite',
       connectionString: insertDatabase.connectionString || null,
-      isActive: insertDatabase.isActive || true,
+      isActive: insertDatabase.isActive ?? true,
+      isActive,
       createdAt: new Date()
     };
     this.databases.set(id, database);

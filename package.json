@@ -6,10 +6,13 @@
   "scripts": {
     "dev": "tsx server/index.ts",
     "start": "node --loader tsx server/index.ts",
-    "build": "echo \"No build step\""
+    "build": "echo \"No build step\"",
+    "test": "tsx --test tests/database-api.test.ts"
+    "test": "tsx server/storage.test.ts"
   },
   "dependencies": {
     "express": "^4.19.2",
+    "sqlite3": "^5.1.7",
     "openai": "file:vendor/openai"
   },
   "devDependencies": {
