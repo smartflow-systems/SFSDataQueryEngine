@@ -35,5 +35,7 @@ if (fs.existsSync(dist)) {
   app.get("*", (_q, r) => r.sendFile(path.join(dist, "index.html")));
 }
 
-const port = parseInt(process.env.PORT || "5000", 10);
-app.listen(port, "0.0.0.0", () => console.log("serving on", port));
+const port = Number.parseInt(process.env.PORT || "5000", 10);
+const server = app.listen(port, "0.0.0.0", () => console.log("serving on", port));
+
+export { app, server };
