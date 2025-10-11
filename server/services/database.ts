@@ -1,10 +1,4 @@
-<<<<<<< HEAD
 import sqlite3 from "sqlite3";
-import { Database } from "sqlite3";
-=======
-// Database service for connecting to PostgreSQL databases
-import sqlite3 from "sqlite3";
->>>>>>> 9cdd3c5756b8b1b37575aa0619b70d4cb07e67e6
 import path from "path";
 import fs from "fs";
 import type { Database as SqliteDatabase } from "sqlite3";
