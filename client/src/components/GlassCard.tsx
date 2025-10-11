@@ -1,5 +1,3 @@
-import React from "react";
-
 interface GlassCardProps {
   title?: string;
   children: React.ReactNode;
