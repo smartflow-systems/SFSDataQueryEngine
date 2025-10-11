@@ -12,7 +12,8 @@
   "dependencies": {
     "express": "^4.19.2",
     "sqlite3": "^5.1.7",
-    "openai": "file:vendor/openai"
+    "openai": "file:vendor/openai",
+    "express-rate-limit": "^8.1.0"
   },
   "devDependencies": {
     "tsx": "^4.19.1",
