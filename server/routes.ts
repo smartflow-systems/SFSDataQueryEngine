@@ -25,7 +25,7 @@ export function registerRoutes(app: Express): void {
       const database = await storage.createDatabase(validatedData);
       res.json(database);
     } catch (error) {
-      res.status(400).json({ message: error.message });
+      res.status(400).json({ message: error instanceof Error ? error.message : 'Unknown error' });
     }
   });
 
@@ -189,7 +189,7 @@ export function registerRoutes(app: Express): void {
       const dashboard = await storage.createDashboard(validatedData);
       res.json(dashboard);
     } catch (error) {
-      res.status(400).json({ message: error.message });
+      res.status(400).json({ message: error instanceof Error ? error.message : 'Unknown error' });
     }
   });
 
@@ -214,7 +214,7 @@ export function registerRoutes(app: Express): void {
       const chart = await storage.createChart(validatedData);
       res.json(chart);
     } catch (error) {
-      res.status(400).json({ message: error.message });
+      res.status(400).json({ message: error instanceof Error ? error.message : 'Unknown error' });
     }
   });
 
