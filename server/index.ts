@@ -31,7 +31,11 @@ const envPort = process.env.PORT
 const port = envPort !== undefined ? Number(envPort) : 5000
 
 const server = app.listen(port, '0.0.0.0', () => {
-  log?.(`serving on port ${port}`) || console.log(`serving on port ${port}`);
+  if (log) {
+    log(`serving on port ${port}`);
+  } else {
+    console.log(`serving on port ${port}`);
+  }
 })
 
 app.get('/_port', (_req, res) => {
