@@ -1,4 +1,0 @@
-run = "npm run dev"
-hidden = [".sfs-backups","node_modules",".git"]
-[env]
-PORT = "5000"
