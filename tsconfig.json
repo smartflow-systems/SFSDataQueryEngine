@@ -1,10 +1,10 @@
 {
   "compilerOptions": {
     "target": "ES2022",
-    "module": "ES2022",
-    "moduleResolution": "Bundler",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
     "outDir": "dist",
-    "rootDir": ".",
+    "rootDir": "src",
     "strict": true,
     "jsx": "react-jsx",
     "esModuleInterop": true,
@@ -18,5 +18,5 @@
       "@assets/*": ["attached_assets/*"]
     }
   },
-  "include": ["src", "server", "client", "shared"]
+  "include": ["src/**/*"]
 }

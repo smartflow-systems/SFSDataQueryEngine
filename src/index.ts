@@ -4,8 +4,8 @@ import express, { type Request, type Response, type NextFunction } from 'express
 import type { AddressInfo } from 'node:net'
 
 // Optional app modules (keep these if present in your repo)
-import { registerRoutes } from '../server/routes'
-import { setupVite, serveStatic, log } from '../server/vite'
+import { registerRoutes } from './routes.js'
+import { setupVite, serveStatic, log } from './vite.js'
 
 const app = express()
 app.set('trust proxy', true)
