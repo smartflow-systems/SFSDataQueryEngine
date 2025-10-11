@@ -6,8 +6,17 @@
     "outDir": "dist",
     "rootDir": ".",
     "strict": true,
+    "jsx": "react-jsx",
     "esModuleInterop": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "strictNullChecks": true,
+    "types": ["node"],
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["client/src/*"],
+      "@shared/*": ["shared/*"],
+      "@assets/*": ["attached_assets/*"]
+    }
   },
   "include": ["src", "server", "client", "shared"]
 }
