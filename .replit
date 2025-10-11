@@ -2,3 +2,7 @@ modules = ["nodejs-20"]
 
 [nix]
 channel = "stable-25_05"
+
+[[ports]]
+localPort = 5000
+externalPort = 80
