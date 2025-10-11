@@ -31,10 +31,14 @@ const envPort = process.env.PORT
 const port = envPort !== undefined ? Number(envPort) : 5000
 
 const server = app.listen(port, '0.0.0.0', () => {
-  const addr = server.address() as AddressInfo | null
-  const shown = typeof addr === 'object' && addr ? addr.port : port
-  try { log?.(`serving on port ${shown}`) } catch { console.log(`serving on port ${shown}`) }
+  log?.(`serving on port ${port}`) || console.log(`serving on port ${port}`);
 })
+
+app.get('/_port', (_req, res) => {
+  const addr = server.address();
+  const actual = typeof addr === 'object' && addr ? (addr as AddressInfo).port : addr;
+  res.json({ port: actual });
+});
 
 // Report actual bound port (useful when PORT=0)
 app.get('/_port', (_req: Request, res: Response) => {
