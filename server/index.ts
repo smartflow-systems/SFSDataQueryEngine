@@ -2,6 +2,7 @@
 // Express entrypoint (TS + tsx). Uses env PORT, adds /health, safe error handling.
 
 import 'dotenv/config'
+import type { AddressInfo } from 'node:net'
 import express, { type Request, type Response, type NextFunction } from 'express'
 import { registerRoutes } from './routes'
 import { setupVite, serveStatic, log } from './vite'
@@ -58,6 +59,10 @@ app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
 const envPort = process.env.PORT;
 const port = (envPort !== undefined) ? Number(envPort) : 5000;(async () => {
   const server = app.listen(port, '0.0.0.0', () => {
+  const addr = server.address() as AddressInfo | null;
+  const shown = typeof addr === 'object' && addr ? addr.port : port;
+  log(`serving on port ${shown}`);
+});=> {
     log(`serving on port ${port}`)
   })
 
@@ -79,3 +84,9 @@ const port = (envPort !== undefined) ? Number(envPort) : 5000;(async () => {
 })()
 
 export default app
+
+
+app.get('/_port', (_req, res) => {
+  const addr = server.address() as AddressInfo | null;
+  res.json({ port: typeof addr === 'object' && addr ? addr.port : null });
+});
