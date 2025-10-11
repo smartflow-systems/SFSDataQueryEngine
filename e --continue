@@ -1,0 +1,38 @@
+[33m0731445[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m fix(database): dedupe sqlite import (#18)
+[33m96d2d1c[m chore(tsconfig): merge duplicate configuration (#17)
+[33m18eba3d[m fix(query-input): preserve manual database selection (#16)
+[33m0d67852[m feat(ui): refresh auxiliary pages with glass theming (#15)
+[33m4c3e8af[m fix(database): import sqlite3 driver (#14)
+[33mc314c4d[m feat(openai): add offline mock client for query translation (#13)  Summary - Vendors a lightweight OpenAI mock so queries can be translated offline. - Enables local dev/tests without network or API keys.  Changes - Adds mock client + wiring and basic fixtures. - Leaves online path untouched; guarded behind an “offline” flag/env. - Updates docs where relevant.  Why - Faster, deterministic CI and local runs; no external rate limits.  Risk - Low: mock only used when explicitly enabled.  Enable - Set SFS_OFFLINE_OPENAI=true (or corresponding config) to route to the mock.  Rollback - Revert this commit; no schema or data migrations.  Refs: #13
+[33m87d2a47[m Merge pull request #12 from smartflow-systems/codex/refactor-usestate-to-useeffect-in-query-input-2025-10-0505-47-53
+[33m99b90ee[m Merge branch 'main' into codex/refactor-usestate-to-useeffect-in-query-input-2025-10-0505-47-53
+[33ma82e17b[m fix(query-input): auto select default database
+[33m3eb367e[m Merge pull request #5 from smartflow-systems/codex/update-isactive-assignment-to-use-nullish-coalescing-2025-10-0504-23-42
+[33m1b123e1[m Merge branch 'main' into codex/update-isactive-assignment-to-use-nullish-coalescing-2025-10-0504-23-42
+[33m41676f1[m Merge pull request #11 from smartflow-systems/codex/update-server-to-register-api-routes-2025-10-0505-45-54
+[33m24e43c0[m Merge branch 'main' into codex/update-server-to-register-api-routes-2025-10-0505-45-54
+[33mdaaae72[m fix(server): register api routes on shared app
+[33m285c1be[m Merge pull request #10 from smartflow-systems/codex/add-sqlite3-import-and-update-dependencies-2025-10-0505-44-51
+[33m34e800e[m Merge branch 'main' into codex/add-sqlite3-import-and-update-dependencies-2025-10-0505-44-51
+[33md6219d3[m fix(database): import sqlite3 explicitly
+[33ma3f56ea[m Merge pull request #9 from smartflow-systems/codex/add-openai-package-and-test-api-2025-10-0505-44-04
+[33m9d5ba01[m[33m ([m[1;31morigin/codex/add-openai-package-and-test-api-2025-10-0505-44-04[m[33m)[m Merge branch 'main' into codex/add-openai-package-and-test-api-2025-10-0505-44-04
+[33m8562d76[m chore(deps): add local openai sdk
+[33m16cd8b9[m Merge pull request #8 from smartflow-systems/codex/update-query-input-component-for-database-selection-2025-10-0505-43-08
+[33mb8e79da[m Merge branch 'main' into codex/update-query-input-component-for-database-selection-2025-10-0505-43-08
+[33mf8afc5e[m fix(query-input): guard default database selection
+[33md69f75f[m Merge pull request #7 from smartflow-systems/codex/update-isactive-assignment-in-storage.ts-2025-10-0505-41-30
+[33mf8b0a7d[m Merge branch 'main' into codex/update-isactive-assignment-in-storage.ts-2025-10-0505-41-30
+[33m041816c[m fix(storage): preserve inactive database flag
+[33m7555d72[m Merge pull request #6 from smartflow-systems/codex/fix-typo-in-codebase-2025-10-0505-40-54
+[33m6780aea[m chore(docs): catalog maintenance tasks
+[33m3c2a55d[m fix(server): preserve false database activation flag
+[33me3a5f7a[m Merge pull request #4 from smartflow-systems/codex/add-sqlite3-dependency-and-update-database-service-2025-10-0504-22-49
+[33me49561a[m feat(database): integrate sqlite3 driver
+[33ma22f4e7[m Merge pull request #3 from smartflow-systems/codex/update-createdatabase-isactive-default-2025-10-0504-13-56
+[33mdf737f5[m fix(storage): preserve inactive database flag
+[33mfd70926[m Merge pull request #2 from smartflow-systems/codex/update-server-index-to-register-api-routes-2025-10-0503-46-03
+[33m357162a[m fix(api): attach api routes to server
+[33mf5a3df5[m Merge pull request #1 from smartflow-systems/sfs-power-20250928T235343Z
+[33m59198be[m docs: add PR template with CI/guardrail checklist
+[33m69c22f7[m chore(sfs): baseline + reusable CI (overwrite README/CI) [20250928T235343Z]
