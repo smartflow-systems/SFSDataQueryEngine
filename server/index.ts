@@ -1,5 +1,5 @@
 import express from "express";
-import { exec } from "node:child_process";
+import { execFile } from "node:child_process";
 import * as path from "node:path";
 import * as fs from "node:fs";
 
@@ -19,7 +19,7 @@ app.post("/gh-sync", (req, res) => {
   const ok = req.get("authorization") === `Bearer ${process.env.SYNC_TOKEN}`;
   if (!ok) return res.status(401).json({ ok: false });
   const ref = (req.body?.ref as string) || "main";
-  exec(`bash scripts/sync.sh ${ref}`, (err, out, errout) =>
+  execFile("bash", ["scripts/sync.sh", ref], (err, out, errout) =>
     err ? res.status(500).json({ ok: false, err: String(errout || err) })
         : res.json({ ok: true, ref, out })
   );
