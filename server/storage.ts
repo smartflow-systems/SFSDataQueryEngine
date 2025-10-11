@@ -9,7 +9,7 @@ import {
   type InsertDashboard,
   type Chart,
   type InsertChart
-} from "@shared/schema";
+} from "../shared/schema";
 import { randomUUID } from "crypto";
 
 export interface IStorage {
@@ -98,11 +98,23 @@ export class MemStorage implements IStorage {
 
   async createDatabase(insertDatabase: InsertDatabase): Promise<Database> {
     const id = randomUUID();
+<<<<<<< HEAD
     const database: Database = { 
       ...insertDatabase,
       type: insertDatabase.type || 'sqlite',
       id, 
       createdAt: new Date() 
+=======
+    const isActive = insertDatabase.isActive ?? true;
+    const database: Database = {
+      id,
+      name: insertDatabase.name,
+      type: insertDatabase.type || 'sqlite',
+      connectionString: insertDatabase.connectionString || null,
+      isActive: insertDatabase.isActive ?? true,
+      isActive,
+      createdAt: new Date()
+>>>>>>> 9cdd3c5756b8b1b37575aa0619b70d4cb07e67e6
     };
     this.databases.set(id, database);
     return database;
