@@ -1,9 +1,9 @@
 // SmartFlow Systems — SFSDataQueryEngine
-// Express entrypoint (TS + tsx). Uses env PORT, adds /health, safe error handling.
-
 import 'dotenv/config'
-import type { AddressInfo } from 'node:net'
 import express, { type Request, type Response, type NextFunction } from 'express'
+import type { AddressInfo } from 'node:net'
+
+// Optional app modules (keep these if present in your repo)
 import { registerRoutes } from './routes'
 import { setupVite, serveStatic, log } from './vite'
 
@@ -12,81 +12,56 @@ app.set('trust proxy', true)
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 
-// Lightweight API logger (only /api/*)
-app.use((req, res, next) => {
-  const start = Date.now()
-  const path = req.path
-  let captured: unknown
-
-  const origJson = res.json.bind(res)
-  res.json = ((body: unknown, ...args: unknown[]) => {
-    captured = body
-    // @ts-expect-error: variadic apply back to express Response
-    return origJson(body, ...args)
-  }) as typeof res.json
-
-  res.on('finish', () => {
-    if (path.startsWith('/api')) {
-      const ms = Date.now() - start
-      let line = `${req.method} ${path} ${res.statusCode} in ${ms}ms`
-      if (captured) {
-        try {
-          line += ` :: ${JSON.stringify(captured)}`
-        } catch { /* ignore */ }
-      }
-      if (line.length > 120) line = line.slice(0, 119) + '…'
-      log(line)
-    }
-  })
-  next()
-})
-
-// Basic health for Replit/CI
+// Health
 app.get('/health', (_req: Request, res: Response) => res.json({ ok: true }))
 
-// ---- Routes ----
-registerRoutes(app)
+// Attach routes if available
+try { registerRoutes?.(app) } catch { /* routes not present */ }
 
-// Central error handler (does NOT crash the process)
+// Central error handler
 app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
   const status = Number(err?.status || err?.statusCode || 500)
   const message = String(err?.message || 'Internal Server Error')
-  log(`ERROR ${status}: ${message}`)
+  try { log?.(`ERROR ${status}: ${message}`) } catch {}
   if (!res.headersSent) res.status(status).json({ message })
 })
 
-// ---- Server boot ----
-const envPort = process.env.PORT;
-const port = (envPort !== undefined) ? Number(envPort) : 5000;(async () => {
-  const server = app.listen(port, '0.0.0.0', () => {
-  const addr = server.address() as AddressInfo | null;
-  const shown = typeof addr === 'object' && addr ? addr.port : port;
-  log(`serving on port ${shown}`);
-});=> {
-    log(`serving on port ${port}`)
+// Respect PORT env; treat 0 as "pick any free port"
+const envPort = process.env.PORT
+const port = envPort !== undefined ? Number(envPort) : 5000
+
+const server = app.listen(port, '0.0.0.0', () => {
+  const addr = server.address() as AddressInfo | null
+  const shown = typeof addr === 'object' && addr ? addr.port : port
+  try { log?.(`serving on port ${shown}`) } catch { console.log(`serving on port ${shown}`) }
+})
+
+// Report actual bound port (useful when PORT=0)
+app.get('/_port', (_req: Request, res: Response) => {
+  const addr = server.address() as AddressInfo | null
+  res.json({ port: typeof addr === 'object' && addr ? addr.port : null })
+})
+
+// Dev = Vite middleware; Prod = static
+;(async () => {
+  try {
+    if (app.get('env') === 'development') {
+      await setupVite?.(app, server)
+    } else {
+      serveStatic?.(app)
+    }
+  } catch (e) {
+    try { log?.('vite/static setup failed: ' + (e as Error).message) } catch {}
+  }
+})().catch(() => void 0)
+
+// Graceful shutdown
+for (const sig of ['SIGINT','SIGTERM'] as const) {
+  process.on(sig, () => {
+    try { console.log(`received ${sig}, shutting down…`) } catch {}
+    server.close(() => process.exit(0))
+    setTimeout(() => process.exit(0), 3000).unref()
   })
-
-  // Dev uses Vite middleware; Prod serves static build
-  if (app.get('env') === 'development') {
-    await setupVite(app, server)
-  } else {
-    serveStatic(app)
-  }
-
-  // Graceful shutdown (Replit stops / GitHub runner)
-  for (const sig of ['SIGINT', 'SIGTERM'] as const) {
-    process.on(sig, () => {
-      log(`received ${sig}, shutting down…`)
-      server.close(() => process.exit(0))
-      setTimeout(() => process.exit(0), 3000).unref()
-    })
-  }
-})()
+}
 
 export default app
-
-
-app.get('/_port', (_req, res) => {
-  const addr = server.address() as AddressInfo | null;
-  res.json({ port: typeof addr === 'object' && addr ? addr.port : null });
-});
