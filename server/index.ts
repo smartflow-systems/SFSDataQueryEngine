@@ -4,8 +4,8 @@ import express, { type Request, type Response, type NextFunction } from 'express
 import type { AddressInfo } from 'node:net'
 
 // Optional app modules (keep these if present in your repo)
-import { registerRoutes } from './routes'
-import { setupVite, serveStatic, log } from './vite'
+import { registerRoutes } from './routes.js'
+import { setupVite, serveStatic, log } from './vite.js'
 
 const app = express()
 app.set('trust proxy', true)
@@ -28,7 +28,7 @@ app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
 
 // Respect PORT env; treat 0 as "pick any free port"
 const envPort = process.env.PORT
-const port = envPort !== undefined ? Number(envPort) : 5000
+const port = envPort && envPort !== '0' ? Number(envPort) : 5000
 
 const server = app.listen(port, '0.0.0.0', () => {
   if (log) {

@@ -1,13 +1,13 @@
 import type { Express } from "express";
-import { storage } from "./storage";
-import { translateNaturalLanguageToSQL, validateAndOptimizeSQL } from "./services/openai";
-import { databaseService } from "./services/database";
+import { storage } from "./storage.js";
+import { translateNaturalLanguageToSQL, validateAndOptimizeSQL } from "./services/openai.js";
+import { databaseService } from "./services/database.js";
 import {
   insertDatabaseSchema,
   insertQuerySchema,
   insertDashboardSchema,
   insertChartSchema
-} from "../shared/schema";
+} from "../shared/schema.js";
 export function registerRoutes(app: Express): void {
   // Database routes
   app.get("/api/databases", async (req, res) => {

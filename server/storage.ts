@@ -9,7 +9,7 @@ import {
   type InsertDashboard,
   type Chart,
   type InsertChart
-} from "../shared/schema";
+} from "../shared/schema.js";
 import { randomUUID } from "crypto";
 
 export interface IStorage {
