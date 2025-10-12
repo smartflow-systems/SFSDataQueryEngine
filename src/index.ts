@@ -1,2 +1,2 @@
-// Development entry point - re-exports server
-export * from '../server/index.js';
+// Development entry point - imports and runs server
+import '../server/index.js';

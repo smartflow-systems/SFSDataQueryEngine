@@ -1,5 +1,6 @@
 run = "npm run dev"
 entrypoint = "server/index.ts"
+modules = ["nodejs-20"]
 [nix]
 channel = "stable-24_05"
 [persistence]
