@@ -8,8 +8,7 @@
     "build": "tsc -p tsconfig.json",
     "prisma:gen": "prisma generate",
     "prisma:migrate": "prisma migrate dev -n init",
-    "health": "bash scripts/health.sh",
-    "prestart": "npm run build"
+    "health": "bash scripts/health.sh"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
@@ -46,6 +45,7 @@
     "@tailwindcss/postcss": "^4.1.14",
     "@tanstack/react-query": "^5.90.2",
     "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.3",
     "@types/node": "^24.7.2",
     "@types/react": "^19.2.2",
     "@types/react-dom": "^19.2.1",
@@ -59,7 +59,7 @@
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",
     "embla-carousel-react": "^8.6.0",
-    "express": "^4.21.2",
+    "express": "^4.19.2",
     "express-rate-limit": "^7.4.0",
     "input-otp": "^1.4.2",
     "lucide-react": "^0.545.0",
@@ -75,14 +75,13 @@
     "tailwind-merge": "^3.3.1",
     "tailwindcss": "^4.1.14",
     "vaul": "^1.1.2",
+    "vite": "^7.1.9",
     "wouter": "^3.7.1",
     "zod": "^3.23.8"
   },
   "devDependencies": {
-    "@types/express": "^5.0.3",
     "prisma": "^5.20.0",
-    "tsx": "^4.20.6",
-    "typescript": "^5.9.3",
-    "vite": "^7.1.9"
+    "tsx": "^4.19.1",
+    "typescript": "^5.6.3"
   }
 }
