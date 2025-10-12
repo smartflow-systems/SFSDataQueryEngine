@@ -112,7 +112,7 @@ export function registerRoutes(app: Express): void {
 
   app.post("/api/queries/execute", async (req, res) => {
     try {
-      const { sql, databaseId, naturalLanguage, save } = req.body;
+      const { sql, databaseId, naturalLanguage, save, params } = req.body;
       
       if (!sql || !databaseId) {
         return res.status(400).json({ message: "SQL query and database ID are required" });
@@ -133,7 +133,7 @@ export function registerRoutes(app: Express): void {
       }
 
       // Execute query
-      const result = await databaseService.executeQuery(database.connectionString || "", sql);
+      const result = await databaseService.executeQuery(database.connectionString || "", sql, params || []);
       
       // Save query if requested or if it should be saved automatically  
       const queryData: any = {

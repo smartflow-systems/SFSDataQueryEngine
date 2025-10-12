@@ -23,7 +23,7 @@ export interface QueryError {
 export class DatabaseService {
   private connections: Map<string, SqliteDatabase> = new Map();
 
-  async executeQuery(connectionString: string, sql: string): Promise<QueryResult> {
+  async executeQuery(connectionString: string, sql: string, params: any[] = []): Promise<QueryResult> {
     const startTime = Date.now();
     
     try {
@@ -32,7 +32,7 @@ export class DatabaseService {
       return new Promise((resolve, reject) => {
         // For SELECT queries
         if (sql.trim().toLowerCase().startsWith('select')) {
-          db.all(sql, [], (err, rows) => {
+          db.all(sql, params, (err, rows) => {
             if (err) {
               reject(this.formatError(err));
               return;
@@ -51,7 +51,7 @@ export class DatabaseService {
         } else {
           // For INSERT, UPDATE, DELETE queries
           const self = this;
-          db.run(sql, [], function(err) {
+          db.run(sql, params, function(err) {
             if (err) {
               reject(self.formatError(err));
               return;
