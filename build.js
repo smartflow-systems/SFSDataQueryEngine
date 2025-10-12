@@ -15,13 +15,15 @@ import('./server/index.js').catch(err => {
 `;
 fs.writeFileSync('dist/index.js', distIndex);
 
-console.log('Fixing vite.js imports...');
-const viteJsPath = 'dist/server/vite.js';
-let viteJs = fs.readFileSync(viteJsPath, 'utf-8');
-viteJs = viteJs.replace('from "../vite.config"', 'from "../vite.config.js"');
-fs.writeFileSync(viteJsPath, viteJs);
-
 console.log('Building frontend...');
 execSync('vite build', { stdio: 'inherit' });
+
+console.log('Moving frontend build to correct location...');
+if (fs.existsSync('dist/public')) {
+  if (fs.existsSync('dist/client')) {
+    fs.rmSync('dist/client', { recursive: true });
+  }
+  fs.renameSync('dist/public', 'dist/client');
+}
 
 console.log('✅ Build complete!');
