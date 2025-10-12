@@ -113,7 +113,7 @@ export function registerRoutes(app: Express): void {
   app.post("/api/queries/execute", async (req, res) => {
     try {
       const { sql, databaseId, naturalLanguage, save, params } = req.body;
-      
+
       if (!sql || !databaseId) {
         return res.status(400).json({ message: "SQL query and database ID are required" });
       }
@@ -123,17 +123,34 @@ export function registerRoutes(app: Express): void {
         return res.status(404).json({ message: "Database not found" });
       }
 
+      if (!Array.isArray(params)) {
+        return res.status(400).json({ message: "Query parameters must be provided as an array" });
+      }
+
+      const placeholderCount = (sql.match(/\?/g) || []).length;
+      if (placeholderCount === 0) {
+        return res.status(400).json({
+          message: "Parameterized queries are required. Use '?' placeholders with a params array."
+        });
+      }
+
+      if (params.length !== placeholderCount) {
+        return res.status(400).json({
+          message: "Number of parameters does not match the number of placeholders in the SQL query"
+        });
+      }
+
       // Validate SQL first
       const validation = await validateAndOptimizeSQL(sql);
       if (!validation.isValid) {
-        return res.status(400).json({ 
+        return res.status(400).json({
           message: "Invalid SQL query", 
           errors: validation.errors 
         });
       }
 
       // Execute query
-      const result = await databaseService.executeQuery(database.connectionString || "", sql, params || []);
+      const result = await databaseService.executeQuery(database.connectionString || "", sql, params);
       
       // Save query if requested or if it should be saved automatically  
       const queryData: any = {
