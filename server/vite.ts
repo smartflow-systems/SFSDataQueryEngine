@@ -41,7 +41,16 @@ export async function setupVite(app: Express, server: Server) {
   });
 
   app.use(vite.middlewares);
-  app.use("*", async (req, res, next) => {
+
+  // set up rate limiter: maximum 100 requests per 15 minutes per IP to vite HTML
+  const viteHtmlLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 100, // limit each IP to 100 requests per windowMs
+    standardHeaders: true, // Return rate limit info in the RateLimit-* headers
+    legacyHeaders: false, // Disable the X-RateLimit-* headers
+  });
+
+  app.use("*", viteHtmlLimiter, async (req, res, next) => {
     const url = req.originalUrl;
 
     try {
