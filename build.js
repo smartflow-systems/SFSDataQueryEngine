@@ -8,7 +8,7 @@ execSync('tsc -p tsconfig.json', { stdio: 'inherit' });
 
 console.log('Creating production entry point...');
 const distIndex = `// Entry point for production
-import('./server/index.js').catch(err => {
+import('./server/server/index.js').catch(err => {
   console.error('Failed to start server:', err);
   process.exit(1);
 });
