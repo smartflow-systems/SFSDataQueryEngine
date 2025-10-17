@@ -1,69 +1,36 @@
-// SmartFlow Systems — SFSDataQueryEngine
-import 'dotenv/config'
-import express, { type Request, type Response, type NextFunction } from 'express'
-import type { AddressInfo } from 'node:net'
+import express from "express";
+import { createServer } from "http";
+import { setupVite, serveStatic, log } from "./vite.js";
+import { registerRoutes } from "./routes.js";
 
-// Optional app modules (keep these if present in your repo)
-import { registerRoutes } from './routes.js'
-import { setupVite, serveStatic, log } from './vite.js'
+const app = express();
+const server = createServer(app);
 
-const app = express()
-app.set('trust proxy', true)
-app.use(express.json())
-app.use(express.urlencoded({ extended: false }))
+// Trust proxy for Replit environment
+app.set('trust proxy', 1);
 
-// Health
-app.get('/health', (_req: Request, res: Response) => res.json({ ok: true }))
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
-// Attach routes if available
-try { registerRoutes?.(app) } catch { /* routes not present */ }
+app.get("/health", (_, res) => res.json({ ok: true }));
+registerRoutes(app);
 
-// Central error handler
-app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
-  const status = Number(err?.status || err?.statusCode || 500)
-  const message = String(err?.message || 'Internal Server Error')
-  try { log?.(`ERROR ${status}: ${message}`) } catch {}
-  if (!res.headersSent) res.status(status).json({ message })
-})
+const PORT = Number(process.env.PORT) || 5000;
+const isProduction = process.env.NODE_ENV === "production";
 
-// Respect PORT env; treat 0 as "pick any free port"
-const envPort = process.env.PORT
-const port = envPort && envPort !== '0' ? Number(envPort) : 5000
-
-const server = app.listen(port, '0.0.0.0', () => {
-  if (log) {
-    log(`serving on port ${port}`);
+async function startServer() {
+  if (isProduction) {
+    serveStatic(app);
   } else {
-    console.log(`serving on port ${port}`);
+    await setupVite(app, server);
   }
-})
 
-// Report actual bound port (useful when PORT=0)
-app.get('/_port', (_req: Request, res: Response) => {
-  const addr = server.address() as AddressInfo | null
-  res.json({ port: typeof addr === 'object' && addr ? addr.port : null })
-})
-
-// Dev = Vite middleware; Prod = static
-;(async () => {
-  try {
-    if (app.get('env') === 'development') {
-      await setupVite?.(app, server)
-    } else {
-      serveStatic?.(app)
-    }
-  } catch (e) {
-    try { log?.('vite/static setup failed: ' + (e as Error).message) } catch {}
-  }
-})().catch(() => void 0)
-
-// Graceful shutdown
-for (const sig of ['SIGINT','SIGTERM'] as const) {
-  process.on(sig, () => {
-    try { console.log(`received ${sig}, shutting down…`) } catch {}
-    server.close(() => process.exit(0))
-    setTimeout(() => process.exit(0), 3000).unref()
-  })
+  server.listen(PORT, "0.0.0.0", () => {
+    log(`Server running on port ${PORT} in ${isProduction ? 'production' : 'development'} mode`);
+  });
 }
 
-export default app
+startServer().catch((err) => {
+  console.error("Failed to start server:", err);
+  process.exit(1);
+});

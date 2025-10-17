@@ -23,6 +23,7 @@ export interface QueryError {
 export class DatabaseService {
   private connections: Map<string, SqliteDatabase> = new Map();
 
+alert-autofix
   // Only allow single-statement SELECT queries (no compound, no batch, no data modification)
   private isSafeSelectQuery(sql: string): boolean {
     // Remove leading/trailing whitespace, lower-case for easier checking
@@ -41,7 +42,7 @@ export class DatabaseService {
     }
     return true;
   }
-
+   main
   async executeQuery(connectionString: string, sql: string, params: any[] = []): Promise<QueryResult> {
     const startTime = Date.now();
     
@@ -57,6 +58,7 @@ export class DatabaseService {
       
       return new Promise((resolve, reject) => {
         // For SELECT queries
+        alert-autofix
         db.all(sql, params, (err, rows) => {
           if (err) {
             reject(this.formatError(err));
@@ -71,6 +73,42 @@ export class DatabaseService {
             columns,
             rowCount: rows?.length || 0,
             executionTime
+=======
+        if (sql.trim().toLowerCase().startsWith('select')) {
+          db.all(sql, params, (err, rows) => {
+            if (err) {
+              reject(this.formatError(err));
+              return;
+            }
+            
+            const columns = rows && rows.length > 0 ? Object.keys(rows[0]) : [];
+            const executionTime = Date.now() - startTime;
+            
+            resolve({
+              rows: rows || [],
+              columns,
+              rowCount: rows?.length || 0,
+              executionTime
+            });
+          });
+        } else {
+          // For INSERT, UPDATE, DELETE queries
+          const self = this;
+          db.run(sql, params, function(err) {
+            if (err) {
+              reject(self.formatError(err));
+              return;
+            }
+            
+            const executionTime = Date.now() - startTime;
+            
+            resolve({
+              rows: [],
+              columns: [],
+              rowCount: this.changes || 0,
+              executionTime
+            });
+            main
           });
         });
       });
