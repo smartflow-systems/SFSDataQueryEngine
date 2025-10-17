@@ -23,50 +23,56 @@ export interface QueryError {
 export class DatabaseService {
   private connections: Map<string, SqliteDatabase> = new Map();
 
+  // Only allow single-statement SELECT queries (no compound, no batch, no data modification)
+  private isSafeSelectQuery(sql: string): boolean {
+    // Remove leading/trailing whitespace, lower-case for easier checking
+    const text = sql.trim().toLowerCase();
+    // Only allow queries that start with "select" and do not contain dangerous stuff
+    if (!text.startsWith("select")) return false;
+    // Disallow multiple statements or special SQL injection vectors—very strict!
+    if (text.includes(";")) return false;
+    if (text.includes("--")) return false;
+    if (text.includes("/*") || text.includes("*/")) return false;
+    // Disallow nested data modification keywords
+    const forbidden = ["insert", "update", "delete", "drop", "alter", "truncate", "create", "replace", "attach", "detach", "pragma"];
+    for (const word of forbidden) {
+      // match as a word
+      if (new RegExp("\\b" + word + "\\b", "i").test(text)) return false;
+    }
+    return true;
+  }
+
   async executeQuery(connectionString: string, sql: string, params: any[] = []): Promise<QueryResult> {
     const startTime = Date.now();
     
     try {
+      // Security: Only allow safe SELECT queries from untrusted sources (users)
+      if (!this.isSafeSelectQuery(sql)) {
+        throw this.formatError({
+          message: "Only single SELECT queries are allowed from the API.",
+          code: "FORBIDDEN_SQL"
+        });
+      }
       const db = await this.getConnection(connectionString);
       
       return new Promise((resolve, reject) => {
         // For SELECT queries
-        if (sql.trim().toLowerCase().startsWith('select')) {
-          db.all(sql, params, (err, rows) => {
-            if (err) {
-              reject(this.formatError(err));
-              return;
-            }
-            
-            const columns = rows && rows.length > 0 ? Object.keys(rows[0]) : [];
-            const executionTime = Date.now() - startTime;
-            
-            resolve({
-              rows: rows || [],
-              columns,
-              rowCount: rows?.length || 0,
-              executionTime
-            });
+        db.all(sql, params, (err, rows) => {
+          if (err) {
+            reject(this.formatError(err));
+            return;
+          }
+          
+          const columns = rows && rows.length > 0 ? Object.keys(rows[0]) : [];
+          const executionTime = Date.now() - startTime;
+          
+          resolve({
+            rows: rows || [],
+            columns,
+            rowCount: rows?.length || 0,
+            executionTime
           });
-        } else {
-          // For INSERT, UPDATE, DELETE queries
-          const self = this;
-          db.run(sql, params, function(err) {
-            if (err) {
-              reject(self.formatError(err));
-              return;
-            }
-            
-            const executionTime = Date.now() - startTime;
-            
-            resolve({
-              rows: [],
-              columns: [],
-              rowCount: this.changes || 0,
-              executionTime
-            });
-          });
-        }
+        });
       });
     } catch (error) {
       throw this.formatError(error);
