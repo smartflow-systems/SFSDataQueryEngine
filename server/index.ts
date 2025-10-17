@@ -6,6 +6,9 @@ import { registerRoutes } from "./routes.js";
 const app = express();
 const server = createServer(app);
 
+// Trust proxy for Replit environment
+app.set('trust proxy', 1);
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
