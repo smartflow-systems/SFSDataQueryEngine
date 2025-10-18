@@ -9,12 +9,12 @@ export default function Sidebar() {
   const { data: recentQueries = [] } = useQueries({ recent: true, limit: 5 });
 
   return (
-    <aside className="w-72 bg-[rgba(45,31,26,0.5)] backdrop-blur-[10px] border-r-2 border-[rgba(212,175,55,0.3)] flex flex-col smooth-transition">
+    <aside className="w-60 bg-[rgba(45,31,26,0.5)] backdrop-blur-[10px] border-r-2 border-[rgba(212,175,55,0.3)] flex flex-col smooth-transition">
       {/* Database Connections */}
-      <div className="p-5 border-b-2 border-[rgba(212,175,55,0.16)]">
-        <div className="flex items-center justify-between mb-4">
-          <h3 className="text-sm font-bold text-[#d4af37] uppercase tracking-wider flex items-center gap-2">
-            <Database className="text-[#d4af37]" size={16} />
+      <div className="p-3 border-b-2 border-[rgba(212,175,55,0.16)]">
+        <div className="flex items-center justify-between mb-3">
+          <h3 className="text-xs font-bold text-[#d4af37] uppercase tracking-wider flex items-center gap-2">
+            <Database className="text-[#d4af37]" size={14} />
             Connections
           </h3>
           <Button 
@@ -30,7 +30,7 @@ export default function Sidebar() {
           {databases.map((db) => (
             <div 
               key={db.id} 
-              className={`flex items-center space-x-3 p-3 rounded-lg cursor-pointer smooth-transition group sfs-card ${
+              className={`flex items-center space-x-2 p-2 rounded-lg cursor-pointer smooth-transition group sfs-card ${
                 db.isActive ? 'bg-[rgba(212,175,55,0.15)] border-[#d4af37]' : ''
               }`}
               data-testid={`connection-${db.name}`}
@@ -50,10 +50,10 @@ export default function Sidebar() {
       </div>
 
       {/* Saved Queries */}
-      <div className="p-5 border-b-2 border-[rgba(212,175,55,0.16)]">
-        <div className="flex items-center justify-between mb-4">
-          <h3 className="text-sm font-bold text-[#d4af37] uppercase tracking-wider flex items-center gap-2">
-            <Code className="text-[#d4af37]" size={16} />
+      <div className="p-3 border-b-2 border-[rgba(212,175,55,0.16)]">
+        <div className="flex items-center justify-between mb-3">
+          <h3 className="text-xs font-bold text-[#d4af37] uppercase tracking-wider flex items-center gap-2">
+            <Code className="text-[#d4af37]" size={14} />
             Saved Queries
           </h3>
           <Button 
@@ -85,9 +85,9 @@ export default function Sidebar() {
       </div>
 
       {/* Recent History */}
-      <div className="p-5 flex-1">
-        <h3 className="text-sm font-bold text-[#d4af37] uppercase tracking-wider mb-4 flex items-center gap-2">
-          <Clock className="text-[#d4af37]" size={16} />
+      <div className="p-3 flex-1">
+        <h3 className="text-xs font-bold text-[#d4af37] uppercase tracking-wider mb-3 flex items-center gap-2">
+          <Clock className="text-[#d4af37]" size={14} />
           Recent History
         </h3>
         <div className="space-y-1">
