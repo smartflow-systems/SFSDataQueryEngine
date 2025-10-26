@@ -23,9 +23,26 @@ export interface QueryError {
 export class DatabaseService {
   private connections: Map<string, SqliteDatabase> = new Map();
 
+  // Only allow SELECT/INSERT/UPDATE/DELETE, no dangerous or multiple statements
+  private isSafeSQL(sql: string): boolean {
+    const trimmed = sql.trim();
+    // Allow only one statement, and only if starts with allowed verb
+    // Block semicolons, PRAGMA, ATTACH, DETACH, CREATE, DROP, ALTER
+    if (/;/.test(trimmed)) return false;
+    const unsafeKeywords = /\b(pragma|attach|detach|create|drop|alter|replace|vacuum|begin|commit|rollback|savepoint|release|grant|revoke)\b/i;
+    if (unsafeKeywords.test(trimmed)) return false;
+    // Allow only select/insert/update/delete as leading word
+    if (!/^(select|insert|update|delete)\b/i.test(trimmed)) return false;
+    return true;
+  }
+
   async executeQuery(connectionString: string, sql: string, params: any[] = []): Promise<QueryResult> {
     const startTime = Date.now();
     
+    if (!this.isSafeSQL(sql)) {
+      throw { message: "SQL query contains unsafe or forbidden statements." };
+    }
+
     try {
       const db = await this.getConnection(connectionString);
       
