@@ -1,13 +1,13 @@
 import type { Express } from "express";
-import { storage } from "./storage";
-import { translateNaturalLanguageToSQL, validateAndOptimizeSQL } from "./services/openai";
-import { databaseService } from "./services/database";
+import { storage } from "./storage.js";
+import { translateNaturalLanguageToSQL, validateAndOptimizeSQL } from "./services/openai.js";
+import { databaseService } from "./services/database.js";
 import {
   insertDatabaseSchema,
   insertQuerySchema,
   insertDashboardSchema,
   insertChartSchema
-} from "../shared/schema";
+} from "../shared/schema.js";
 export function registerRoutes(app: Express): void {
   // Database routes
   app.get("/api/databases", async (req, res) => {
@@ -25,7 +25,7 @@ export function registerRoutes(app: Express): void {
       const database = await storage.createDatabase(validatedData);
       res.json(database);
     } catch (error) {
-      res.status(400).json({ message: error.message });
+      res.status(400).json({ message: error instanceof Error ? error.message : 'Unknown error' });
     }
   });
 
@@ -112,7 +112,7 @@ export function registerRoutes(app: Express): void {
 
   app.post("/api/queries/execute", async (req, res) => {
     try {
-      const { sql, databaseId, naturalLanguage, save } = req.body;
+      const { sql, databaseId, naturalLanguage, save, params } = req.body;
       
       if (!sql || !databaseId) {
         return res.status(400).json({ message: "SQL query and database ID are required" });
@@ -133,7 +133,7 @@ export function registerRoutes(app: Express): void {
       }
 
       // Execute query
-      const result = await databaseService.executeQuery(database.connectionString || "", sql);
+      const result = await databaseService.executeQuery(database.connectionString || "", sql, params || []);
       
       // Save query if requested or if it should be saved automatically  
       const queryData: any = {
@@ -189,7 +189,7 @@ export function registerRoutes(app: Express): void {
       const dashboard = await storage.createDashboard(validatedData);
       res.json(dashboard);
     } catch (error) {
-      res.status(400).json({ message: error.message });
+      res.status(400).json({ message: error instanceof Error ? error.message : 'Unknown error' });
     }
   });
 
@@ -214,7 +214,7 @@ export function registerRoutes(app: Express): void {
       const chart = await storage.createChart(validatedData);
       res.json(chart);
     } catch (error) {
-      res.status(400).json({ message: error.message });
+      res.status(400).json({ message: error instanceof Error ? error.message : 'Unknown error' });
     }
   });
 

@@ -5,7 +5,7 @@ import { createServer as createViteServer, createLogger } from "vite";
 import { type Server } from "http";
 import viteConfig from "../vite.config";
 import { nanoid } from "nanoid";
-
+import rateLimit from "express-rate-limit";
 const viteLogger = createLogger();
 
 export function log(message: string, source = "express") {
@@ -41,7 +41,16 @@ export async function setupVite(app: Express, server: Server) {
   });
 
   app.use(vite.middlewares);
-  app.use("*", async (req, res, next) => {
+
+  // set up rate limiter: maximum 100 requests per 15 minutes per IP to vite HTML
+  const viteHtmlLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 100, // limit each IP to 100 requests per windowMs
+    standardHeaders: true, // Return rate limit info in the RateLimit-* headers
+    legacyHeaders: false, // Disable the X-RateLimit-* headers
+  });
+
+  app.use("*", viteHtmlLimiter, async (req, res, next) => {
     const url = req.originalUrl;
 
     try {
@@ -78,8 +87,16 @@ export function serveStatic(app: Express) {
 
   app.use(express.static(distPath));
 
-  // fall through to index.html if the file doesn't exist
-  app.use("*", (_req, res) => {
+  // set up rate limiter: maximum 100 requests per 15 minutes per IP to index fallback
+  const staticFallbackLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 100, // limit each IP to 100 requests per windowMs
+    standardHeaders: true, // Return rate limit info in the RateLimit-* headers
+    legacyHeaders: false, // Disable the X-RateLimit-* headers
+  });
+
+  // fall through to index.html if the file doesn't exist, apply rate limiter
+  app.use("*", staticFallbackLimiter, (_req, res) => {
     res.sendFile(path.resolve(distPath, "index.html"));
   });
 }

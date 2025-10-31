@@ -176,7 +176,7 @@ export const insertDatabaseSchema = {
 
     return buildObject({
       name: name!,
-      type,
+      type: type ?? undefined,
       connectionString: connectionString ?? undefined,
       isActive,
     });
@@ -206,7 +206,7 @@ export const insertQuerySchema = {
     return buildObject({
       naturalLanguage: naturalLanguage!,
       sqlQuery: sqlQuery ?? "",
-      databaseId,
+      databaseId: databaseId ?? undefined,
       name,
       isSaved,
       results,

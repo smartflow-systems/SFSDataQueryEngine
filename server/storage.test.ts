@@ -1,5 +1,5 @@
 import { strict as assert } from "node:assert";
-import { MemStorage } from "./storage";
+import { MemStorage } from "./storage.js";
 import express from "express";
 import type { AddressInfo } from "node:net";
 

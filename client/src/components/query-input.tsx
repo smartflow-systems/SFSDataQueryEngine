@@ -115,12 +115,12 @@ export default function QueryInput({ onQueryExecuted }: QueryInputProps) {
   };
 
   return (
-    <div className="bg-[rgba(45,31,26,0.5)] border-b-2 border-[rgba(212,175,55,0.3)] p-8 smooth-transition backdrop-blur-[10px]">
-      <div className="max-w-4xl mx-auto">
-        <h2 className="text-3xl font-bold mb-3 gradient-gold-text drop-shadow-[0_4px_8px_rgba(212,175,55,0.3)]">
+    <div className="bg-[rgba(45,31,26,0.5)] border-b-2 border-[rgba(212,175,55,0.3)] p-4 smooth-transition backdrop-blur-[10px]">
+      <div className="max-w-5xl mx-auto">
+        <h2 className="text-xl font-bold mb-2 gradient-gold-text drop-shadow-[0_4px_8px_rgba(212,175,55,0.3)]">
           Ask Your Data Anything
         </h2>
-        <p className="text-[#cbbf9b] mb-5 text-lg">Transform your questions into powerful SQL queries instantly</p>
+        <p className="text-[#cbbf9b] mb-3 text-sm">Transform your questions into powerful SQL queries instantly</p>
         
         {/* Natural Language Input */}
         <div className="mb-4">
@@ -131,13 +131,13 @@ export default function QueryInput({ onQueryExecuted }: QueryInputProps) {
               value={naturalLanguage}
               onChange={(e) => setNaturalLanguage(e.target.value)}
               onKeyPress={(e) => e.key === 'Enter' && handleTranslate()}
-              className="w-full p-5 bg-[rgba(212,175,55,0.08)] backdrop-blur-sm border-2 border-[rgba(212,175,55,0.3)] rounded-xl text-[#e9e6df] placeholder:text-[#9a8f80] focus:outline-none focus:ring-2 focus:ring-[#d4af37] focus:border-[#d4af37] smooth-transition pr-14 text-base hover:border-[#d4af37] shadow-[0_4px_15px_rgba(212,175,55,0.1)]"
+              className="w-full p-3 bg-[rgba(212,175,55,0.08)] backdrop-blur-sm border-2 border-[rgba(212,175,55,0.3)] rounded-lg text-[#e9e6df] placeholder:text-[#9a8f80] focus:outline-none focus:ring-2 focus:ring-[#d4af37] focus:border-[#d4af37] smooth-transition pr-12 text-sm hover:border-[#d4af37] shadow-[0_4px_15px_rgba(212,175,55,0.1)]"
               data-testid="input-natural-language"
             />
             <Button
               onClick={handleTranslate}
               disabled={translateMutation.isPending}
-              className="absolute right-3 top-1/2 transform -translate-y-1/2 p-3 gradient-gold text-[#0b0b0b] font-bold rounded-lg hover:shadow-[0_8px_25px_rgba(212,175,55,0.4)] hover:scale-105 smooth-transition disabled:opacity-50 disabled:scale-100 border-2 border-[#d4af37]"
+              className="absolute right-2 top-1/2 transform -translate-y-1/2 p-2 gradient-gold text-[#0b0b0b] font-bold rounded-lg hover:shadow-[0_8px_25px_rgba(212,175,55,0.4)] hover:scale-105 smooth-transition disabled:opacity-50 disabled:scale-100 border-2 border-[#d4af37]"
               data-testid="button-translate"
             >
               {translateMutation.isPending ? (

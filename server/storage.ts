@@ -9,7 +9,7 @@ import {
   type InsertDashboard,
   type Chart,
   type InsertChart
-} from "../shared/schema";
+} from "../shared/schema.js";
 import { randomUUID } from "crypto";
 
 export interface IStorage {
@@ -101,6 +101,8 @@ export class MemStorage implements IStorage {
     const database: Database = { 
       ...insertDatabase,
       type: insertDatabase.type || 'sqlite',
+      connectionString: insertDatabase.connectionString ?? null,
+      isActive: insertDatabase.isActive ?? false,
       id, 
       createdAt: new Date() 
     };
@@ -150,11 +152,11 @@ export class MemStorage implements IStorage {
     const id = randomUUID();
     const query: Query = { 
       ...insertQuery,
+      name: insertQuery.name ?? null,
+      databaseId: insertQuery.databaseId || "",
+      isSaved: insertQuery.isSaved ?? false,
       id, 
-      createdAt: new Date(),
-      results: null,
-      executionTime: null,
-      rowCount: null
+      createdAt: new Date()
     };
     this.queries.set(id, query);
     return query;
@@ -186,7 +188,8 @@ export class MemStorage implements IStorage {
     const id = randomUUID();
     const dashboard: Dashboard = { 
       ...insertDashboard,
-      description: insertDashboard.description || null,
+      description: insertDashboard.description ?? null,
+      isShared: insertDashboard.isShared ?? false,
       id, 
       createdAt: new Date() 
     };

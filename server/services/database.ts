@@ -5,7 +5,7 @@ import type { Database as SqliteDatabase } from "sqlite3";
 
 const sqlite = sqlite3.verbose();
 
-type Database = sqlite3.Database;
+type Database = SqliteDatabase;
 
 export interface QueryResult {
   rows: any[];
@@ -23,7 +23,7 @@ export interface QueryError {
 export class DatabaseService {
   private connections: Map<string, SqliteDatabase> = new Map();
 
-  async executeQuery(connectionString: string, sql: string): Promise<QueryResult> {
+  async executeQuery(connectionString: string, sql: string, params: any[] = []): Promise<QueryResult> {
     const startTime = Date.now();
     
     try {
@@ -32,7 +32,7 @@ export class DatabaseService {
       return new Promise((resolve, reject) => {
         // For SELECT queries
         if (sql.trim().toLowerCase().startsWith('select')) {
-          db.all(sql, [], (err, rows) => {
+          db.all(sql, params, (err, rows) => {
             if (err) {
               reject(this.formatError(err));
               return;
@@ -44,14 +44,14 @@ export class DatabaseService {
             resolve({
               rows: rows || [],
               columns,
-              rowCount: rows.length,
+              rowCount: rows?.length || 0,
               executionTime
             });
           });
         } else {
           // For INSERT, UPDATE, DELETE queries
           const self = this;
-          db.run(sql, [], function(err) {
+          db.run(sql, params, function(err) {
             if (err) {
               reject(self.formatError(err));
               return;
@@ -115,7 +115,7 @@ export class DatabaseService {
 
                 tableInfo.push({
                   name: table.name,
-                  columns: columns.map((col: any) => ({
+                  columns: (columns || []).map((col: any) => ({
                     name: col.name,
                     type: col.type,
                     nullable: !col.notnull,
