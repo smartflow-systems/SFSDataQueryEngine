@@ -23,10 +23,31 @@ export interface QueryError {
 export class DatabaseService {
   private connections: Map<string, SqliteDatabase> = new Map();
 
+  /**
+   * Checks if the SQL statement is safe to execute.
+   * Only allows single SELECT, INSERT, UPDATE, DELETE statements.
+   * Disallows semicolons except possibly at the end, and comments.
+   */
+  private isSafeSqlStatement(sql: string): boolean {
+    const normalized = sql.trim().toLowerCase();
+    // Only allow SELECT, INSERT, UPDATE, DELETE at the beginning
+    if (!/^(select|insert|update|delete)\b/.test(normalized)) return false;
+    // Disallow multiple statements by semicolon (except possibly at end, but safest is fully disallow)
+    if (sql.includes(";")) return false;
+    // Disallow SQL comments
+    if (/--|\/*|\*\//.test(sql)) return false;
+    return true;
+  }
+
   async executeQuery(connectionString: string, sql: string, params: any[] = []): Promise<QueryResult> {
     const startTime = Date.now();
     
     try {
+      if (!this.isSafeSqlStatement(sql)) {
+        throw {
+          message: "Unsafe SQL statement detected. Only single SELECT, INSERT, UPDATE, DELETE statements are allowed.",
+        };
+      }
       const db = await this.getConnection(connectionString);
       
       return new Promise((resolve, reject) => {
