@@ -361,18 +361,29 @@
     .sfs-button::before {
       display: none;
     }
-    
+
     .gold-glow {
       animation: none;
     }
-    
+
     .circuit-canvas,
     .sparkles-canvas {
       display: none;
     }
-    
+
     .sf-stars:after {
       display: none;
+    }
+
+    /* Disable circuit flow animations on mobile */
+    .circuit-overlay {
+      display: none;
+    }
+
+    .circuit-line,
+    .circuit-node,
+    .data-pulse {
+      animation: none;
     }
   }
 
@@ -418,5 +429,177 @@
 
   .sfs-card:hover::before {
     left: 100%;
+  }
+
+  /* Circuit Flow Enhancement for Glass Cards */
+  .circuit-flow {
+    position: relative;
+  }
+
+  .circuit-overlay {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.3;
+    z-index: 1;
+    overflow: hidden;
+    border-radius: var(--radius);
+  }
+
+  .circuit-svg {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    inset: 0;
+  }
+
+  .card-content-wrapper {
+    position: relative;
+    z-index: 2;
+  }
+
+  /* Circuit Lines with SFS Gold Theme */
+  .circuit-line {
+    stroke: var(--sf-gold);
+    stroke-width: 1;
+    stroke-opacity: 0.4;
+    stroke-dasharray: 10 5;
+    animation: circuitFlow 4s linear infinite;
+    filter: drop-shadow(0 0 2px var(--sf-gold));
+  }
+
+  .circuit-line-1 { animation-delay: 0s; }
+  .circuit-line-2 { animation-delay: 0.5s; }
+  .circuit-line-3 { animation-delay: 1s; }
+  .circuit-line-4 { animation-delay: 1.5s; }
+  .circuit-line-5 { animation-delay: 2s; }
+
+  @keyframes circuitFlow {
+    0% {
+      stroke-dashoffset: 0;
+      stroke-opacity: 0.4;
+    }
+    50% {
+      stroke-opacity: 0.7;
+    }
+    100% {
+      stroke-dashoffset: -50;
+      stroke-opacity: 0.4;
+    }
+  }
+
+  /* Circuit Nodes with Pulse Effect */
+  .circuit-node {
+    fill: var(--sf-gold);
+    filter: drop-shadow(0 0 4px var(--sf-gold-2));
+    animation: nodePulse 2s ease-in-out infinite;
+  }
+
+  .circuit-node-1 { animation-delay: 0s; }
+  .circuit-node-2 { animation-delay: 0.3s; }
+  .circuit-node-3 { animation-delay: 0.6s; }
+  .circuit-node-4 { animation-delay: 0.9s; }
+  .circuit-node-5 { animation-delay: 1.2s; }
+  .circuit-node-6 { animation-delay: 1.5s; }
+
+  @keyframes nodePulse {
+    0%, 100% {
+      opacity: 0.6;
+      r: 3;
+    }
+    50% {
+      opacity: 1;
+      r: 4;
+    }
+  }
+
+  /* Data Flow Pulses */
+  .data-pulse {
+    fill: var(--sf-gold-2);
+    filter: drop-shadow(0 0 6px var(--sf-gold-2));
+    opacity: 0;
+  }
+
+  .data-pulse-1 {
+    animation: pulseFlow1 3s ease-in-out infinite;
+  }
+
+  .data-pulse-2 {
+    animation: pulseFlow2 3s ease-in-out infinite;
+    animation-delay: 1s;
+  }
+
+  .data-pulse-3 {
+    animation: pulseFlow3 3s ease-in-out infinite;
+    animation-delay: 2s;
+  }
+
+  @keyframes pulseFlow1 {
+    0% {
+      cx: 0;
+      opacity: 0;
+    }
+    10% {
+      opacity: 1;
+    }
+    90% {
+      opacity: 1;
+    }
+    100% {
+      cx: 400;
+      opacity: 0;
+    }
+  }
+
+  @keyframes pulseFlow2 {
+    0% {
+      cx: 0;
+      opacity: 0;
+    }
+    10% {
+      opacity: 1;
+    }
+    90% {
+      opacity: 1;
+    }
+    100% {
+      cx: 400;
+      opacity: 0;
+    }
+  }
+
+  @keyframes pulseFlow3 {
+    0% {
+      cy: 0;
+      opacity: 0;
+    }
+    10% {
+      opacity: 1;
+    }
+    90% {
+      opacity: 1;
+    }
+    100% {
+      cy: 300;
+      opacity: 0;
+    }
+  }
+
+  /* Enhanced hover effect for circuit cards */
+  .circuit-flow:hover .circuit-overlay {
+    opacity: 0.6;
+  }
+
+  .circuit-flow:hover .circuit-line {
+    stroke-opacity: 0.8;
+    animation-duration: 2s;
+  }
+
+  .circuit-flow:hover .circuit-node {
+    filter: drop-shadow(0 0 8px var(--sf-gold-2));
+  }
+
+  .circuit-flow:hover .data-pulse {
+    animation-duration: 1.5s;
   }
 }
