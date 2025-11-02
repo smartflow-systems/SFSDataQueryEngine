@@ -1,4 +1,4 @@
-import type { Express } from "express";
+import type { Express, Request, Response, RequestHandler } from "express";
 import { storage } from "./storage.js";
 import { translateNaturalLanguageToSQL, validateAndOptimizeSQL } from "./services/openai.js";
 import { databaseService } from "./services/database.js";
@@ -8,7 +8,13 @@ import {
   insertDashboardSchema,
   insertChartSchema
 } from "../shared/schema.js";
-export function registerRoutes(app: Express): void {
+
+interface RouteOptions {
+  queryLimiter?: RequestHandler;
+}
+
+export function registerRoutes(app: Express, options: RouteOptions = {}): void {
+  const { queryLimiter } = options;
   // Database routes
   app.get("/api/databases", async (req, res) => {
     try {
@@ -86,10 +92,10 @@ export function registerRoutes(app: Express): void {
     }
   });
 
-  app.post("/api/queries/translate", async (req, res) => {
+  const translateHandler = async (req: Request, res: Response) => {
     try {
       const { naturalLanguage, databaseId } = req.body;
-      
+
       if (!naturalLanguage) {
         return res.status(400).json({ message: "Natural language query is required" });
       }
@@ -108,12 +114,18 @@ export function registerRoutes(app: Express): void {
     } catch (error) {
       res.status(500).json({ message: error instanceof Error ? error.message : 'Unknown error' });
     }
-  });
+  };
 
-  app.post("/api/queries/execute", async (req, res) => {
+  if (queryLimiter) {
+    app.post("/api/queries/translate", queryLimiter, translateHandler);
+  } else {
+    app.post("/api/queries/translate", translateHandler);
+  }
+
+  const executeHandler = async (req: Request, res: Response) => {
     try {
       const { sql, databaseId, naturalLanguage, save, params } = req.body;
-      
+
       if (!sql || !databaseId) {
         return res.status(400).json({ message: "SQL query and database ID are required" });
       }
@@ -126,16 +138,16 @@ export function registerRoutes(app: Express): void {
       // Validate SQL first
       const validation = await validateAndOptimizeSQL(sql);
       if (!validation.isValid) {
-        return res.status(400).json({ 
-          message: "Invalid SQL query", 
-          errors: validation.errors 
+        return res.status(400).json({
+          message: "Invalid SQL query",
+          errors: validation.errors
         });
       }
 
       // Execute query
       const result = await databaseService.executeQuery(database.connectionString || "", sql, params || []);
-      
-      // Save query if requested or if it should be saved automatically  
+
+      // Save query if requested or if it should be saved automatically
       const queryData: any = {
         naturalLanguage: naturalLanguage || "",
         sqlQuery: sql,
@@ -153,7 +165,13 @@ export function registerRoutes(app: Express): void {
     } catch (error) {
       res.status(500).json({ message: error instanceof Error ? error.message : 'Unknown error' });
     }
-  });
+  };
+
+  if (queryLimiter) {
+    app.post("/api/queries/execute", queryLimiter, executeHandler);
+  } else {
+    app.post("/api/queries/execute", executeHandler);
+  }
 
   app.post("/api/queries/:id/save", async (req, res) => {
     try {
