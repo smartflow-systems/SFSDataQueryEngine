@@ -14,8 +14,8 @@ export default function ReportsPage() {
         <Sidebar />
 
         <main className="flex-1 flex flex-col overflow-hidden">
-          <div className="flex-1 p-6 overflow-auto marbled-bg">
-            <div className="max-w-6xl mx-auto space-y-8">
+          <div className="flex-1 overflow-auto marbled-bg sfs-content-area">
+            <div className="sfs-container space-y-8">
               <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                 <div>
                   <h1 className="text-3xl font-semibold gradient-gold-text">Reports &amp; Dashboards</h1>
@@ -32,9 +32,9 @@ export default function ReportsPage() {
               <div className="space-y-8">
                 <div>
                   <h2 className="text-xl font-semibold gradient-gold-text mb-4">Quick Start Templates</h2>
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  <div className="sfs-floating-grid sfs-floating-grid-lg grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
                     <GlassCard
-                      className="h-full transition-transform duration-300 hover:-translate-y-1"
+                      className="sfs-float-card-md h-full transition-transform duration-300 hover:-translate-y-1"
                       header={
                         <div className="mb-3">
                           <div className="flex items-center gap-3 mb-2">
@@ -59,7 +59,7 @@ export default function ReportsPage() {
                     </GlassCard>
 
                     <GlassCard
-                      className="h-full transition-transform duration-300 hover:-translate-y-1"
+                      className="sfs-float-card-md h-full transition-transform duration-300 hover:-translate-y-1"
                       header={
                         <div className="mb-3">
                           <div className="flex items-center gap-3 mb-2">
@@ -84,7 +84,7 @@ export default function ReportsPage() {
                     </GlassCard>
 
                     <GlassCard
-                      className="h-full transition-transform duration-300 hover:-translate-y-1"
+                      className="sfs-float-card-md h-full transition-transform duration-300 hover:-translate-y-1"
                       header={
                         <div className="mb-3">
                           <div className="flex items-center gap-3 mb-2">

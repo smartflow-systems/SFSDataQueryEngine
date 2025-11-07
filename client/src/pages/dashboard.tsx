@@ -46,14 +46,14 @@ export default function Dashboard() {
             }}
           />
           
-          <div className="flex-1 p-4 overflow-auto marbled-bg">
-            <div className="max-w-7xl mx-auto space-y-4">
+          <div className="flex-1 overflow-auto marbled-bg sfs-content-area">
+            <div className="sfs-container space-y-8">
               {/* Welcome Section */}
               {!queryResults && (
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-                  <GlassCard 
-                    title="Quick Start" 
-                    className="smooth-transition hover:transform hover:-translate-y-1"
+                <div className="sfs-floating-grid sfs-floating-grid-lg grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+                  <GlassCard
+                    title="Quick Start"
+                    className="sfs-float-card smooth-transition hover:transform hover:-translate-y-1"
                   >
                     <div className="flex items-center gap-2 mb-2">
                       <Activity className="text-[#d4af37]" size={20} />
@@ -62,9 +62,9 @@ export default function Dashboard() {
                     <p className="text-sm text-[rgba(233,230,223,0.8)]">Ask questions in natural language and get SQL queries instantly with AI-powered translation</p>
                   </GlassCard>
                   
-                  <GlassCard 
-                    title="Visualize Data" 
-                    className="smooth-transition hover:transform hover:-translate-y-1"
+                  <GlassCard
+                    title="Visualize Data"
+                    className="sfs-float-card smooth-transition hover:transform hover:-translate-y-1"
                   >
                     <div className="flex items-center gap-2 mb-2">
                       <BarChart2 className="text-[#d4af37]" size={20} />
@@ -72,10 +72,10 @@ export default function Dashboard() {
                     </div>
                     <p className="text-sm text-[rgba(233,230,223,0.8)]">Create beautiful, interactive charts and visualizations from your query results</p>
                   </GlassCard>
-                  
-                  <GlassCard 
-                    title="Track Insights" 
-                    className="smooth-transition hover:transform hover:-translate-y-1"
+
+                  <GlassCard
+                    title="Track Insights"
+                    className="sfs-float-card smooth-transition hover:transform hover:-translate-y-1"
                   >
                     <div className="flex items-center gap-2 mb-2">
                       <TrendingUp className="text-[#d4af37]" size={20} />

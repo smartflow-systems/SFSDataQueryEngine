@@ -604,4 +604,70 @@
   .circuit-flow:hover .data-pulse {
     animation-duration: 1.5s;
   }
+
+  /* SmartFlow Layout - Floating Cards with Breathing Room */
+  .sfs-container {
+    max-width: 90rem; /* 1440px - wider than typical for breathing room */
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+
+  .sfs-container-narrow {
+    max-width: 75rem; /* 1200px */
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+
+  .sfs-floating-grid {
+    display: grid;
+    gap: 2rem; /* Increased spacing between cards */
+    padding: 1.5rem;
+  }
+
+  .sfs-floating-grid-lg {
+    gap: 3rem; /* Even more spacing for large layouts */
+  }
+
+  /* Floating card that doesn't stretch */
+  .sfs-float-card {
+    max-width: 28rem; /* 448px - prevents full width stretch */
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+  }
+
+  .sfs-float-card-md {
+    max-width: 36rem; /* 576px */
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+  }
+
+  .sfs-float-card-lg {
+    max-width: 48rem; /* 768px */
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+  }
+
+  /* Content area with breathing room */
+  .sfs-content-area {
+    padding: 2.5rem 1.5rem;
+  }
+
+  @media (min-width: 1024px) {
+    .sfs-content-area {
+      padding: 3rem 2rem;
+    }
+  }
+
+  @media (min-width: 1536px) {
+    .sfs-content-area {
+      padding: 4rem 3rem;
+    }
+  }
 }
