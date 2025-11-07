@@ -1,22 +1,90 @@
-import { Bell, HelpCircle, User, ChartLine } from "lucide-react";
+import { Bell, HelpCircle, User, ChartLine, Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link, useLocation } from "wouter";
+import { useState } from "react";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
 export default function Header() {
   const [location] = useLocation();
-  
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  const NavLinks = ({ mobile = false, onNavigate = () => {} }) => (
+    <>
+      <Link
+        href="/"
+        className={`relative px-4 py-2 rounded-lg font-semibold ${mobile ? 'text-base w-full block' : 'text-[1.1rem]'} smooth-transition ${
+          location === '/'
+            ? 'gradient-gold-text bg-[rgba(212,175,55,0.15)] shadow-[0_0_8px_rgba(212,175,55,0.5)]'
+            : 'text-[#d4af37] hover:text-[#ffdd00] hover:bg-[rgba(212,175,55,0.1)]'
+        }`}
+        data-testid="nav-dashboard"
+        onClick={onNavigate}
+      >
+        Dashboard
+        {location === '/' && !mobile && (
+          <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-10 h-0.5 gradient-gold rounded-full animate-pulse-gold" />
+        )}
+      </Link>
+      <Link
+        href="/queries"
+        className={`relative px-4 py-2 rounded-lg font-semibold ${mobile ? 'text-base w-full block' : 'text-[1.1rem]'} smooth-transition ${
+          location === '/queries'
+            ? 'gradient-gold-text bg-[rgba(212,175,55,0.15)] shadow-[0_0_8px_rgba(212,175,55,0.5)]'
+            : 'text-[#d4af37] hover:text-[#ffdd00] hover:bg-[rgba(212,175,55,0.1)]'
+        }`}
+        data-testid="nav-queries"
+        onClick={onNavigate}
+      >
+        Queries
+        {location === '/queries' && !mobile && (
+          <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-10 h-0.5 gradient-gold rounded-full animate-pulse-gold" />
+        )}
+      </Link>
+      <Link
+        href="/reports"
+        className={`relative px-4 py-2 rounded-lg font-semibold ${mobile ? 'text-base w-full block' : 'text-[1.1rem]'} smooth-transition ${
+          location === '/reports'
+            ? 'gradient-gold-text bg-[rgba(212,175,55,0.15)] shadow-[0_0_8px_rgba(212,175,55,0.5)]'
+            : 'text-[#d4af37] hover:text-[#ffdd00] hover:bg-[rgba(212,175,55,0.1)]'
+        }`}
+        data-testid="nav-reports"
+        onClick={onNavigate}
+      >
+        Reports
+        {location === '/reports' && !mobile && (
+          <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-10 h-0.5 gradient-gold rounded-full animate-pulse-gold" />
+        )}
+      </Link>
+      <Link
+        href="/settings"
+        className={`relative px-4 py-2 rounded-lg font-semibold ${mobile ? 'text-base w-full block' : 'text-[1.1rem]'} smooth-transition ${
+          location === '/settings'
+            ? 'gradient-gold-text bg-[rgba(212,175,55,0.15)] shadow-[0_0_8px_rgba(212,175,55,0.5)]'
+            : 'text-[#d4af37] hover:text-[#ffdd00] hover:bg-[rgba(212,175,55,0.1)]'
+        }`}
+        data-testid="nav-settings"
+        onClick={onNavigate}
+      >
+        Settings
+        {location === '/settings' && !mobile && (
+          <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-10 h-0.5 gradient-gold rounded-full animate-pulse-gold" />
+        )}
+      </Link>
+    </>
+  );
+
   return (
-    <header className="sfs-card border-b-[3px] border-[rgba(212,175,55,0.35)] px-8 py-5 flex items-center justify-between sticky top-0 z-50 smooth-transition">
-      <div className="flex items-center space-x-8">
+    <header className="sfs-card border-b-[3px] border-[rgba(212,175,55,0.35)] px-4 md:px-8 py-4 md:py-5 flex items-center justify-between sticky top-0 z-50 smooth-transition">
+      <div className="flex items-center space-x-4 md:space-x-8">
         <Link href="/">
-          <div className="flex items-center space-x-3 cursor-pointer group">
-            <div className="w-11 h-11 sfs-button rounded-xl flex items-center justify-center shadow-lg group-hover:shadow-[0_8px_25px_rgba(212,175,55,0.4)] smooth-transition group-hover:scale-110 group-hover:-translate-y-1">
-              <ChartLine className="text-[#0b0b0b] font-bold" size={22} />
+          <div className="flex items-center space-x-2 md:space-x-3 cursor-pointer group">
+            <div className="w-9 h-9 md:w-11 md:h-11 sfs-button rounded-xl flex items-center justify-center shadow-lg group-hover:shadow-[0_8px_25px_rgba(212,175,55,0.4)] smooth-transition group-hover:scale-110 group-hover:-translate-y-1">
+              <ChartLine className="text-[#0b0b0b] font-bold" size={18} />
             </div>
-            <h1 className="text-3xl font-bold gradient-gold-text drop-shadow-[0_4px_8px_rgba(212,175,55,0.3)]">DataLens</h1>
+            <h1 className="text-xl md:text-3xl font-bold gradient-gold-text drop-shadow-[0_4px_8px_rgba(212,175,55,0.3)]">DataLens</h1>
           </div>
         </Link>
-        <nav className="hidden md:flex items-center space-x-8">
+        <nav className="hidden lg:flex items-center space-x-4 xl:space-x-8">
           <Link 
             href="/"
             className={`relative px-4 py-2 rounded-lg font-semibold text-[1.1rem] smooth-transition ${
@@ -74,26 +142,44 @@ export default function Header() {
             )}
           </Link>
         </nav>
+
+        {/* Mobile Menu Button */}
+        <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
+          <SheetTrigger asChild className="lg:hidden">
+            <Button
+              variant="ghost"
+              size="sm"
+              className="p-2 hover:bg-[rgba(212,175,55,0.1)] rounded-lg"
+            >
+              <Menu className="text-[#d4af37]" size={24} />
+            </Button>
+          </SheetTrigger>
+          <SheetContent side="left" className="sfs-card w-64 border-gold-700/30">
+            <nav className="flex flex-col space-y-2 mt-8">
+              <NavLinks mobile={true} onNavigate={() => setMobileMenuOpen(false)} />
+            </nav>
+          </SheetContent>
+        </Sheet>
       </div>
-      <div className="flex items-center space-x-4">
-        <Button 
-          variant="ghost" 
-          size="sm" 
-          className="p-2.5 hover:bg-[rgba(212,175,55,0.1)] rounded-lg smooth-transition hover:scale-110"
+      <div className="flex items-center space-x-2 md:space-x-4">
+        <Button
+          variant="ghost"
+          size="sm"
+          className="hidden sm:flex p-2.5 hover:bg-[rgba(212,175,55,0.1)] rounded-lg smooth-transition hover:scale-110"
           data-testid="button-notifications"
         >
           <Bell className="text-[#d4af37] hover:text-[#ffdd00]" size={18} />
         </Button>
-        <Button 
-          variant="ghost" 
-          size="sm" 
-          className="p-2.5 hover:bg-[rgba(212,175,55,0.1)] rounded-lg smooth-transition hover:scale-110"
+        <Button
+          variant="ghost"
+          size="sm"
+          className="hidden sm:flex p-2.5 hover:bg-[rgba(212,175,55,0.1)] rounded-lg smooth-transition hover:scale-110"
           data-testid="button-help"
         >
           <HelpCircle className="text-[#d4af37] hover:text-[#ffdd00]" size={18} />
         </Button>
-        <div className="w-10 h-10 sfs-button rounded-full flex items-center justify-center border-2 border-[#d4af37] hover:border-[#ffdd00] smooth-transition hover:scale-110 cursor-pointer">
-          <User className="text-[#0b0b0b]" size={18} />
+        <div className="w-8 h-8 md:w-10 md:h-10 sfs-button rounded-full flex items-center justify-center border-2 border-[#d4af37] hover:border-[#ffdd00] smooth-transition hover:scale-110 cursor-pointer">
+          <User className="text-[#0b0b0b]" size={16} />
         </div>
       </div>
     </header>
