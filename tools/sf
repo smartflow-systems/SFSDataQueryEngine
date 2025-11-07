@@ -1,0 +1,14 @@
+# Replit Shell — enter repo
+for d in "$HOME/workspace/SFSDataQueryEngine" "$HOME/SFSDataQueryEngine" "$PWD"; do [ -d "$d/.git" ] && { cd "$d"; break; }; done; git rev-parse --is-inside-work-tree >/dev/null
+
+# (OVERWRITE) create helper
+cat > tools/sf <<'SH'
+#!/usr/bin/env bash
+# SmartFlow shell helper (stub)
+set -euo pipefail
+case "${1:-}" in
+  version|-v|--version) echo "sf-helper 0.0.1";;
+  *) echo "sf: ok";;
+esac
+SH
+chmod +x tools/sf
