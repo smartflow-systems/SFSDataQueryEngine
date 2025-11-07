@@ -5,3 +5,13 @@ dist
 server/public
 vite.config.ts.*
 *.tar.gz
+
+# Backup files
+*.bak
+*.bak.*
+.sfs-backups/
+*.orig
+
+# Environment files
+.env.local
+.env.*.local
