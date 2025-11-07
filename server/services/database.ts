@@ -28,7 +28,7 @@ export class DatabaseService {
    * Only allows single SELECT, INSERT, UPDATE, DELETE statements.
    * Disallows semicolons except possibly at the end, and comments.
    */
-  private isSafeSqlStatement(sql: string): boolean {
+  private isSafeSqlStatement(sql: string, params: any[]): boolean {
     const normalized = sql.trim().toLowerCase();
     // Only allow SELECT, INSERT, UPDATE, DELETE at the beginning
     if (!/^(select|insert|update|delete)\b/.test(normalized)) return false;
@@ -36,6 +36,11 @@ export class DatabaseService {
     if (sql.includes(";")) return false;
     // Disallow SQL comments
     if (/--|\/*|\*\//.test(sql)) return false;
+    // Enforce use of parameter placeholders (?)
+    const placeholderCount = (sql.match(/\?/g) || []).length;
+    if (params.length > 0 && placeholderCount !== params.length) return false;
+    // If there are quoted literals (single/double quotes with at least one character), reject
+    if (/(['"]).+?\1/.test(sql)) return false;
     return true;
   }
 
@@ -43,9 +48,9 @@ export class DatabaseService {
     const startTime = Date.now();
     
     try {
-      if (!this.isSafeSqlStatement(sql)) {
+      if (!this.isSafeSqlStatement(sql, params)) {
         throw {
-          message: "Unsafe SQL statement detected. Only single SELECT, INSERT, UPDATE, DELETE statements are allowed.",
+          message: "Unsafe SQL statement detected. Only single SELECT, INSERT, UPDATE, DELETE statements are allowed, with parameters required for user data.",
         };
       }
       const db = await this.getConnection(connectionString);
