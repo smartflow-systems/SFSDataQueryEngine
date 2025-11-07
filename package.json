@@ -1,5 +1,7 @@
 {
   "name": "sfs-data-query-engine",
+  "version": "0.1.0",
+  "description": "SmartFlow Systems Data Query Engine - AI-powered natural language to SQL translator",
   "private": true,
   "type": "module",
   "scripts": {
@@ -90,5 +92,8 @@
   },
   "overrides": {
     "esbuild": "^0.25.0"
+  },
+  "engines": {
+    "node": ">=18"
   }
 }
