@@ -4,6 +4,10 @@ on:
     branches: [ "**" ]
   pull_request:
     types: [opened, synchronize, reopened]
+
+permissions:
+  contents: read
+
 jobs:
   ping:
     runs-on: ubuntu-latest
