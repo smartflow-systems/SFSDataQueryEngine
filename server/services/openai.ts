@@ -1,9 +1,21 @@
-import OpenAI from "openai";
+let openAIClientPromise: Promise<any> | null = null;
 
-// Using GPT-4o model for natural language to SQL translation
-const openai = new OpenAI({ 
-  apiKey: process.env.OPENAI_API_KEY || process.env.OPENAI_API_KEY_ENV_VAR || "default_key"
-});
+async function getOpenAIClient() {
+  if (!openAIClientPromise) {
+    openAIClientPromise = import("openai").then(({ default: OpenAI }) => {
+      return new OpenAI({
+        apiKey: process.env.OPENAI_API_KEY || process.env.OPENAI_API_KEY_ENV_VAR || "default_key"
+      });
+    }).catch(error => {
+      openAIClientPromise = null;
+      throw new Error(
+        `OpenAI client is unavailable. Install the 'openai' package or configure the service correctly. Original error: ${error instanceof Error ? error.message : String(error)}`
+      );
+    });
+  }
+
+  return openAIClientPromise;
+}
 
 export interface SQLTranslationResult {
   sql: string;
@@ -31,6 +43,7 @@ Please respond with a JSON object containing:
 
 Ensure the SQL is safe, properly formatted, and follows best practices. If you're unsure about table names or structure, use common patterns and include comments.`;
 
+    const openai = await getOpenAIClient();
     const response = await openai.chat.completions.create({
       model: "gpt-4o",
       messages: [
@@ -76,6 +89,7 @@ Please respond with a JSON object containing:
 - optimizations: array of optimization suggestions
 - estimatedPerformance: string indicating performance estimate ('excellent', 'good', 'fair', or 'poor')`;
 
+    const openai = await getOpenAIClient();
     const response = await openai.chat.completions.create({
       model: "gpt-4o",
       messages: [

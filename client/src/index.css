@@ -1,9 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Source+Code+Pro:wght@400;500;600&display=swap');
+/* SFS Complete Theme - Glass cards, circuit flow, premium components */
+@import url('/sfs-complete-theme.css');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-/* SFS Design System Theme Styles */
 
 :root {
   /* SmartFlow Systems Standardized Variables */
@@ -93,11 +93,13 @@
 
 @layer base {
   * {
-    @apply border-border;
+    border-color: var(--border);
   }
 
   body {
-    @apply font-sans antialiased;
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
     background-color: #0b0b0b;
     color: #ffffff;
     font-family: var(--font-sans);
@@ -284,7 +286,7 @@
   }
   
   .smooth-transition {
-    @apply transition-all duration-300 ease-in-out;
+    transition: all 300ms ease-in-out;
   }
   
   /* SmartFlow Standardized Utility Classes */
@@ -355,7 +357,7 @@
     100% { transform: translate3d(0, 0, 0) scale(1); }
   }
   
-  /* Performance Optimizations & Mobile Enhancements */
+  /* Performance Optimizations */
   @media (max-width: 768px) {
     .sfs-card::before,
     .sfs-button::before {
@@ -375,64 +377,15 @@
       display: none;
     }
 
-    /* Mobile-specific improvements */
-    body {
-      font-size: 14px;
+    /* Disable circuit flow animations on mobile */
+    .circuit-overlay {
+      display: none;
     }
 
-    .sfs-card {
-      padding: 1rem;
-      border-radius: 12px;
-    }
-
-    /* Touch-friendly buttons */
-    button, a {
-      min-height: 44px;
-      min-width: 44px;
-    }
-
-    /* Reduce animations on mobile for performance */
-    * {
-      animation-duration: 0.1s !important;
-      transition-duration: 0.1s !important;
-    }
-
-    /* Improve scrolling performance */
-    * {
-      -webkit-overflow-scrolling: touch;
-    }
-
-    /* Hide decorative elements on mobile */
-    .marbled-bg {
-      background: #0b0b0b !important;
-    }
-  }
-
-  @media (max-width: 640px) {
-    /* Extra small screens */
-    .text-3xl {
-      font-size: 1.5rem;
-    }
-
-    .text-2xl {
-      font-size: 1.25rem;
-    }
-
-    /* Improve card spacing */
-    .space-y-6 > * + * {
-      margin-top: 1rem;
-    }
-
-    /* Adjust grid layouts */
-    .grid-cols-3 {
-      grid-template-columns: repeat(1, minmax(0, 1fr)) !important;
-    }
-  }
-
-  /* Tablet optimizations */
-  @media (min-width: 769px) and (max-width: 1024px) {
-    .grid-cols-3 {
-      grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    .circuit-line,
+    .circuit-node,
+    .data-pulse {
+      animation: none;
     }
   }
 
@@ -480,126 +433,241 @@
     left: 100%;
   }
 
-  /* SFS Design System Utility Classes */
-  .text-gold {
-    background: linear-gradient(90deg,#7a5a00 0%,#b58e00 16%,#ffd700 33%,#fff1a6 45%,#e6c200 55%,#b58e00 72%,#7a5a00 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-  }
-
-  .text-gold-shine {
+  /* Circuit Flow Enhancement for Glass Cards */
+  .circuit-flow {
     position: relative;
-    background: linear-gradient(90deg,#7a5a00 0%,#b58e00 16%,#ffd700 33%,#fff1a6 45%,#e6c200 55%,#b58e00 72%,#7a5a00 100%);
-    background-size: 200% 100%;
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    animation: gold-pan 3.2s linear infinite;
   }
 
-  .btn-gold {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: .5rem;
-    padding: .7rem 1.1rem;
-    font-weight: 700;
-    letter-spacing: .3px;
-    color: #0A0A0A;
-    background: linear-gradient(90deg,#7a5a00 0%,#b58e00 16%,#ffd700 33%,#fff1a6 45%,#e6c200 55%,#b58e00 72%,#7a5a00 100%);
-    border-radius: .6rem;
-    border: none;
-    box-shadow: 0 0 0 0 rgba(255,215,0,0);
-    transition: transform .08s ease, box-shadow .2s ease, filter .2s ease;
-    cursor: pointer;
-  }
-
-  .btn-gold:hover {
-    filter: brightness(1.05);
-    box-shadow: 0 0 18px 0 rgba(255,215,0,.35);
-  }
-
-  .btn-gold-ghost {
-    background: transparent;
-    color: #FFE58A;
-    border-radius: .6rem;
-    padding: .65rem 1rem;
-    position: relative;
-    border: 1px solid #B58E00;
-    cursor: pointer;
-    font-weight: 600;
-  }
-
-  .btn-gold-ghost:hover {
-    color: #FFF7CC;
-    border-color: #FFD700;
-  }
-
-  .panel-dark {
-    background: radial-gradient(60% 80% at 50% 20%, #121212 0%, #0A0A0A 60%, #080808 100%);
-  }
-
-  .input-dark {
-    width: 100%;
-    background: #121212;
-    color: #FFF7CC;
-    border: 1px solid #2A2A2A;
-    border-radius: .55rem;
-    padding: .6rem .8rem;
-  }
-
-  .input-dark::placeholder {
-    color: #8A7A5A;
-  }
-
-  .input-dark:focus {
-    outline: none;
-    border-color: #E6C200;
-    box-shadow: 0 0 0 3px rgba(181,142,0,.25);
-  }
-
-  .border-gold {
-    position: relative;
-    border-radius: 10px;
-    border: 1px solid transparent;
-  }
-
-  .border-gold::before {
-    content: "";
+  .circuit-overlay {
     position: absolute;
     inset: 0;
-    padding: 1px;
-    border-radius: inherit;
-    background: linear-gradient(90deg,#7a5a00 0%,#b58e00 16%,#ffd700 33%,#fff1a6 45%,#e6c200 55%,#b58e00 72%,#7a5a00 100%);
-    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
     pointer-events: none;
+    opacity: 0.3;
+    z-index: 1;
+    overflow: hidden;
+    border-radius: var(--radius);
   }
 
-  .hr-gold {
-    height: 1px;
-    border: 0;
-    background: linear-gradient(90deg,#7a5a00 0%,#b58e00 16%,#ffd700 33%,#fff1a6 45%,#e6c200 55%,#b58e00 72%,#7a5a00 100%);
-    opacity: .9;
+  .circuit-svg {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    inset: 0;
   }
 
-  .badge-gold {
-    display: inline-block;
-    padding: .25rem .5rem;
-    background: linear-gradient(180deg, #2D1F1A, #0A0A0A);
-    border-radius: .5rem;
-    color: #FFE58A;
-    border: 1px solid #B58E00;
+  .card-content-wrapper {
     position: relative;
-    font-size: 0.75rem;
-    font-weight: 600;
+    z-index: 2;
   }
 
-  .skeleton {
-    background: linear-gradient(90deg, #121212 25%, #1A1A1A 50%, #121212 75%);
-    background-size: 200% 100%;
-    animation: loading 1.5s infinite;
+  /* Circuit Lines with SFS Gold Theme */
+  .circuit-line {
+    stroke: var(--sf-gold);
+    stroke-width: 1;
+    stroke-opacity: 0.4;
+    stroke-dasharray: 10 5;
+    animation: circuitFlow 4s linear infinite;
+    filter: drop-shadow(0 0 2px var(--sf-gold));
+  }
+
+  .circuit-line-1 { animation-delay: 0s; }
+  .circuit-line-2 { animation-delay: 0.5s; }
+  .circuit-line-3 { animation-delay: 1s; }
+  .circuit-line-4 { animation-delay: 1.5s; }
+  .circuit-line-5 { animation-delay: 2s; }
+
+  @keyframes circuitFlow {
+    0% {
+      stroke-dashoffset: 0;
+      stroke-opacity: 0.4;
+    }
+    50% {
+      stroke-opacity: 0.7;
+    }
+    100% {
+      stroke-dashoffset: -50;
+      stroke-opacity: 0.4;
+    }
+  }
+
+  /* Circuit Nodes with Pulse Effect */
+  .circuit-node {
+    fill: var(--sf-gold);
+    filter: drop-shadow(0 0 4px var(--sf-gold-2));
+    animation: nodePulse 2s ease-in-out infinite;
+  }
+
+  .circuit-node-1 { animation-delay: 0s; }
+  .circuit-node-2 { animation-delay: 0.3s; }
+  .circuit-node-3 { animation-delay: 0.6s; }
+  .circuit-node-4 { animation-delay: 0.9s; }
+  .circuit-node-5 { animation-delay: 1.2s; }
+  .circuit-node-6 { animation-delay: 1.5s; }
+
+  @keyframes nodePulse {
+    0%, 100% {
+      opacity: 0.6;
+      r: 3;
+    }
+    50% {
+      opacity: 1;
+      r: 4;
+    }
+  }
+
+  /* Data Flow Pulses */
+  .data-pulse {
+    fill: var(--sf-gold-2);
+    filter: drop-shadow(0 0 6px var(--sf-gold-2));
+    opacity: 0;
+  }
+
+  .data-pulse-1 {
+    animation: pulseFlow1 3s ease-in-out infinite;
+  }
+
+  .data-pulse-2 {
+    animation: pulseFlow2 3s ease-in-out infinite;
+    animation-delay: 1s;
+  }
+
+  .data-pulse-3 {
+    animation: pulseFlow3 3s ease-in-out infinite;
+    animation-delay: 2s;
+  }
+
+  @keyframes pulseFlow1 {
+    0% {
+      cx: 0;
+      opacity: 0;
+    }
+    10% {
+      opacity: 1;
+    }
+    90% {
+      opacity: 1;
+    }
+    100% {
+      cx: 400;
+      opacity: 0;
+    }
+  }
+
+  @keyframes pulseFlow2 {
+    0% {
+      cx: 0;
+      opacity: 0;
+    }
+    10% {
+      opacity: 1;
+    }
+    90% {
+      opacity: 1;
+    }
+    100% {
+      cx: 400;
+      opacity: 0;
+    }
+  }
+
+  @keyframes pulseFlow3 {
+    0% {
+      cy: 0;
+      opacity: 0;
+    }
+    10% {
+      opacity: 1;
+    }
+    90% {
+      opacity: 1;
+    }
+    100% {
+      cy: 300;
+      opacity: 0;
+    }
+  }
+
+  /* Enhanced hover effect for circuit cards */
+  .circuit-flow:hover .circuit-overlay {
+    opacity: 0.6;
+  }
+
+  .circuit-flow:hover .circuit-line {
+    stroke-opacity: 0.8;
+    animation-duration: 2s;
+  }
+
+  .circuit-flow:hover .circuit-node {
+    filter: drop-shadow(0 0 8px var(--sf-gold-2));
+  }
+
+  .circuit-flow:hover .data-pulse {
+    animation-duration: 1.5s;
+  }
+
+  /* SmartFlow Layout - Floating Cards with Breathing Room */
+  .sfs-container {
+    max-width: 90rem; /* 1440px - wider than typical for breathing room */
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+
+  .sfs-container-narrow {
+    max-width: 75rem; /* 1200px */
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+
+  .sfs-floating-grid {
+    display: grid;
+    gap: 2rem; /* Increased spacing between cards */
+    padding: 1.5rem;
+  }
+
+  .sfs-floating-grid-lg {
+    gap: 3rem; /* Even more spacing for large layouts */
+  }
+
+  /* Floating card that doesn't stretch */
+  .sfs-float-card {
+    max-width: 28rem; /* 448px - prevents full width stretch */
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+  }
+
+  .sfs-float-card-md {
+    max-width: 36rem; /* 576px */
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+  }
+
+  .sfs-float-card-lg {
+    max-width: 48rem; /* 768px */
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+  }
+
+  /* Content area with breathing room */
+  .sfs-content-area {
+    padding: 2.5rem 1.5rem;
+  }
+
+  @media (min-width: 1024px) {
+    .sfs-content-area {
+      padding: 3rem 2rem;
+    }
+  }
+
+  @media (min-width: 1536px) {
+    .sfs-content-area {
+      padding: 4rem 3rem;
+    }
   }
 }

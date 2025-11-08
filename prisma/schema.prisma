@@ -1,0 +1,93 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String
+  company   String?
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  databases DatabaseConnection[]
+  queries   Query[]
+  dashboards Dashboard[]
+}
+
+model DatabaseConnection {
+  id              String   @id @default(cuid())
+  userId          String
+  name            String
+  type            String   // "sqlite", "postgresql", "mysql"
+  host            String?
+  port            Int?
+  database        String
+  username        String?
+  password        String?
+  isActive        Boolean  @default(true)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  queries Query[]
+
+  @@index([userId])
+}
+
+model Query {
+  id              String   @id @default(cuid())
+  userId          String
+  databaseId      String?
+  naturalLanguage String?
+  sqlQuery        String
+  executionTime   Int?     // in milliseconds
+  rowCount        Int?
+  isSaved         Boolean  @default(false)
+  name            String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  user     User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  database DatabaseConnection? @relation(fields: [databaseId], references: [id], onDelete: SetNull)
+
+  @@index([userId])
+  @@index([databaseId])
+  @@index([createdAt])
+}
+
+model Dashboard {
+  id          String   @id @default(cuid())
+  userId      String
+  name        String
+  description String?
+  isShareable Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  user   User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  charts Chart[]
+
+  @@index([userId])
+}
+
+model Chart {
+  id          String   @id @default(cuid())
+  dashboardId String
+  title       String
+  type        String   // "bar", "line", "pie", "area"
+  data        String   // JSON string
+  position    String?  // JSON string for position
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  dashboard Dashboard @relation(fields: [dashboardId], references: [id], onDelete: Cascade)
+
+  @@index([dashboardId])
+}

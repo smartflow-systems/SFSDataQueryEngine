@@ -9,7 +9,7 @@ import {
   type InsertDashboard,
   type Chart,
   type InsertChart
-} from "@shared/schema";
+} from "../shared/schema.js";
 import { randomUUID } from "crypto";
 
 export interface IStorage {
@@ -82,11 +82,7 @@ export class MemStorage implements IStorage {
 
   async createUser(insertUser: InsertUser): Promise<User> {
     const id = randomUUID();
-    const user: User = { 
-      id,
-      username: insertUser.username,
-      password: insertUser.password
-    };
+    const user: User = { ...insertUser, id };
     this.users.set(id, user);
     return user;
   }
@@ -103,12 +99,12 @@ export class MemStorage implements IStorage {
   async createDatabase(insertDatabase: InsertDatabase): Promise<Database> {
     const id = randomUUID();
     const database: Database = { 
-      id,
-      name: insertDatabase.name,
+      ...insertDatabase,
       type: insertDatabase.type || 'sqlite',
-      connectionString: insertDatabase.connectionString || null,
-      isActive: insertDatabase.isActive || true,
-      createdAt: new Date()
+      connectionString: insertDatabase.connectionString ?? null,
+      isActive: insertDatabase.isActive ?? false,
+      id, 
+      createdAt: new Date() 
     };
     this.databases.set(id, database);
     return database;
@@ -155,15 +151,11 @@ export class MemStorage implements IStorage {
   async createQuery(insertQuery: InsertQuery): Promise<Query> {
     const id = randomUUID();
     const query: Query = { 
-      id,
-      name: insertQuery.name || null,
-      naturalLanguage: insertQuery.naturalLanguage,
-      sqlQuery: insertQuery.sqlQuery,
-      databaseId: insertQuery.databaseId || null,
-      results: null,
-      executionTime: null,
-      rowCount: null,
-      isSaved: insertQuery.isSaved || false,
+      ...insertQuery,
+      name: insertQuery.name ?? null,
+      databaseId: insertQuery.databaseId || "",
+      isSaved: insertQuery.isSaved ?? false,
+      id, 
       createdAt: new Date()
     };
     this.queries.set(id, query);
@@ -195,12 +187,11 @@ export class MemStorage implements IStorage {
   async createDashboard(insertDashboard: InsertDashboard): Promise<Dashboard> {
     const id = randomUUID();
     const dashboard: Dashboard = { 
-      id,
-      name: insertDashboard.name,
-      description: insertDashboard.description || null,
-      layout: insertDashboard.layout,
-      isShared: insertDashboard.isShared || false,
-      createdAt: new Date()
+      ...insertDashboard,
+      description: insertDashboard.description ?? null,
+      isShared: insertDashboard.isShared ?? false,
+      id, 
+      createdAt: new Date() 
     };
     this.dashboards.set(id, dashboard);
     return dashboard;
@@ -235,13 +226,11 @@ export class MemStorage implements IStorage {
   async createChart(insertChart: InsertChart): Promise<Chart> {
     const id = randomUUID();
     const chart: Chart = { 
-      id,
+      ...insertChart,
       dashboardId: insertChart.dashboardId || null,
       queryId: insertChart.queryId || null,
-      type: insertChart.type,
-      config: insertChart.config,
-      position: insertChart.position,
-      createdAt: new Date()
+      id, 
+      createdAt: new Date() 
     };
     this.charts.set(id, chart);
     return chart;

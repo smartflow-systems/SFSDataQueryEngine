@@ -1,6 +1,17 @@
 node_modules
 dist
+!/vendor/openai/dist
 .DS_Store
 server/public
 vite.config.ts.*
 *.tar.gz
+
+# Backup files
+*.bak
+*.bak.*
+.sfs-backups/
+*.orig
+
+# Environment files
+.env.local
+.env.*.local

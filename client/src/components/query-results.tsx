@@ -1,6 +1,13 @@
-import { Table, Download, BarChart } from "lucide-react";
+import { Table, Download, BarChart, FileJson, FileSpreadsheet, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { useState } from "react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 interface QueryResultsProps {
   results: any;
@@ -9,11 +16,13 @@ interface QueryResultsProps {
 
 export default function QueryResults({ results, query }: QueryResultsProps) {
   const { result, validation } = results;
-  
-  const handleExport = () => {
+  const [isExporting, setIsExporting] = useState(false);
+
+  const handleExportCSV = () => {
+    setIsExporting(true);
     // Create CSV content
     const headers = result.columns.join(',');
-    const rows = result.rows.map((row: any) => 
+    const rows = result.rows.map((row: any) =>
       result.columns.map((col: string) => {
         const value = row[col];
         // Escape quotes and wrap in quotes if contains comma
@@ -23,9 +32,9 @@ export default function QueryResults({ results, query }: QueryResultsProps) {
         return value;
       }).join(',')
     ).join('\n');
-    
+
     const csv = `${headers}\n${rows}`;
-    
+
     // Create download
     const blob = new Blob([csv], { type: 'text/csv' });
     const url = window.URL.createObjectURL(blob);
@@ -36,6 +45,55 @@ export default function QueryResults({ results, query }: QueryResultsProps) {
     link.click();
     document.body.removeChild(link);
     window.URL.revokeObjectURL(url);
+    setIsExporting(false);
+  };
+
+  const handleExportJSON = () => {
+    setIsExporting(true);
+    const json = JSON.stringify({
+      query: query?.naturalLanguage || query?.sqlQuery,
+      executionTime: result.executionTime,
+      rowCount: result.rowCount,
+      columns: result.columns,
+      data: result.rows
+    }, null, 2);
+
+    const blob = new Blob([json], { type: 'application/json' });
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `query-results-${new Date().toISOString().split('T')[0]}.json`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    window.URL.revokeObjectURL(url);
+    setIsExporting(false);
+  };
+
+  const handleExportExcel = () => {
+    setIsExporting(true);
+    // Create Excel-compatible TSV (Tab-separated values)
+    const headers = result.columns.join('\t');
+    const rows = result.rows.map((row: any) =>
+      result.columns.map((col: string) => {
+        const value = row[col];
+        return value !== null && value !== undefined ? String(value) : '';
+      }).join('\t')
+    ).join('\n');
+
+    const tsv = `${headers}\n${rows}`;
+
+    // Create download with .xls extension
+    const blob = new Blob([tsv], { type: 'application/vnd.ms-excel' });
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `query-results-${new Date().toISOString().split('T')[0]}.xls`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    window.URL.revokeObjectURL(url);
+    setIsExporting(false);
   };
 
   const getPerformanceBadgeVariant = (performance: string) => {
@@ -61,20 +119,48 @@ export default function QueryResults({ results, query }: QueryResultsProps) {
             </Badge>
           </div>
           <div className="flex items-center space-x-2">
-            <Button
-              variant="secondary"
-              size="sm"
-              onClick={handleExport}
-              className="px-3 py-1 bg-secondary text-secondary-foreground rounded text-sm hover:bg-secondary/80 transition-colors"
-              data-testid="button-export-results"
-            >
-              <Download className="mr-1" size={12} />
-              Export
-            </Button>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  disabled={isExporting}
+                  className="px-3 py-1 sfs-card text-[#d4af37] hover:border-[#d4af37] rounded text-sm transition-colors"
+                  data-testid="button-export-results"
+                >
+                  <Download className="mr-1" size={12} />
+                  Export
+                  <ChevronDown className="ml-1" size={12} />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="sfs-card border-[#d4af37]" align="end">
+                <DropdownMenuItem
+                  onClick={handleExportCSV}
+                  className="cursor-pointer text-[#e9e6df] hover:bg-[rgba(212,175,55,0.15)] hover:text-[#d4af37]"
+                >
+                  <Download className="mr-2" size={14} />
+                  Export as CSV
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  onClick={handleExportJSON}
+                  className="cursor-pointer text-[#e9e6df] hover:bg-[rgba(212,175,55,0.15)] hover:text-[#d4af37]"
+                >
+                  <FileJson className="mr-2" size={14} />
+                  Export as JSON
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  onClick={handleExportExcel}
+                  className="cursor-pointer text-[#e9e6df] hover:bg-[rgba(212,175,55,0.15)] hover:text-[#d4af37]"
+                >
+                  <FileSpreadsheet className="mr-2" size={14} />
+                  Export as Excel
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
             <Button
               variant="default"
               size="sm"
-              className="px-3 py-1 bg-primary text-primary-foreground rounded text-sm hover:bg-primary/90 transition-colors"
+              className="px-3 py-1 gradient-gold text-[#0b0b0b] font-semibold rounded text-sm hover:shadow-[0_8px_25px_rgba(212,175,55,0.4)] smooth-transition"
               data-testid="button-visualize-results"
             >
               <BarChart className="mr-1" size={12} />

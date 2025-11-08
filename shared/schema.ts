@@ -1,96 +1,253 @@
-import { sql } from "drizzle-orm";
-import { pgTable, text, varchar, timestamp, jsonb, boolean, integer } from "drizzle-orm/pg-core";
-import { createInsertSchema } from "drizzle-zod";
-import { z } from "zod";
+export interface User {
+  id: string;
+  username: string;
+  password: string;
+}
 
-export const users = pgTable("users", {
-  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
-  username: text("username").notNull().unique(),
-  password: text("password").notNull(),
-});
+export interface InsertUser {
+  username: string;
+  password: string;
+}
 
-export const databases = pgTable("databases", {
-  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
-  name: text("name").notNull(),
-  type: text("type").notNull().default("sqlite"),
-  connectionString: text("connection_string"),
-  isActive: boolean("is_active").default(true),
-  createdAt: timestamp("created_at").defaultNow(),
-});
+export interface Database {
+  id: string;
+  name: string;
+  type: string;
+  connectionString: string | null;
+  isActive: boolean;
+  createdAt: Date;
+}
 
-export const queries = pgTable("queries", {
-  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
-  name: text("name"),
-  naturalLanguage: text("natural_language").notNull(),
-  sqlQuery: text("sql_query").notNull(),
-  databaseId: varchar("database_id").references(() => databases.id),
-  results: jsonb("results"),
-  executionTime: integer("execution_time"),
-  rowCount: integer("row_count"),
-  isSaved: boolean("is_saved").default(false),
-  createdAt: timestamp("created_at").defaultNow(),
-});
+export interface InsertDatabase {
+  name: string;
+  type?: string;
+  connectionString?: string | null;
+  isActive?: boolean;
+}
 
-export const dashboards = pgTable("dashboards", {
-  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
-  name: text("name").notNull(),
-  description: text("description"),
-  layout: jsonb("layout").notNull(),
-  isShared: boolean("is_shared").default(false),
-  createdAt: timestamp("created_at").defaultNow(),
-});
+export interface Query {
+  id: string;
+  name: string | null;
+  naturalLanguage: string;
+  sqlQuery: string;
+  databaseId: string;
+  results?: unknown;
+  executionTime?: number;
+  rowCount?: number;
+  isSaved: boolean;
+  createdAt?: Date;
+}
 
-export const charts = pgTable("charts", {
-  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
-  dashboardId: varchar("dashboard_id").references(() => dashboards.id),
-  queryId: varchar("query_id").references(() => queries.id),
-  type: text("type").notNull(), // line, bar, pie, area
-  config: jsonb("config").notNull(),
-  position: jsonb("position").notNull(),
-  createdAt: timestamp("created_at").defaultNow(),
-});
+export interface InsertQuery {
+  name?: string | null;
+  naturalLanguage: string;
+  sqlQuery: string;
+  databaseId?: string;
+  results?: unknown;
+  executionTime?: number;
+  rowCount?: number;
+  isSaved?: boolean;
+}
 
-// Insert schemas
-export const insertDatabaseSchema = createInsertSchema(databases).omit({
-  id: true,
-  createdAt: true,
-});
+export interface Dashboard {
+  id: string;
+  name: string;
+  description: string | null;
+  layout: unknown;
+  isShared: boolean;
+  createdAt?: Date;
+}
 
-export const insertQuerySchema = createInsertSchema(queries).omit({
-  id: true,
-  createdAt: true,
-  executionTime: true,
-  rowCount: true,
-  results: true,
-});
+export interface InsertDashboard {
+  name: string;
+  description?: string | null;
+  layout: unknown;
+  isShared?: boolean;
+}
 
-export const insertDashboardSchema = createInsertSchema(dashboards).omit({
-  id: true,
-  createdAt: true,
-});
+export interface Chart {
+  id: string;
+  dashboardId: string | null;
+  queryId: string | null;
+  type: string;
+  config: unknown;
+  position: unknown;
+  createdAt?: Date;
+}
 
-export const insertChartSchema = createInsertSchema(charts).omit({
-  id: true,
-  createdAt: true,
-});
+export interface InsertChart {
+  dashboardId: string;
+  queryId?: string | null;
+  type: string;
+  config: unknown;
+  position: unknown;
+}
 
-export const insertUserSchema = createInsertSchema(users).pick({
-  username: true,
-  password: true,
-});
+function ensureObject(value: unknown, label: string): Record<string, unknown> {
+  if (typeof value !== "object" || value === null) {
+    throw new Error(`Invalid ${label} payload`);
+  }
 
-// Types
-export type InsertUser = z.infer<typeof insertUserSchema>;
-export type User = typeof users.$inferSelect;
+  return value as Record<string, unknown>;
+}
 
-export type InsertDatabase = z.infer<typeof insertDatabaseSchema>;
-export type Database = typeof databases.$inferSelect;
+function readString(
+  obj: Record<string, unknown>,
+  key: string,
+  { optional = false, allowNull = false }: { optional?: boolean; allowNull?: boolean } = {}
+): string | undefined | null {
+  if (!(key in obj)) {
+    if (optional) return undefined;
+    throw new Error(`Missing field: ${key}`);
+  }
 
-export type InsertQuery = z.infer<typeof insertQuerySchema>;
-export type Query = typeof queries.$inferSelect;
+  const value = obj[key];
+  if (value === null) {
+    if (allowNull) return null;
+    throw new Error(`Field ${key} cannot be null`);
+  }
 
-export type InsertDashboard = z.infer<typeof insertDashboardSchema>;
-export type Dashboard = typeof dashboards.$inferSelect;
+  if (typeof value !== "string") {
+    throw new Error(`Field ${key} must be a string`);
+  }
 
-export type InsertChart = z.infer<typeof insertChartSchema>;
-export type Chart = typeof charts.$inferSelect;
+  return value;
+}
+
+function readBoolean(
+  obj: Record<string, unknown>,
+  key: string,
+  { optional = false }: { optional?: boolean } = {}
+): boolean | undefined {
+  if (!(key in obj)) {
+    if (optional) return undefined;
+    throw new Error(`Missing field: ${key}`);
+  }
+
+  const value = obj[key];
+  if (typeof value !== "boolean") {
+    throw new Error(`Field ${key} must be a boolean`);
+  }
+
+  return value;
+}
+
+function readUnknown(
+  obj: Record<string, unknown>,
+  key: string,
+  { optional = false }: { optional?: boolean } = {}
+): unknown {
+  if (!(key in obj)) {
+    if (optional) return undefined;
+    throw new Error(`Missing field: ${key}`);
+  }
+
+  return obj[key];
+}
+
+function buildObject<T extends Record<string, unknown | undefined | null>>(values: T): T {
+  const result: Record<string, unknown> = {};
+  for (const [key, value] of Object.entries(values)) {
+    if (value !== undefined) {
+      result[key] = value;
+    }
+  }
+
+  return result as T;
+}
+
+export const insertUserSchema = {
+  parse(value: unknown): InsertUser {
+    const obj = ensureObject(value, "user");
+    const username = readString(obj, "username");
+    const password = readString(obj, "password");
+
+    return { username: username!, password: password! };
+  }
+};
+
+export const insertDatabaseSchema = {
+  parse(value: unknown): InsertDatabase {
+    const obj = ensureObject(value, "database");
+    const name = readString(obj, "name");
+    const type = readString(obj, "type", { optional: true });
+    const connectionString = readString(obj, "connectionString", { optional: true, allowNull: true });
+    const isActive = readBoolean(obj, "isActive", { optional: true });
+
+    return buildObject({
+      name: name!,
+      type: type ?? undefined,
+      connectionString: connectionString ?? undefined,
+      isActive,
+    });
+  }
+};
+
+export const insertQuerySchema = {
+  parse(value: unknown): InsertQuery {
+    const obj = ensureObject(value, "query");
+    const naturalLanguage = readString(obj, "naturalLanguage");
+    const sqlQuery = readString(obj, "sqlQuery", { optional: true });
+    const databaseId = readString(obj, "databaseId", { optional: true });
+    const name = readString(obj, "name", { optional: true, allowNull: true });
+    const isSaved = readBoolean(obj, "isSaved", { optional: true });
+    const results = readUnknown(obj, "results", { optional: true });
+    const executionTime = obj.executionTime;
+    const rowCount = obj.rowCount;
+
+    if (executionTime !== undefined && typeof executionTime !== "number") {
+      throw new Error("Field executionTime must be a number");
+    }
+
+    if (rowCount !== undefined && typeof rowCount !== "number") {
+      throw new Error("Field rowCount must be a number");
+    }
+
+    return buildObject({
+      naturalLanguage: naturalLanguage!,
+      sqlQuery: sqlQuery ?? "",
+      databaseId: databaseId ?? undefined,
+      name,
+      isSaved,
+      results,
+      executionTime,
+      rowCount,
+    });
+  }
+};
+
+export const insertDashboardSchema = {
+  parse(value: unknown): InsertDashboard {
+    const obj = ensureObject(value, "dashboard");
+    const name = readString(obj, "name");
+    const description = readString(obj, "description", { optional: true, allowNull: true });
+    const layout = readUnknown(obj, "layout");
+    const isShared = readBoolean(obj, "isShared", { optional: true });
+
+    return buildObject({
+      name: name!,
+      description: description ?? null,
+      layout,
+      isShared,
+    });
+  }
+};
+
+export const insertChartSchema = {
+  parse(value: unknown): InsertChart {
+    const obj = ensureObject(value, "chart");
+    const dashboardId = readString(obj, "dashboardId");
+    const queryId = readString(obj, "queryId", { optional: true, allowNull: true });
+    const type = readString(obj, "type");
+    const config = readUnknown(obj, "config");
+    const position = readUnknown(obj, "position");
+
+    return {
+      dashboardId: dashboardId!,
+      queryId: queryId ?? null,
+      type: type!,
+      config,
+      position,
+    };
+  }
+};

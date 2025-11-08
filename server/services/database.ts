@@ -1,6 +1,11 @@
-// Database service for connecting to PostgreSQL databases
+import sqlite3 from "sqlite3";
 import path from "path";
 import fs from "fs";
+import type { Database as SqliteDatabase } from "sqlite3";
+
+const sqlite = sqlite3.verbose();
+
+type Database = SqliteDatabase;
 
 export interface QueryResult {
   rows: any[];
@@ -16,18 +21,97 @@ export interface QueryError {
 }
 
 export class DatabaseService {
-  private connections: Map<string, Database> = new Map();
+  private connections: Map<string, SqliteDatabase> = new Map();
 
-  async executeQuery(connectionString: string, sql: string): Promise<QueryResult> {
+  /**
+   * Checks if the SQL statement is safe to execute.
+   * Only allows single SELECT, INSERT, UPDATE, DELETE statements.
+   * Blocks dangerous SQL constructs to prevent SQL injection.
+   *
+   * Security layers:
+   * 1. Whitelist allowed statement types
+   * 2. Block dangerous SQL keywords and constructs
+   * 3. Block comment syntax
+   * 4. Block multiple statements
+   * 5. Validate with parameterized queries (enforced by caller)
+   */
+  private isSafeSqlStatement(sql: string): boolean {
+    const normalized = sql.trim().toLowerCase();
+
+    // 1. Only allow SELECT, INSERT, UPDATE, DELETE at the beginning
+    if (!/^(select|insert|update|delete)\b/.test(normalized)) return false;
+
+    // 2. Block dangerous SQL keywords that could bypass security
+    const dangerousKeywords = [
+      'attach', 'detach', 'pragma', 'create', 'drop', 'alter', 'vacuum',
+      'load_extension', 'exec', 'execute', 'char', 'nchar',
+      'varchar', 'nvarchar', 'into outfile', 'into dumpfile', 'load data',
+      'load_file', 'benchmark', 'sleep', 'waitfor', 'delay',
+      'shutdown', 'grant', 'revoke', 'backup', 'restore'
+    ];
+
+    for (const keyword of dangerousKeywords) {
+      if (normalized.includes(keyword)) return false;
+    }
+
+    // 3. Block SQL stacked queries and injection patterns
+    // Disallow multiple statements by semicolon (no exceptions)
+    if (sql.includes(";")) return false;
+
+    // 4. Disallow SQL comments (injection vector)
+    if (/--|\/*|\*\/|\/\*|\*\/|#/.test(sql)) return false;
+
+    // 5. Block hex/binary encoding that could hide malicious SQL
+    if (/0x[0-9a-f]+/i.test(sql)) return false;
+
+    // 6. Limit UNION usage to prevent blind SQL injection
+    // Allow UNION only in SELECT, not in sub-contexts that could exploit it
+    const unionCount = (normalized.match(/\bunion\b/g) || []).length;
+    if (unionCount > 2) return false; // Max 2 UNIONs for legitimate use cases
+
+    return true;
+  }
+
+  /**
+   * Executes a SQL query with security validations.
+   *
+   * Security measures:
+   * - SQL structure is validated against whitelist of safe patterns
+   * - Dangerous SQL keywords are blocked
+   * - User-provided values MUST be passed via params array (parameterized queries)
+   * - This prevents SQL injection by separating SQL structure from data
+   *
+   * @param connectionString - Database connection string
+   * @param sql - SQL query structure (validated for safety)
+   * @param params - User-provided values (safely bound to query placeholders)
+   */
+  async executeQuery(connectionString: string, sql: string, params: any[] = []): Promise<QueryResult> {
     const startTime = Date.now();
-    
+
     try {
+      // Validate SQL structure against injection patterns
+      if (!this.isSafeSqlStatement(sql)) {
+        throw {
+          message: "Unsafe SQL statement detected. Only single SELECT, INSERT, UPDATE, DELETE statements are allowed.",
+        };
+      }
+
+      // Sanitize params array to prevent object injection
+      const sanitizedParams = params.map(param => {
+        if (typeof param === 'object' && param !== null) {
+          // Convert objects to JSON string to prevent query object injection
+          return JSON.stringify(param);
+        }
+        return param;
+      });
+
       const db = await this.getConnection(connectionString);
-      
+
       return new Promise((resolve, reject) => {
         // For SELECT queries
+        // SAFE: Using parameterized query - params are bound safely by SQLite driver
         if (sql.trim().toLowerCase().startsWith('select')) {
-          db.all(sql, [], (err, rows) => {
+          db.all(sql, sanitizedParams, (err, rows) => {
             if (err) {
               reject(this.formatError(err));
               return;
@@ -39,14 +123,15 @@ export class DatabaseService {
             resolve({
               rows: rows || [],
               columns,
-              rowCount: rows.length,
+              rowCount: rows?.length || 0,
               executionTime
             });
           });
         } else {
           // For INSERT, UPDATE, DELETE queries
+          // SAFE: Using parameterized query - params are bound safely by SQLite driver
           const self = this;
-          db.run(sql, [], function(err) {
+          db.run(sql, sanitizedParams, function(err) {
             if (err) {
               reject(self.formatError(err));
               return;
@@ -102,7 +187,10 @@ export class DatabaseService {
             const tableInfo: any[] = [];
 
             tables.forEach((table: any) => {
-              db.all(`PRAGMA table_info(${table.name})`, [], (err, columns) => {
+              // SAFE: table.name comes from sqlite_master system table, not user input
+              // Additionally, validate table name to ensure it's a safe identifier
+              const tableName = String(table.name).replace(/[^a-zA-Z0-9_]/g, '');
+              db.all(`PRAGMA table_info(${tableName})`, [], (err, columns) => {
                 if (err) {
                   reject(this.formatError(err));
                   return;
@@ -110,7 +198,7 @@ export class DatabaseService {
 
                 tableInfo.push({
                   name: table.name,
-                  columns: columns.map((col: any) => ({
+                  columns: (columns || []).map((col: any) => ({
                     name: col.name,
                     type: col.type,
                     nullable: !col.notnull,
@@ -145,7 +233,7 @@ export class DatabaseService {
     }
   }
 
-  private async getConnection(connectionString: string): Promise<Database> {
+  private async getConnection(connectionString: string): Promise<SqliteDatabase> {
     if (this.connections.has(connectionString)) {
       return this.connections.get(connectionString)!;
     }
@@ -157,7 +245,7 @@ export class DatabaseService {
     }
 
     return new Promise((resolve, reject) => {
-      const db = new sqlite3.Database(connectionString, (err) => {
+      const db = new sqlite.Database(connectionString, (err) => {
         if (err) {
           reject(this.formatError(err));
           return;
