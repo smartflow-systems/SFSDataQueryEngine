@@ -164,7 +164,9 @@ export function registerRoutes(app: Express, options: RouteOptions = {}): void {
 
       // Layer 3: Detect and block direct string interpolation (quotes in SQL)
       // This catches attempts to embed user data directly in SQL instead of using params
-      if (/(['"`]).+?\1/.test(sql)) {
+      // Security: Use negative lookahead to prevent ReDoS (polynomial regex) vulnerability
+      // Limit to 10000 chars to prevent excessive backtracking
+      if (/(['"`])(?:(?!\1).){0,10000}\1/.test(sql)) {
         return res.status(400).json({
           message: "Unsafe SQL statement: Do not interpolate user data directly into the query string. Use parameter placeholders (?) instead."
         });
