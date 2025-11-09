@@ -6,12 +6,32 @@ import { createServer } from "http";
 import { setupVite, serveStatic, log } from "./vite.js";
 import { registerRoutes } from "./routes.js";
 import rateLimit from "express-rate-limit";
+import cors from 'cors';
 
 const app = express();
 const server = createServer(app);
 
 // Trust proxy for Replit environment
 app.set('trust proxy', 1);
+
+// Security: Configure CORS with explicit allowed origins
+const allowedOrigins = process.env.CLIENT_URL
+  ? process.env.CLIENT_URL.split(',').map(url => url.trim())
+  : ['http://localhost:5000', 'http://localhost:3000'];
+
+app.use(cors({
+  origin: (origin, callback) => {
+    // Allow requests with no origin (mobile apps, curl, Postman)
+    if (!origin) return callback(null, true);
+
+    if (allowedOrigins.indexOf(origin) !== -1 || allowedOrigins.includes('*')) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true,
+}));
 
 // Security headers
 app.use((req, res, next) => {
