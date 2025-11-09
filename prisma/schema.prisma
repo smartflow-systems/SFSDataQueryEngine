@@ -91,3 +91,89 @@ model Chart {
 
   @@index([dashboardId])
 }
+
+// =============================================================================
+// SocialScaleBooster Integration Models
+// These models mirror the SocialScaleBooster database schema for analytics
+// They are used when connecting to external SocialScaleBooster databases
+// =============================================================================
+
+model SocialUser {
+  id                   String    @id @default(cuid())
+  username             String    @unique
+  password             String
+  email                String?
+  isPremium            Boolean   @default(false)
+  stripeCustomerId     String?
+  stripeSubscriptionId String?
+  botCount             Int       @default(0)
+  createdAt            DateTime  @default(now())
+
+  bots      SocialBot[]
+  analytics SocialAnalytics[]
+
+  @@map("social_users")
+}
+
+model SocialBot {
+  id          String   @id @default(cuid())
+  userId      String
+  name        String
+  description String?
+  platform    String   // 'tiktok', 'instagram', 'facebook', 'twitter', 'youtube', 'multi'
+  status      String   @default("active") // 'active', 'paused', 'stopped'
+  config      String?  // JSON string for bot configuration
+  metrics     String?  // JSON string for performance metrics
+  createdAt   DateTime @default(now())
+
+  user      SocialUser        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  analytics SocialAnalytics[]
+
+  @@index([userId])
+  @@index([platform])
+  @@index([status])
+  @@map("social_bots")
+}
+
+model SocialAnalytics {
+  id          String   @id @default(cuid())
+  userId      String
+  botId       String?
+  date        DateTime @default(now())
+  revenue     Float    @default(0)
+  engagement  Float    @default(0)
+  posts       Int      @default(0)
+  clicks      Int      @default(0)
+  conversions Int      @default(0)
+  impressions Int?     @default(0)
+  reach       Int?     @default(0)
+
+  user SocialUser  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  bot  SocialBot? @relation(fields: [botId], references: [id], onDelete: SetNull)
+
+  @@index([userId])
+  @@index([botId])
+  @@index([date])
+  @@index([date, userId])
+  @@map("social_analytics")
+}
+
+model SocialBotTemplate {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  category    String   // 'E-commerce', 'Beauty', 'Fashion', 'Technology', etc.
+  platform    String
+  isPremium   Boolean  @default(false)
+  price       Float?
+  rating      Float    @default(0)
+  reviewCount Int      @default(0)
+  config      String?  // JSON string
+  imageUrl    String?
+  createdAt   DateTime @default(now())
+
+  @@index([category])
+  @@index([platform])
+  @@index([isPremium])
+  @@map("social_bot_templates")
+}

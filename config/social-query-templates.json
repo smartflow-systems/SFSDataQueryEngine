@@ -1,0 +1,286 @@
+{
+  "templates": [
+    {
+      "id": "total-revenue-all-time",
+      "name": "Total Revenue - All Time",
+      "description": "Get total revenue generated across all social media bots",
+      "category": "revenue",
+      "naturalLanguage": "What is my total revenue from all social media bots?",
+      "sqlTemplate": "SELECT SUM(revenue) as total_revenue, COUNT(DISTINCT botId) as active_bots, COUNT(*) as total_records FROM social_analytics WHERE userId = ?",
+      "parameters": [
+        {
+          "name": "userId",
+          "type": "string",
+          "required": true
+        }
+      ],
+      "visualizationType": "table"
+    },
+    {
+      "id": "revenue-by-platform",
+      "name": "Revenue by Platform",
+      "description": "Compare revenue across different social media platforms",
+      "category": "comparison",
+      "naturalLanguage": "Show me revenue breakdown by platform",
+      "sqlTemplate": "SELECT b.platform, SUM(a.revenue) as total_revenue, SUM(a.engagement) as total_engagement, SUM(a.posts) as total_posts FROM social_analytics a JOIN social_bots b ON a.botId = b.id WHERE a.userId = ? GROUP BY b.platform ORDER BY total_revenue DESC",
+      "parameters": [
+        {
+          "name": "userId",
+          "type": "string",
+          "required": true
+        }
+      ],
+      "visualizationType": "bar"
+    },
+    {
+      "id": "top-performing-bots",
+      "name": "Top 10 Performing Bots",
+      "description": "Identify the top 10 bots by revenue generation",
+      "category": "performance",
+      "naturalLanguage": "Which are my top 10 performing bots by revenue?",
+      "sqlTemplate": "SELECT b.name as bot_name, b.platform, SUM(a.revenue) as total_revenue, SUM(a.engagement) as total_engagement, SUM(a.conversions) as total_conversions FROM social_analytics a JOIN social_bots b ON a.botId = b.id WHERE a.userId = ? GROUP BY b.id, b.name, b.platform ORDER BY total_revenue DESC LIMIT 10",
+      "parameters": [
+        {
+          "name": "userId",
+          "type": "string",
+          "required": true
+        }
+      ],
+      "visualizationType": "bar"
+    },
+    {
+      "id": "monthly-revenue-trend",
+      "name": "Monthly Revenue Trend",
+      "description": "Track revenue trends over the last 12 months",
+      "category": "trend",
+      "naturalLanguage": "Show me monthly revenue for the last 12 months",
+      "sqlTemplate": "SELECT strftime('%Y-%m', date) as month, SUM(revenue) as total_revenue, SUM(engagement) as total_engagement, SUM(posts) as total_posts FROM social_analytics WHERE userId = ? AND date >= date('now', '-12 months') GROUP BY month ORDER BY month",
+      "parameters": [
+        {
+          "name": "userId",
+          "type": "string",
+          "required": true
+        }
+      ],
+      "visualizationType": "line"
+    },
+    {
+      "id": "engagement-rate-by-platform",
+      "name": "Engagement Rate by Platform",
+      "description": "Calculate engagement rate for each platform",
+      "category": "engagement",
+      "naturalLanguage": "What is the engagement rate for each social media platform?",
+      "sqlTemplate": "SELECT b.platform, SUM(a.engagement) as total_engagement, SUM(a.reach) as total_reach, ROUND((SUM(a.engagement) * 100.0 / NULLIF(SUM(a.reach), 0)), 2) as engagement_rate FROM social_analytics a JOIN social_bots b ON a.botId = b.id WHERE a.userId = ? AND a.reach > 0 GROUP BY b.platform ORDER BY engagement_rate DESC",
+      "parameters": [
+        {
+          "name": "userId",
+          "type": "string",
+          "required": true
+        }
+      ],
+      "visualizationType": "bar"
+    },
+    {
+      "id": "conversion-rate-analysis",
+      "name": "Conversion Rate Analysis",
+      "description": "Analyze conversion rates across all bots",
+      "category": "roi",
+      "naturalLanguage": "What are my conversion rates for each bot?",
+      "sqlTemplate": "SELECT b.name as bot_name, b.platform, SUM(a.clicks) as total_clicks, SUM(a.conversions) as total_conversions, ROUND((SUM(a.conversions) * 100.0 / NULLIF(SUM(a.clicks), 0)), 2) as conversion_rate FROM social_analytics a JOIN social_bots b ON a.botId = b.id WHERE a.userId = ? AND a.clicks > 0 GROUP BY b.id, b.name, b.platform ORDER BY conversion_rate DESC",
+      "parameters": [
+        {
+          "name": "userId",
+          "type": "string",
+          "required": true
+        }
+      ],
+      "visualizationType": "table"
+    },
+    {
+      "id": "daily-performance-last-30-days",
+      "name": "Daily Performance - Last 30 Days",
+      "description": "View daily performance metrics for the last 30 days",
+      "category": "trend",
+      "naturalLanguage": "Show me daily performance for the last 30 days",
+      "sqlTemplate": "SELECT date(date) as day, SUM(revenue) as revenue, SUM(engagement) as engagement, SUM(posts) as posts, SUM(clicks) as clicks, SUM(conversions) as conversions FROM social_analytics WHERE userId = ? AND date >= date('now', '-30 days') GROUP BY day ORDER BY day DESC",
+      "parameters": [
+        {
+          "name": "userId",
+          "type": "string",
+          "required": true
+        }
+      ],
+      "visualizationType": "line"
+    },
+    {
+      "id": "platform-post-performance",
+      "name": "Post Performance by Platform",
+      "description": "Compare average engagement per post across platforms",
+      "category": "performance",
+      "naturalLanguage": "What is the average engagement per post for each platform?",
+      "sqlTemplate": "SELECT b.platform, SUM(a.posts) as total_posts, SUM(a.engagement) as total_engagement, ROUND(SUM(a.engagement) * 1.0 / NULLIF(SUM(a.posts), 0), 2) as avg_engagement_per_post FROM social_analytics a JOIN social_bots b ON a.botId = b.id WHERE a.userId = ? AND a.posts > 0 GROUP BY b.platform ORDER BY avg_engagement_per_post DESC",
+      "parameters": [
+        {
+          "name": "userId",
+          "type": "string",
+          "required": true
+        }
+      ],
+      "visualizationType": "bar"
+    },
+    {
+      "id": "roi-by-bot",
+      "name": "ROI by Bot",
+      "description": "Calculate return on investment for each bot (assuming fixed cost per bot)",
+      "category": "roi",
+      "naturalLanguage": "What is the ROI for each of my bots?",
+      "sqlTemplate": "SELECT b.name as bot_name, b.platform, SUM(a.revenue) as total_revenue, COUNT(DISTINCT date(a.date)) as active_days, ROUND((SUM(a.revenue) - (COUNT(DISTINCT date(a.date)) * 10)) / NULLIF((COUNT(DISTINCT date(a.date)) * 10), 0) * 100, 2) as roi_percentage FROM social_analytics a JOIN social_bots b ON a.botId = b.id WHERE a.userId = ? GROUP BY b.id, b.name, b.platform ORDER BY roi_percentage DESC",
+      "parameters": [
+        {
+          "name": "userId",
+          "type": "string",
+          "required": true
+        }
+      ],
+      "visualizationType": "bar"
+    },
+    {
+      "id": "tiktok-vs-instagram",
+      "name": "TikTok vs Instagram Performance",
+      "description": "Compare performance metrics between TikTok and Instagram",
+      "category": "comparison",
+      "naturalLanguage": "Compare TikTok and Instagram performance",
+      "sqlTemplate": "SELECT b.platform, SUM(a.revenue) as revenue, SUM(a.engagement) as engagement, SUM(a.posts) as posts, SUM(a.impressions) as impressions FROM social_analytics a JOIN social_bots b ON a.botId = b.id WHERE a.userId = ? AND b.platform IN ('tiktok', 'instagram') GROUP BY b.platform",
+      "parameters": [
+        {
+          "name": "userId",
+          "type": "string",
+          "required": true
+        }
+      ],
+      "visualizationType": "bar"
+    },
+    {
+      "id": "weekly-growth-rate",
+      "name": "Weekly Growth Rate",
+      "description": "Calculate week-over-week growth in revenue and engagement",
+      "category": "trend",
+      "naturalLanguage": "What is my week-over-week growth rate?",
+      "sqlTemplate": "SELECT strftime('%Y-W%W', date) as week, SUM(revenue) as weekly_revenue, SUM(engagement) as weekly_engagement, SUM(posts) as weekly_posts FROM social_analytics WHERE userId = ? AND date >= date('now', '-8 weeks') GROUP BY week ORDER BY week DESC",
+      "parameters": [
+        {
+          "name": "userId",
+          "type": "string",
+          "required": true
+        }
+      ],
+      "visualizationType": "line"
+    },
+    {
+      "id": "active-vs-paused-bots",
+      "name": "Active vs Paused Bots Performance",
+      "description": "Compare performance of active vs paused bots",
+      "category": "performance",
+      "naturalLanguage": "How do active bots perform compared to paused bots?",
+      "sqlTemplate": "SELECT b.status, COUNT(DISTINCT b.id) as bot_count, SUM(a.revenue) as total_revenue, SUM(a.engagement) as total_engagement FROM social_bots b LEFT JOIN social_analytics a ON b.id = a.botId AND a.userId = ? WHERE b.userId = ? GROUP BY b.status",
+      "parameters": [
+        {
+          "name": "userId",
+          "type": "string",
+          "required": true
+        }
+      ],
+      "visualizationType": "pie"
+    },
+    {
+      "id": "revenue-per-click",
+      "name": "Revenue per Click",
+      "description": "Calculate average revenue generated per click",
+      "category": "roi",
+      "naturalLanguage": "What is my revenue per click for each platform?",
+      "sqlTemplate": "SELECT b.platform, SUM(a.revenue) as total_revenue, SUM(a.clicks) as total_clicks, ROUND(SUM(a.revenue) / NULLIF(SUM(a.clicks), 0), 2) as revenue_per_click FROM social_analytics a JOIN social_bots b ON a.botId = b.id WHERE a.userId = ? AND a.clicks > 0 GROUP BY b.platform ORDER BY revenue_per_click DESC",
+      "parameters": [
+        {
+          "name": "userId",
+          "type": "string",
+          "required": true
+        }
+      ],
+      "visualizationType": "bar"
+    },
+    {
+      "id": "impressions-to-engagement",
+      "name": "Impressions to Engagement Funnel",
+      "description": "Analyze the funnel from impressions to engagement to conversions",
+      "category": "performance",
+      "naturalLanguage": "Show me the conversion funnel from impressions to engagement",
+      "sqlTemplate": "SELECT SUM(impressions) as total_impressions, SUM(engagement) as total_engagement, SUM(clicks) as total_clicks, SUM(conversions) as total_conversions, ROUND((SUM(engagement) * 100.0 / NULLIF(SUM(impressions), 0)), 2) as impression_to_engagement_rate, ROUND((SUM(clicks) * 100.0 / NULLIF(SUM(engagement), 0)), 2) as engagement_to_click_rate, ROUND((SUM(conversions) * 100.0 / NULLIF(SUM(clicks), 0)), 2) as click_to_conversion_rate FROM social_analytics WHERE userId = ? AND impressions > 0",
+      "parameters": [
+        {
+          "name": "userId",
+          "type": "string",
+          "required": true
+        }
+      ],
+      "visualizationType": "table"
+    },
+    {
+      "id": "bot-activity-timeline",
+      "name": "Bot Activity Timeline",
+      "description": "View when each bot was most active and generated revenue",
+      "category": "performance",
+      "naturalLanguage": "When were my bots most active?",
+      "sqlTemplate": "SELECT b.name as bot_name, b.platform, date(a.date) as activity_date, SUM(a.revenue) as daily_revenue, SUM(a.posts) as daily_posts FROM social_analytics a JOIN social_bots b ON a.botId = b.id WHERE a.userId = ? AND a.date >= date('now', '-30 days') GROUP BY b.id, b.name, b.platform, activity_date ORDER BY activity_date DESC, daily_revenue DESC",
+      "parameters": [
+        {
+          "name": "userId",
+          "type": "string",
+          "required": true
+        }
+      ],
+      "visualizationType": "table"
+    },
+    {
+      "id": "premium-vs-free-performance",
+      "name": "Premium vs Free User Performance",
+      "description": "Compare average performance between premium and free users",
+      "category": "comparison",
+      "naturalLanguage": "How do premium users perform compared to free users?",
+      "sqlTemplate": "SELECT u.isPremium, COUNT(DISTINCT a.botId) as bot_count, AVG(a.revenue) as avg_revenue, AVG(a.engagement) as avg_engagement FROM social_analytics a JOIN social_users u ON a.userId = u.id GROUP BY u.isPremium",
+      "parameters": [],
+      "visualizationType": "bar"
+    },
+    {
+      "id": "best-performing-day",
+      "name": "Best Performing Day of Week",
+      "description": "Identify which day of the week generates the most revenue",
+      "category": "trend",
+      "naturalLanguage": "Which day of the week performs best?",
+      "sqlTemplate": "SELECT CASE strftime('%w', date) WHEN '0' THEN 'Sunday' WHEN '1' THEN 'Monday' WHEN '2' THEN 'Tuesday' WHEN '3' THEN 'Wednesday' WHEN '4' THEN 'Thursday' WHEN '5' THEN 'Friday' WHEN '6' THEN 'Saturday' END as day_of_week, SUM(revenue) as total_revenue, SUM(engagement) as total_engagement, SUM(posts) as total_posts FROM social_analytics WHERE userId = ? GROUP BY strftime('%w', date) ORDER BY total_revenue DESC",
+      "parameters": [
+        {
+          "name": "userId",
+          "type": "string",
+          "required": true
+        }
+      ],
+      "visualizationType": "bar"
+    },
+    {
+      "id": "recent-high-performers",
+      "name": "Recent High Performers",
+      "description": "Find bots that had exceptional performance in the last 7 days",
+      "category": "performance",
+      "naturalLanguage": "Which bots performed exceptionally well in the last week?",
+      "sqlTemplate": "SELECT b.name as bot_name, b.platform, SUM(a.revenue) as weekly_revenue, SUM(a.engagement) as weekly_engagement, SUM(a.conversions) as weekly_conversions FROM social_analytics a JOIN social_bots b ON a.botId = b.id WHERE a.userId = ? AND a.date >= date('now', '-7 days') GROUP BY b.id, b.name, b.platform HAVING SUM(a.revenue) > 1000 OR SUM(a.conversions) > 100 ORDER BY weekly_revenue DESC",
+      "parameters": [
+        {
+          "name": "userId",
+          "type": "string",
+          "required": true
+        }
+      ],
+      "visualizationType": "table"
+    }
+  ]
+}
