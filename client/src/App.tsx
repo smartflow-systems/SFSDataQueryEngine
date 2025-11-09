@@ -11,6 +11,7 @@ import Dashboard from "@/pages/dashboard";
 import QueriesPage from "@/pages/queries";
 import ReportsPage from "@/pages/reports";
 import SettingsPage from "@/pages/settings";
+import SocialAnalyticsPage from "@/pages/social-analytics";
 
 function Router() {
   return (
@@ -21,6 +22,7 @@ function Router() {
       <Route path="/dashboard" component={Dashboard} />
       <Route path="/queries" component={QueriesPage} />
       <Route path="/reports" component={ReportsPage} />
+      <Route path="/social-analytics" component={SocialAnalyticsPage} />
       <Route path="/settings" component={SettingsPage} />
       <Route component={NotFound} />
     </Switch>

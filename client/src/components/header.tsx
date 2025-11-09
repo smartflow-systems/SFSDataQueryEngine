@@ -45,11 +45,11 @@ export default function Header() {
               <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-10 h-0.5 gradient-gold rounded-full animate-pulse-gold" />
             )}
           </Link>
-          <Link 
+          <Link
             href="/reports"
             className={`relative px-3 py-1.5 rounded-lg font-semibold text-sm smooth-transition ${
-              location === '/reports' 
-                ? 'gradient-gold-text bg-[rgba(212,175,55,0.15)] shadow-[0_0_8px_rgba(212,175,55,0.5)]' 
+              location === '/reports'
+                ? 'gradient-gold-text bg-[rgba(212,175,55,0.15)] shadow-[0_0_8px_rgba(212,175,55,0.5)]'
                 : 'text-[#d4af37] hover:text-[#ffdd00] hover:bg-[rgba(212,175,55,0.1)]'
             }`}
             data-testid="nav-reports"
@@ -59,7 +59,21 @@ export default function Header() {
               <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-10 h-0.5 gradient-gold rounded-full animate-pulse-gold" />
             )}
           </Link>
-          <Link 
+          <Link
+            href="/social-analytics"
+            className={`relative px-3 py-1.5 rounded-lg font-semibold text-sm smooth-transition ${
+              location === '/social-analytics'
+                ? 'gradient-gold-text bg-[rgba(212,175,55,0.15)] shadow-[0_0_8px_rgba(212,175,55,0.5)]'
+                : 'text-[#d4af37] hover:text-[#ffdd00] hover:bg-[rgba(212,175,55,0.1)]'
+            }`}
+            data-testid="nav-social-analytics"
+          >
+            Social Analytics
+            {location === '/social-analytics' && (
+              <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-10 h-0.5 gradient-gold rounded-full animate-pulse-gold" />
+            )}
+          </Link>
+          <Link
             href="/settings"
             className={`relative px-3 py-1.5 rounded-lg font-semibold text-sm smooth-transition ${
               location === '/settings' 

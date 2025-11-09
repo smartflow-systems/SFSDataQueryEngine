@@ -153,18 +153,59 @@ export function getSocialIntegrationConfig(): SocialIntegrationConfig {
 
 /**
  * Helper function to validate database connection
+ * @param connectionString - The database connection string to validate
+ * @param databaseType - The type of database (postgresql, mysql, sqlite)
  */
-export async function validateSocialDatabaseConnection(): Promise<boolean> {
+export async function validateSocialDatabaseConnection(
+  connectionString?: string,
+  databaseType: string = 'postgresql'
+): Promise<{ valid: boolean; error?: string }> {
   const config = getSocialIntegrationConfig();
 
   if (!config.enabled) {
-    return false;
+    return { valid: false, error: 'SocialScaleBooster integration is not enabled' };
   }
 
-  // TODO: Implement actual connection validation
-  // This would attempt to connect to the database and verify tables exist
+  if (!connectionString) {
+    return { valid: false, error: 'Connection string is required' };
+  }
 
-  return true;
+  try {
+    // Basic connection string validation
+    const urlPattern = /^(postgresql|mysql|sqlite):\/\/.+/i;
+    if (!urlPattern.test(connectionString)) {
+      return { valid: false, error: 'Invalid connection string format' };
+    }
+
+    // For PostgreSQL/MySQL, validate the connection string structure
+    if (databaseType === 'postgresql' || databaseType === 'mysql') {
+      const dbUrlRegex = /^(postgresql|mysql):\/\/([^:]+):([^@]+)@([^:]+):(\d+)\/(.+)$/;
+      if (!dbUrlRegex.test(connectionString)) {
+        return {
+          valid: false,
+          error: 'Connection string must be in format: protocol://user:password@host:port/database'
+        };
+      }
+    }
+
+    // For SQLite, validate the file path
+    if (databaseType === 'sqlite') {
+      const sqliteRegex = /^sqlite:\/\/.+\.db$/;
+      if (!sqliteRegex.test(connectionString)) {
+        return { valid: false, error: 'SQLite connection string must point to a .db file' };
+      }
+    }
+
+    // If we get here, basic validation passed
+    // Note: Actual connection testing would require database drivers
+    // and should be done server-side when the connection is created
+    return { valid: true };
+  } catch (error) {
+    return {
+      valid: false,
+      error: error instanceof Error ? error.message : 'Unknown validation error'
+    };
+  }
 }
 
 /**
