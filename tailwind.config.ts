@@ -11,6 +11,17 @@ export default {
         sm: "calc(var(--radius) - 4px)",
       },
       colors: {
+        // SFS Brand Colors
+        brown: { 900: "#4B2E2E" },
+        black: { 900: "#0A0A0A" },
+        gold: {
+          100: "#FFF7CC",
+          300: "#FFE58A",
+          500: "#FFD700",
+          600: "#E6C200",
+          700: "#B58E00",
+          800: "#7A5A00"
+        },
         background: "var(--background)",
         foreground: "var(--foreground)",
         card: {
@@ -62,6 +73,12 @@ export default {
           ring: "var(--sidebar-ring)",
         },
       },
+      boxShadow: {
+        gold: "0 0 18px 0 rgba(255,215,0,.35)"
+      },
+      backgroundImage: {
+        "gold-gradient": "linear-gradient(90deg,#7a5a00 0%,#b58e00 16%,#ffd700 33%,#fff1a6 45%,#e6c200 55%,#b58e00 72%,#7a5a00 100%)"
+      },
       fontFamily: {
         sans: ["var(--font-sans)"],
         serif: ["var(--font-serif)"],
@@ -84,10 +101,20 @@ export default {
             height: "0",
           },
         },
+        "gold-pan": {
+          "0%": { backgroundPosition: "0% 0%" },
+          "100%": { backgroundPosition: "200% 0%" }
+        },
+        "loading": {
+          "0%": { backgroundPosition: "200% 0" },
+          "100%": { backgroundPosition: "-200% 0" }
+        }
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        "gold-pan": "gold-pan 3.2s linear infinite",
+        "loading": "loading 1.5s infinite"
       },
     },
   },
