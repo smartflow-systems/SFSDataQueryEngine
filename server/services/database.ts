@@ -96,9 +96,8 @@ export class DatabaseService {
     const startTime = Date.now();
 
     try {
-      if (!this.isSafeSqlStatement(sql, params)) {
       // Validate SQL structure against injection patterns
-      if (!this.isSafeSqlStatement(sql)) {
+      if (!this.isSafeSqlStatement(sql, params)) {
         throw {
           message: "Unsafe SQL statement detected. Only single SELECT, INSERT, UPDATE, DELETE statements are allowed, with parameters required for user data.",
         };
