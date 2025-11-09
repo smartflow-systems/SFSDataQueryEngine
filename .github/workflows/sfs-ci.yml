@@ -1,3 +1,6 @@
+﻿name: SFS CI Deploy
+permissions:
+  contents: read
 name: SFS CI
 concurrency:
   group: ci-${{ github.ref }}-${{ github.event_name }}
