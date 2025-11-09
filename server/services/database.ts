@@ -35,7 +35,7 @@ export class DatabaseService {
    * 4. Block multiple statements
    * 5. Validate with parameterized queries (enforced by caller)
    */
-  private isSafeSqlStatement(sql: string): boolean {
+  private isSafeSqlStatement(sql: string, params: any[]): boolean {
     const normalized = sql.trim().toLowerCase();
 
     // 1. Only allow SELECT, INSERT, UPDATE, DELETE at the beginning
@@ -57,6 +57,13 @@ export class DatabaseService {
     // 3. Block SQL stacked queries and injection patterns
     // Disallow multiple statements by semicolon (no exceptions)
     if (sql.includes(";")) return false;
+    // Disallow SQL comments
+    if (/--|\/*|\*\//.test(sql)) return false;
+    // Enforce use of parameter placeholders (?)
+    const placeholderCount = (sql.match(/\?/g) || []).length;
+    if (params.length > 0 && placeholderCount !== params.length) return false;
+    // If there are quoted literals (single/double quotes with at least one character), reject
+    if (/(['"]).+?\1/.test(sql)) return false;
 
     // 4. Disallow SQL comments (injection vector)
     if (/--|\/*|\*\/|\/\*|\*\/|#/.test(sql)) return false;
@@ -89,10 +96,11 @@ export class DatabaseService {
     const startTime = Date.now();
 
     try {
+      if (!this.isSafeSqlStatement(sql, params)) {
       // Validate SQL structure against injection patterns
       if (!this.isSafeSqlStatement(sql)) {
         throw {
-          message: "Unsafe SQL statement detected. Only single SELECT, INSERT, UPDATE, DELETE statements are allowed.",
+          message: "Unsafe SQL statement detected. Only single SELECT, INSERT, UPDATE, DELETE statements are allowed, with parameters required for user data.",
         };
       }
 
