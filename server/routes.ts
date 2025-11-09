@@ -292,4 +292,321 @@ export function registerRoutes(app: Express, options: RouteOptions = {}): void {
     }
   });
 
+  // =============================================================================
+  // SocialScaleBooster Integration Routes
+  // These routes provide access to social media analytics data
+  // =============================================================================
+
+  // Get all pre-built query templates
+  app.get("/api/social/templates", async (req, res) => {
+    try {
+      const fs = await import('fs/promises');
+      const path = await import('path');
+      const templatesPath = path.join(process.cwd(), 'config', 'social-query-templates.json');
+      const templatesData = await fs.readFile(templatesPath, 'utf-8');
+      const templates = JSON.parse(templatesData);
+
+      // Filter by category if provided
+      const category = req.query.category as string | undefined;
+      if (category) {
+        const filtered = templates.templates.filter((t: any) => t.category === category);
+        return res.json({ templates: filtered });
+      }
+
+      res.json(templates);
+    } catch (error) {
+      res.status(500).json({ message: error instanceof Error ? error.message : 'Failed to load query templates' });
+    }
+  });
+
+  // Get a specific query template by ID
+  app.get("/api/social/templates/:id", async (req, res) => {
+    try {
+      const fs = await import('fs/promises');
+      const path = await import('path');
+      const templatesPath = path.join(process.cwd(), 'config', 'social-query-templates.json');
+      const templatesData = await fs.readFile(templatesPath, 'utf-8');
+      const templates = JSON.parse(templatesData);
+
+      const template = templates.templates.find((t: any) => t.id === req.params.id);
+      if (!template) {
+        return res.status(404).json({ message: "Template not found" });
+      }
+
+      res.json(template);
+    } catch (error) {
+      res.status(500).json({ message: error instanceof Error ? error.message : 'Failed to load query template' });
+    }
+  });
+
+  // Execute a query from a pre-built template
+  app.post("/api/social/query-from-template", async (req, res) => {
+    try {
+      const { templateId, parameters, databaseId } = req.body;
+
+      if (!templateId || !databaseId) {
+        return res.status(400).json({ message: "Template ID and database ID are required" });
+      }
+
+      // Load the template
+      const fs = await import('fs/promises');
+      const path = await import('path');
+      const templatesPath = path.join(process.cwd(), 'config', 'social-query-templates.json');
+      const templatesData = await fs.readFile(templatesPath, 'utf-8');
+      const templates = JSON.parse(templatesData);
+
+      const template = templates.templates.find((t: any) => t.id === templateId);
+      if (!template) {
+        return res.status(404).json({ message: "Template not found" });
+      }
+
+      // Get database connection
+      const database = await storage.getDatabase(databaseId);
+      if (!database) {
+        return res.status(404).json({ message: "Database not found" });
+      }
+
+      // Prepare parameters for the query
+      const queryParams = parameters || [];
+
+      // Execute the query
+      const result = await databaseService.executeQuery(database.connectionString || "", template.sqlTemplate, queryParams);
+
+      // Save the query
+      const savedQuery = await storage.createQuery({
+        naturalLanguage: template.naturalLanguage,
+        sqlQuery: template.sqlTemplate,
+        databaseId,
+        isSaved: false
+      });
+
+      res.json({
+        query: savedQuery,
+        result,
+        template: {
+          id: template.id,
+          name: template.name,
+          description: template.description,
+          visualizationType: template.visualizationType
+        }
+      });
+    } catch (error) {
+      res.status(500).json({ message: error instanceof Error ? error.message : 'Failed to execute template query' });
+    }
+  });
+
+  // Get social analytics summary
+  app.get("/api/social/analytics/summary", async (req, res) => {
+    try {
+      const { databaseId, userId } = req.query;
+
+      if (!databaseId || !userId) {
+        return res.status(400).json({ message: "Database ID and User ID are required" });
+      }
+
+      const database = await storage.getDatabase(databaseId as string);
+      if (!database) {
+        return res.status(404).json({ message: "Database not found" });
+      }
+
+      // Get aggregated metrics
+      const summaryQuery = `
+        SELECT
+          SUM(revenue) as totalRevenue,
+          SUM(engagement) as totalEngagement,
+          SUM(posts) as totalPosts,
+          SUM(clicks) as totalClicks,
+          SUM(conversions) as totalConversions,
+          SUM(impressions) as totalImpressions,
+          SUM(reach) as totalReach,
+          ROUND((SUM(conversions) * 100.0 / NULLIF(SUM(clicks), 0)), 2) as conversionRate,
+          ROUND((SUM(engagement) * 100.0 / NULLIF(SUM(reach), 0)), 2) as engagementRate
+        FROM social_analytics
+        WHERE userId = ?
+      `;
+
+      const result = await databaseService.executeQuery(database.connectionString || "", summaryQuery, [userId]);
+
+      res.json(result.rows[0] || {});
+    } catch (error) {
+      res.status(500).json({ message: error instanceof Error ? error.message : 'Failed to fetch analytics summary' });
+    }
+  });
+
+  // Get platform breakdown
+  app.get("/api/social/analytics/platforms", async (req, res) => {
+    try {
+      const { databaseId, userId } = req.query;
+
+      if (!databaseId || !userId) {
+        return res.status(400).json({ message: "Database ID and User ID are required" });
+      }
+
+      const database = await storage.getDatabase(databaseId as string);
+      if (!database) {
+        return res.status(404).json({ message: "Database not found" });
+      }
+
+      const platformQuery = `
+        SELECT
+          b.platform,
+          COUNT(DISTINCT b.id) as botCount,
+          SUM(a.revenue) as revenue,
+          SUM(a.engagement) as engagement,
+          SUM(a.posts) as posts,
+          ROUND((SUM(a.conversions) * 100.0 / NULLIF(SUM(a.clicks), 0)), 2) as conversionRate
+        FROM social_analytics a
+        JOIN social_bots b ON a.botId = b.id
+        WHERE a.userId = ?
+        GROUP BY b.platform
+        ORDER BY revenue DESC
+      `;
+
+      const result = await databaseService.executeQuery(database.connectionString || "", platformQuery, [userId]);
+
+      res.json(result.rows || []);
+    } catch (error) {
+      res.status(500).json({ message: error instanceof Error ? error.message : 'Failed to fetch platform analytics' });
+    }
+  });
+
+  // Get bot performance summary
+  app.get("/api/social/bots/performance", async (req, res) => {
+    try {
+      const { databaseId, userId, limit } = req.query;
+
+      if (!databaseId || !userId) {
+        return res.status(400).json({ message: "Database ID and User ID are required" });
+      }
+
+      const database = await storage.getDatabase(databaseId as string);
+      if (!database) {
+        return res.status(404).json({ message: "Database not found" });
+      }
+
+      const performanceLimit = limit ? parseInt(limit as string) : 10;
+
+      const botQuery = `
+        SELECT
+          b.id as botId,
+          b.name as botName,
+          b.platform,
+          b.status,
+          SUM(a.revenue) as totalRevenue,
+          SUM(a.engagement) as totalEngagement,
+          SUM(a.posts) as totalPosts,
+          ROUND((SUM(a.conversions) * 100.0 / NULLIF(SUM(a.clicks), 0)), 2) as conversionRate
+        FROM social_bots b
+        LEFT JOIN social_analytics a ON b.id = a.botId
+        WHERE b.userId = ?
+        GROUP BY b.id, b.name, b.platform, b.status
+        ORDER BY totalRevenue DESC
+        LIMIT ?
+      `;
+
+      const result = await databaseService.executeQuery(database.connectionString || "", botQuery, [userId, performanceLimit]);
+
+      res.json(result.rows || []);
+    } catch (error) {
+      res.status(500).json({ message: error instanceof Error ? error.message : 'Failed to fetch bot performance' });
+    }
+  });
+
+  // Get time-series analytics data
+  app.get("/api/social/analytics/timeseries", async (req, res) => {
+    try {
+      const { databaseId, userId, period = '30', groupBy = 'day' } = req.query;
+
+      if (!databaseId || !userId) {
+        return res.status(400).json({ message: "Database ID and User ID are required" });
+      }
+
+      const database = await storage.getDatabase(databaseId as string);
+      if (!database) {
+        return res.status(404).json({ message: "Database not found" });
+      }
+
+      let dateFormat = '%Y-%m-%d';
+      if (groupBy === 'week') {
+        dateFormat = '%Y-W%W';
+      } else if (groupBy === 'month') {
+        dateFormat = '%Y-%m';
+      }
+
+      const timeSeriesQuery = `
+        SELECT
+          strftime('${dateFormat}', date) as period,
+          SUM(revenue) as revenue,
+          SUM(engagement) as engagement,
+          SUM(posts) as posts,
+          SUM(clicks) as clicks,
+          SUM(conversions) as conversions,
+          SUM(impressions) as impressions,
+          SUM(reach) as reach
+        FROM social_analytics
+        WHERE userId = ? AND date >= date('now', '-${period} days')
+        GROUP BY period
+        ORDER BY period
+      `;
+
+      const result = await databaseService.executeQuery(database.connectionString || "", timeSeriesQuery, [userId]);
+
+      res.json(result.rows || []);
+    } catch (error) {
+      res.status(500).json({ message: error instanceof Error ? error.message : 'Failed to fetch time-series analytics' });
+    }
+  });
+
+  // Get integration status
+  app.get("/api/social/status", async (req, res) => {
+    try {
+      const { databaseId } = req.query;
+
+      if (!databaseId) {
+        return res.status(400).json({ message: "Database ID is required" });
+      }
+
+      const database = await storage.getDatabase(databaseId as string);
+      if (!database) {
+        return res.status(404).json({ message: "Database not found" });
+      }
+
+      // Test connection
+      const isConnected = await databaseService.testConnection(database.connectionString || "");
+
+      if (!isConnected) {
+        return res.json({
+          connected: false,
+          healthStatus: 'unavailable',
+          error: 'Unable to connect to database'
+        });
+      }
+
+      // Get record counts
+      const usersCount = await databaseService.executeQuery(database.connectionString || "", "SELECT COUNT(*) as count FROM social_users", []);
+      const botsCount = await databaseService.executeQuery(database.connectionString || "", "SELECT COUNT(*) as count FROM social_bots", []);
+      const analyticsCount = await databaseService.executeQuery(database.connectionString || "", "SELECT COUNT(*) as count FROM social_analytics", []);
+      const templatesCount = await databaseService.executeQuery(database.connectionString || "", "SELECT COUNT(*) as count FROM social_bot_templates", []);
+
+      res.json({
+        connected: true,
+        databaseType: database.type,
+        lastSync: new Date(),
+        recordCount: {
+          users: usersCount.rows[0]?.count || 0,
+          bots: botsCount.rows[0]?.count || 0,
+          analytics: analyticsCount.rows[0]?.count || 0,
+          templates: templatesCount.rows[0]?.count || 0,
+        },
+        healthStatus: 'healthy'
+      });
+    } catch (error) {
+      res.status(500).json({
+        connected: false,
+        healthStatus: 'degraded',
+        error: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+
 }

@@ -18,6 +18,7 @@
 - 🔒 **Enterprise Security** - Rate limiting, security headers, and SQL validation
 - 🎨 **Professional UI** - Classy dark theme with gold accents
 - 📱 **Responsive Design** - Works beautifully on all devices
+- 🌐 **SocialScaleBooster Integration** - Query social media analytics with natural language (18 pre-built templates!)
 
 ## 🚀 Quick Start
 
@@ -51,6 +52,58 @@ npm run dev
 ```
 
 Visit `http://localhost:5000` to see the landing page!
+
+## 🌐 SocialScaleBooster Integration
+
+DataLens now integrates with **SocialScaleBooster** to provide powerful natural language querying for social media analytics!
+
+### Quick Start with Social Analytics
+
+```bash
+# Configure SocialScaleBooster database connection
+# Add to your .env file:
+SOCIAL_DB_HOST=localhost
+SOCIAL_DB_PORT=5432
+SOCIAL_DB_NAME=socialscalebooster
+SOCIAL_DB_USER=postgres
+SOCIAL_DB_PASSWORD=your_password
+SOCIAL_INTEGRATION_ENABLED=true
+```
+
+### Features
+
+- 📱 **Multi-Platform Analytics** - Query data from TikTok, Instagram, Facebook, Twitter, YouTube
+- 📝 **18 Pre-built Templates** - Revenue, engagement, ROI, and performance queries ready to use
+- 🎯 **Natural Language Queries** - Ask "What was my TikTok revenue last month?" and get instant answers
+- 📊 **Specialized Dashboards** - Social media-specific visualizations and metrics
+- ⚡ **Real-time Data** - Query live performance data from your bots
+
+### Example Queries
+
+- "What is my total revenue from all social media bots?"
+- "Show me revenue breakdown by platform"
+- "Which are my top 10 performing bots by revenue?"
+- "What is the engagement rate for each platform?"
+- "Compare TikTok and Instagram performance"
+
+### Documentation
+
+- **Full Integration Guide**: [`docs/SOCIAL_INTEGRATION.md`](docs/SOCIAL_INTEGRATION.md)
+- **Quick Start Guide**: [`docs/QUICK_START_SOCIAL.md`](docs/QUICK_START_SOCIAL.md)
+- **API Reference**: See integration guide for all endpoints
+
+### Pre-built Query Templates
+
+| Category | Templates | Examples |
+|----------|-----------|----------|
+| Revenue | 4 templates | Total revenue, platform breakdown, trends |
+| Performance | 4 templates | Top bots, activity timeline, post performance |
+| Engagement | 2 templates | Engagement rates, conversion funnels |
+| ROI | 3 templates | Conversion rates, ROI by bot |
+| Trends | 3 templates | Daily/weekly/monthly trends |
+| Comparison | 3 templates | Platform comparisons, user segments |
+
+**Total: 18 ready-to-use social media analytics templates!**
 
 ## 📦 Production Deployment
 
