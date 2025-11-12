@@ -1,5 +1,5 @@
 import Header from "@/components/header";
-import Sidebar from "@/components/sidebar";
+import GitHubSidebar from "@/components/Dashboard/GitHubSidebar";
 import QueryInput from "@/components/query-input";
 import QueryResults from "@/components/query-results";
 import ChartBuilder from "@/components/chart-builder";
@@ -33,11 +33,12 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen flex flex-col bg-[#0b0b0b] text-[#e9e6df]">
+      {/* GitHub-style Sidebar */}
+      <GitHubSidebar />
+
       <Header />
-      
+
       <div className="flex flex-1 overflow-hidden">
-        <Sidebar />
-        
         <main className="flex-1 flex flex-col overflow-hidden">
           <QueryInput 
             onQueryExecuted={(query, results) => {
