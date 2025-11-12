@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { X, Menu } from 'lucide-react';
+import { Link } from 'wouter';
 
 export default function GitHubSidebar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -80,25 +81,26 @@ export default function GitHubSidebar() {
         <ul className="flex-grow py-5">
           {menuItems.map((item) => (
             <li key={item.label}>
-              <a
+              <Link
                 href={item.href}
                 onClick={() => setIsOpen(false)}
-                className="block py-4 px-5 text-[#F5F5DC] hover:bg-[#3B2F2F] hover:pl-7 border-l-[3px] border-transparent hover:border-[#FFD700] transition-all duration-200"
+                className="block py-4 px-5 text-[#F5F5DC] hover:bg-[#3B2F2F] hover:pl-7 border-l-[3px] border-transparent hover:border-[#FFD700] transition-all duration-200 cursor-pointer"
               >
                 {item.label}
-              </a>
+              </Link>
             </li>
           ))}
         </ul>
 
         {/* Footer CTA */}
         <div className="p-5 border-t border-[#3B2F2F]">
-          <a
+          <Link
             href="/queries"
-            className="block w-full py-3 px-4 bg-[#FFD700] text-[#0D0D0D] text-center font-semibold rounded hover:bg-[#E6C200] transition-colors"
+            onClick={() => setIsOpen(false)}
+            className="block w-full py-3 px-4 bg-[#FFD700] text-[#0D0D0D] text-center font-semibold rounded hover:bg-[#E6C200] transition-colors cursor-pointer"
           >
             New Query
-          </a>
+          </Link>
         </div>
       </nav>
     </>

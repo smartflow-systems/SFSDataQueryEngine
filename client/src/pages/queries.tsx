@@ -1,5 +1,5 @@
 import Header from "@/components/header";
-import Sidebar from "@/components/sidebar";
+import GitHubSidebar from "@/components/Dashboard/GitHubSidebar";
 import GlassCard from "@/components/GlassCard";
 import { useQueries } from "@/hooks/use-queries";
 import { Badge } from "@/components/ui/badge";
@@ -11,11 +11,12 @@ export default function QueriesPage() {
   
   return (
     <div className="min-h-screen flex flex-col bg-[#0b0b0b] text-[#e9e6df]">
+      {/* GitHub-style Sidebar */}
+      <GitHubSidebar />
+
       <Header />
 
       <div className="flex flex-1 overflow-hidden">
-        <Sidebar />
-
         <main className="flex-1 flex flex-col overflow-hidden">
           <div className="flex-1 overflow-auto marbled-bg sfs-content-area">
             <div className="sfs-container-narrow space-y-8">

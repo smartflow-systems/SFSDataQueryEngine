@@ -17,17 +17,17 @@ export default function Header() {
           </div>
         </Link>
         <nav className="hidden md:flex items-center space-x-4">
-          <Link 
-            href="/"
+          <Link
+            href="/dashboard"
             className={`relative px-3 py-1.5 rounded-lg font-semibold text-sm smooth-transition ${
-              location === '/' 
-                ? 'gradient-gold-text bg-[rgba(212,175,55,0.15)] shadow-[0_0_8px_rgba(212,175,55,0.5)]' 
+              location === '/dashboard'
+                ? 'gradient-gold-text bg-[rgba(212,175,55,0.15)] shadow-[0_0_8px_rgba(212,175,55,0.5)]'
                 : 'text-[#d4af37] hover:text-[#ffdd00] hover:bg-[rgba(212,175,55,0.1)]'
             }`}
             data-testid="nav-dashboard"
           >
             Dashboard
-            {location === '/' && (
+            {location === '/dashboard' && (
               <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-10 h-0.5 gradient-gold rounded-full animate-pulse-gold" />
             )}
           </Link>
