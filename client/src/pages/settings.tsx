@@ -1,10 +1,11 @@
 import Header from "@/components/header";
 import GitHubSidebar from "@/components/Dashboard/GitHubSidebar";
+import CommandPalette from "@/components/Dashboard/CommandPalette";
 import GlassCard from "@/components/GlassCard";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
-import { Database, Key, Bell, Palette, Shield, User, TrendingUp, CheckCircle2 } from "lucide-react";
+import { Database, Key, Bell, Palette, Shield, User, TrendingUp, CheckCircle2, Sparkles, Settings as SettingsIcon } from "lucide-react";
 import { useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useToast } from "@/hooks/use-toast";
@@ -59,6 +60,9 @@ export default function SettingsPage() {
 
   return (
     <div className="min-h-screen flex flex-col bg-[#0b0b0b] text-[#e9e6df]">
+      {/* Command Palette */}
+      <CommandPalette />
+
       {/* GitHub-style Sidebar */}
       <GitHubSidebar />
 
@@ -66,21 +70,41 @@ export default function SettingsPage() {
 
       <div className="flex flex-1 overflow-hidden">
         <main className="flex-1 flex flex-col overflow-hidden">
-          <div className="flex-1 p-6 overflow-auto marbled-bg">
-            <div className="max-w-4xl mx-auto space-y-6">
-              <div>
-                <h1 className="text-3xl font-semibold gradient-gold-text">Settings</h1>
-                <p className="mt-2 text-[rgba(233,230,223,0.7)]">
-                  Tune SmartFlow DataLens to match your workflow, security, and notification preferences.
-                </p>
+          <div className="flex-1 overflow-auto marbled-bg sfs-content-area">
+            <div className="sfs-container-narrow space-y-8">
+
+              {/* Hero Section */}
+              <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[rgba(255,215,0,0.1)] via-[rgba(13,13,13,0.8)] to-[rgba(230,194,0,0.1)] border-2 border-[rgba(255,215,0,0.3)] p-8">
+                <div className="absolute inset-0 opacity-20">
+                  <div className="absolute top-0 right-0 w-64 h-64 bg-[#FFD700]/20 rounded-full blur-3xl animate-pulse" />
+                  <div className="absolute bottom-0 left-0 w-64 h-64 bg-[#E6C200]/20 rounded-full blur-3xl animate-pulse delay-1000" />
+                </div>
+                <div className="relative z-10">
+                  <div className="flex items-center gap-3 mb-3">
+                    <div className="p-2.5 rounded-xl bg-gradient-to-br from-[#FFD700] to-[#E6C200] shadow-lg shadow-[rgba(255,215,0,0.3)]">
+                      <SettingsIcon className="w-6 h-6 text-[#0D0D0D]" />
+                    </div>
+                    <div>
+                      <h1 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-[#FFD700] to-[#E6C200] bg-clip-text text-transparent">
+                        Settings
+                      </h1>
+                    </div>
+                  </div>
+                  <p className="text-[rgba(245,245,220,0.7)] max-w-2xl">
+                    Tune SmartFlow DataLens to match your workflow, security, and notification preferences. Configure integrations and personalize your experience.
+                  </p>
+                </div>
               </div>
 
               <div className="space-y-6">
                 <GlassCard
+                  className="sfs-float-card-lg group hover:shadow-[0_0_30px_rgba(255,215,0,0.2)] transition-all duration-300"
                   header={
-                    <div className="flex items-center gap-2 mb-4">
-                      <User className="text-[#d4af37]" size={20} />
-                      <h2 className="text-lg font-semibold gradient-gold-text">Profile</h2>
+                    <div className="flex items-center gap-3 mb-4">
+                      <div className="p-2 rounded-lg bg-gradient-to-br from-[#FFD700] to-[#E6C200] group-hover:scale-110 transition-transform">
+                        <User className="text-[#0D0D0D]" size={20} />
+                      </div>
+                      <h2 className="text-lg font-bold bg-gradient-to-r from-[#FFD700] to-[#E6C200] bg-clip-text text-transparent">Profile</h2>
                     </div>
                   }
                   bodyClassName="space-y-4"
@@ -109,10 +133,13 @@ export default function SettingsPage() {
                 </GlassCard>
 
                 <GlassCard
+                  className="sfs-float-card-lg group hover:shadow-[0_0_30px_rgba(255,215,0,0.2)] transition-all duration-300"
                   header={
-                    <div className="flex items-center gap-2 mb-4">
-                      <Database className="text-[#d4af37]" size={20} />
-                      <h2 className="text-lg font-semibold gradient-gold-text">Database Connections</h2>
+                    <div className="flex items-center gap-3 mb-4">
+                      <div className="p-2 rounded-lg bg-gradient-to-br from-[#FFD700] to-[#E6C200] group-hover:scale-110 transition-transform">
+                        <Database className="text-[#0D0D0D]" size={20} />
+                      </div>
+                      <h2 className="text-lg font-bold bg-gradient-to-r from-[#FFD700] to-[#E6C200] bg-clip-text text-transparent">Database Connections</h2>
                     </div>
                   }
                   bodyClassName="space-y-4"
@@ -130,7 +157,7 @@ export default function SettingsPage() {
                   </div>
                   <Button
                     variant="outline"
-                    className="w-full border-[#d4af37]/60 text-[#d4af37] hover:bg-[#d4af37]/10"
+                    className="w-full border-2 border-[#FFD700]/40 text-[#FFD700] hover:bg-[rgba(255,215,0,0.1)] hover:border-[#FFD700] transition-all duration-300 hover:scale-105 font-semibold"
                   >
                     <Database className="mr-2" size={16} />
                     Add New Connection
@@ -138,10 +165,13 @@ export default function SettingsPage() {
                 </GlassCard>
 
                 <GlassCard
+                  className="sfs-float-card-lg group hover:shadow-[0_0_30px_rgba(255,215,0,0.2)] transition-all duration-300"
                   header={
-                    <div className="flex items-center gap-2 mb-4">
-                      <TrendingUp className="text-[#d4af37]" size={20} />
-                      <h2 className="text-lg font-semibold gradient-gold-text">SocialScaleBooster Integration</h2>
+                    <div className="flex items-center gap-3 mb-4">
+                      <div className="p-2 rounded-lg bg-gradient-to-br from-[#FFD700] to-[#E6C200] group-hover:scale-110 transition-transform">
+                        <TrendingUp className="text-[#0D0D0D]" size={20} />
+                      </div>
+                      <h2 className="text-lg font-bold bg-gradient-to-r from-[#FFD700] to-[#E6C200] bg-clip-text text-transparent">SocialScaleBooster Integration</h2>
                     </div>
                   }
                   bodyClassName="space-y-4"
@@ -199,17 +229,25 @@ export default function SettingsPage() {
                   <Button
                     onClick={handleConnectSocial}
                     disabled={!socialDbConnection || isConnecting}
-                    className="w-full bg-[#d4af37] text-[#0b0b0b] hover:bg-[#d4af37]/90 shadow-[0_0_20px_rgba(212,175,55,0.3)] disabled:opacity-50"
+                    className="w-full bg-gradient-to-r from-[#FFD700] to-[#E6C200] text-[#0D0D0D] font-semibold hover:shadow-[0_0_30px_rgba(255,215,0,0.5)] transition-all duration-300 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                   >
-                    {isConnecting ? "Connecting..." : "Connect SocialScaleBooster"}
+                    {isConnecting ? "Connecting..." : (
+                      <>
+                        <Sparkles className="w-4 h-4" />
+                        Connect SocialScaleBooster
+                      </>
+                    )}
                   </Button>
                 </GlassCard>
 
                 <GlassCard
+                  className="sfs-float-card-lg group hover:shadow-[0_0_30px_rgba(255,215,0,0.2)] transition-all duration-300"
                   header={
-                    <div className="flex items-center gap-2 mb-4">
-                      <Key className="text-[#d4af37]" size={20} />
-                      <h2 className="text-lg font-semibold gradient-gold-text">API Configuration</h2>
+                    <div className="flex items-center gap-3 mb-4">
+                      <div className="p-2 rounded-lg bg-gradient-to-br from-[#FFD700] to-[#E6C200] group-hover:scale-110 transition-transform">
+                        <Key className="text-[#0D0D0D]" size={20} />
+                      </div>
+                      <h2 className="text-lg font-bold bg-gradient-to-r from-[#FFD700] to-[#E6C200] bg-clip-text text-transparent">API Configuration</h2>
                     </div>
                   }
                   bodyClassName="space-y-4"
@@ -237,10 +275,13 @@ export default function SettingsPage() {
                 </GlassCard>
 
                 <GlassCard
+                  className="sfs-float-card-lg group hover:shadow-[0_0_30px_rgba(255,215,0,0.2)] transition-all duration-300"
                   header={
-                    <div className="flex items-center gap-2 mb-4">
-                      <Palette className="text-[#d4af37]" size={20} />
-                      <h2 className="text-lg font-semibold gradient-gold-text">Preferences</h2>
+                    <div className="flex items-center gap-3 mb-4">
+                      <div className="p-2 rounded-lg bg-gradient-to-br from-[#FFD700] to-[#E6C200] group-hover:scale-110 transition-transform">
+                        <Palette className="text-[#0D0D0D]" size={20} />
+                      </div>
+                      <h2 className="text-lg font-bold bg-gradient-to-r from-[#FFD700] to-[#E6C200] bg-clip-text text-transparent">Preferences</h2>
                     </div>
                   }
                   bodyClassName="space-y-4"
@@ -270,10 +311,13 @@ export default function SettingsPage() {
                 </GlassCard>
 
                 <GlassCard
+                  className="sfs-float-card-lg group hover:shadow-[0_0_30px_rgba(255,215,0,0.2)] transition-all duration-300"
                   header={
-                    <div className="flex items-center gap-2 mb-4">
-                      <Bell className="text-[#d4af37]" size={20} />
-                      <h2 className="text-lg font-semibold gradient-gold-text">Notifications</h2>
+                    <div className="flex items-center gap-3 mb-4">
+                      <div className="p-2 rounded-lg bg-gradient-to-br from-[#FFD700] to-[#E6C200] group-hover:scale-110 transition-transform">
+                        <Bell className="text-[#0D0D0D]" size={20} />
+                      </div>
+                      <h2 className="text-lg font-bold bg-gradient-to-r from-[#FFD700] to-[#E6C200] bg-clip-text text-transparent">Notifications</h2>
                     </div>
                   }
                   bodyClassName="space-y-4"
@@ -303,10 +347,13 @@ export default function SettingsPage() {
                 </GlassCard>
 
                 <GlassCard
+                  className="sfs-float-card-lg group hover:shadow-[0_0_30px_rgba(255,215,0,0.2)] transition-all duration-300"
                   header={
-                    <div className="flex items-center gap-2 mb-4">
-                      <Shield className="text-[#d4af37]" size={20} />
-                      <h2 className="text-lg font-semibold gradient-gold-text">Data Governance</h2>
+                    <div className="flex items-center gap-3 mb-4">
+                      <div className="p-2 rounded-lg bg-gradient-to-br from-[#FFD700] to-[#E6C200] group-hover:scale-110 transition-transform">
+                        <Shield className="text-[#0D0D0D]" size={20} />
+                      </div>
+                      <h2 className="text-lg font-bold bg-gradient-to-r from-[#FFD700] to-[#E6C200] bg-clip-text text-transparent">Data Governance</h2>
                     </div>
                   }
                   bodyClassName="space-y-4"
@@ -316,20 +363,21 @@ export default function SettingsPage() {
                     Manage retention, anonymization, and audit log preferences to stay compliant with enterprise controls.
                   </p>
                   <div className="flex flex-wrap gap-3">
-                    <Button variant="outline" size="sm" className="border-[#d4af37]/60 text-[#d4af37] hover:bg-[#d4af37]/10">
+                    <Button variant="outline" size="sm" className="border-2 border-[#FFD700]/40 text-[#FFD700] hover:bg-[rgba(255,215,0,0.1)] hover:border-[#FFD700] transition-all duration-300 hover:scale-105 font-semibold">
                       Configure Retention
                     </Button>
-                    <Button variant="outline" size="sm" className="border-[#d4af37]/60 text-[#d4af37] hover:bg-[#d4af37]/10">
+                    <Button variant="outline" size="sm" className="border-2 border-[#FFD700]/40 text-[#FFD700] hover:bg-[rgba(255,215,0,0.1)] hover:border-[#FFD700] transition-all duration-300 hover:scale-105 font-semibold">
                       Review Audit Log
                     </Button>
                   </div>
                 </GlassCard>
 
                 <div className="flex flex-col gap-3 sm:flex-row sm:justify-end">
-                  <Button variant="outline" className="border-[#d4af37]/60 text-[#d4af37] hover:bg-[#d4af37]/10">
+                  <Button variant="outline" className="border-2 border-[#FFD700]/40 text-[#FFD700] hover:bg-[rgba(255,215,0,0.1)] hover:border-[#FFD700] transition-all duration-300 hover:scale-105 font-semibold">
                     Reset to Defaults
                   </Button>
-                  <Button className="bg-[#d4af37] text-[#0b0b0b] hover:bg-[#d4af37]/90 shadow-[0_0_20px_rgba(212,175,55,0.3)]">
+                  <Button className="bg-gradient-to-r from-[#FFD700] to-[#E6C200] text-[#0D0D0D] font-semibold hover:shadow-[0_0_30px_rgba(255,215,0,0.5)] transition-all duration-300 hover:scale-105 flex items-center gap-2">
+                    <Sparkles className="w-4 h-4" />
                     Save Changes
                   </Button>
                 </div>
