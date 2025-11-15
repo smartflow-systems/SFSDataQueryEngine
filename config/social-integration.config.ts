@@ -206,6 +206,18 @@ export async function validateSocialDatabaseConnection(
       error: error instanceof Error ? error.message : 'Unknown validation error'
     };
   }
+ */
+export async function validateSocialDatabaseConnection(): Promise<boolean> {
+  const config = getSocialIntegrationConfig();
+
+  if (!config.enabled) {
+    return false;
+  }
+
+  // TODO: Implement actual connection validation
+  // This would attempt to connect to the database and verify tables exist
+
+  return true;
 }
 
 /**

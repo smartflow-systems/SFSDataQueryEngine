@@ -151,6 +151,15 @@ export function registerRoutes(app: Express, options: RouteOptions = {}): void {
         });
       }
 
+      // Check for user-controlled input interpolation
+      // Ensure that any parameterized values are passed only in params, never interpolated as literals
+      const placeholderCount = (sql.match(/\?/g) || []).length;
+      if (params && params.length > 0 && placeholderCount !== params.length) {
+        return res.status(400).json({ message: "Mismatch between number of SQL placeholders and provided parameters. Only use parameter placeholders (?) for user data." });
+      }
+      if (/(['"]).+?\1/.test(sql)) {
+        return res.status(400).json({ message: "Unsafe SQL statement: Do not interpolate user data directly into the query string. Use parameter placeholders." });
+      }
       // Layer 2: Enforce parameterized queries for user data
       // Count SQL placeholders (?) in the query
       const placeholderCount = (sql.match(/\?/g) || []).length;
@@ -164,7 +173,9 @@ export function registerRoutes(app: Express, options: RouteOptions = {}): void {
 
       // Layer 3: Detect and block direct string interpolation (quotes in SQL)
       // This catches attempts to embed user data directly in SQL instead of using params
-      if (/(['"`]).+?\1/.test(sql)) {
+      // Security: Use negative lookahead to prevent ReDoS (polynomial regex) vulnerability
+      // Limit to 10000 chars to prevent excessive backtracking
+      if (/(['"`])(?:(?!\1).){0,10000}\1/.test(sql)) {
         return res.status(400).json({
           message: "Unsafe SQL statement: Do not interpolate user data directly into the query string. Use parameter placeholders (?) instead."
         });
