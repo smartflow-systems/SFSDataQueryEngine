@@ -1,0 +1,122 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15-alpine
+    container_name: data-query-engine-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: dataquerylens
+      POSTGRES_USER: dataquerylens
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-dataquery_dev_pass}
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      # Optional: Add init scripts for sample data
+      # - ./init-scripts:/docker-entrypoint-initdb.d
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U dataquerylens -d dataquerylens"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - query-network
+
+  # Redis Cache (Optional - for query caching)
+  redis:
+    image: redis:7-alpine
+    container_name: data-query-engine-redis
+    restart: unless-stopped
+    command: redis-server --appendonly yes --requirepass ${REDIS_PASSWORD:-redis_dev_pass}
+    volumes:
+      - redis_data:/data
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "--raw", "incr", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+    networks:
+      - query-network
+    profiles:
+      - with-redis
+
+  # Application Service
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: data-query-engine-app
+    restart: unless-stopped
+    ports:
+      - "${PORT:-5000}:5000"
+    environment:
+      # Application
+      NODE_ENV: ${NODE_ENV:-development}
+      PORT: 5000
+
+      # Primary Database - Uses PostgreSQL service
+      DATABASE_URL: postgresql://dataquerylens:${DB_PASSWORD:-dataquery_dev_pass}@postgres:5432/dataquerylens
+
+      # OpenAI API (Required for NL to SQL)
+      OPENAI_API_KEY: ${OPENAI_API_KEY}
+
+      # Session & Security
+      SESSION_SECRET: ${SESSION_SECRET:-dev-secret-change-in-production}
+
+      # CORS Configuration
+      ALLOWED_ORIGINS: ${ALLOWED_ORIGINS:-http://localhost:3000,http://localhost:5000}
+
+      # Rate Limiting
+      API_RATE_LIMIT_WINDOW_MS: ${API_RATE_LIMIT_WINDOW_MS:-900000}
+      API_RATE_LIMIT_MAX: ${API_RATE_LIMIT_MAX:-100}
+      QUERY_RATE_LIMIT_WINDOW_MS: ${QUERY_RATE_LIMIT_WINDOW_MS:-60000}
+      QUERY_RATE_LIMIT_MAX: ${QUERY_RATE_LIMIT_MAX:-20}
+
+      # SocialScaleBooster Integration (Optional)
+      SOCIAL_DB_HOST: ${SOCIAL_DB_HOST:-socialscalebooster-db}
+      SOCIAL_DB_PORT: ${SOCIAL_DB_PORT:-5432}
+      SOCIAL_DB_NAME: ${SOCIAL_DB_NAME:-socialscalebooster}
+      SOCIAL_DB_USER: ${SOCIAL_DB_USER:-postgres}
+      SOCIAL_DB_PASSWORD: ${SOCIAL_DB_PASSWORD}
+      SOCIAL_DB_SSL: ${SOCIAL_DB_SSL:-false}
+      SOCIAL_INTEGRATION_ENABLED: ${SOCIAL_INTEGRATION_ENABLED:-true}
+      SOCIAL_REAL_TIME_ANALYTICS: ${SOCIAL_REAL_TIME_ANALYTICS:-true}
+      SOCIAL_EXPORT_ENABLED: ${SOCIAL_EXPORT_ENABLED:-true}
+      SOCIAL_DASHBOARD_TEMPLATES: ${SOCIAL_DASHBOARD_TEMPLATES:-true}
+    volumes:
+      # Mount source code for hot-reload in development
+      - .:/app
+      - /app/node_modules
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - query-network
+
+volumes:
+  postgres_data:
+    driver: local
+  redis_data:
+    driver: local
+
+networks:
+  query-network:
+    driver: bridge
+
+# Usage:
+# Development: docker-compose up
+# With Redis caching: docker-compose --profile with-redis up
+# Production: docker-compose up -d
+# Run Prisma migrations: docker-compose exec app npm run prisma:migrate
+# Generate Prisma client: docker-compose exec app npm run prisma:gen
