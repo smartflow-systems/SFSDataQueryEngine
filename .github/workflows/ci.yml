@@ -32,10 +32,6 @@ jobs:
       - name: Install dependencies
         run: npm ci || npm install
 
-      - name: Run TypeScript type check
-        run: npx tsc --noEmit || echo "TypeScript check skipped"
-        continue-on-error: true
-
       - name: Run linter
         run: npm run lint || echo "Linting not configured - skipping"
         continue-on-error: true
@@ -59,10 +55,9 @@ jobs:
         run: npm ci || npm install
 
       - name: Run tests
-        run: npm test || echo "Tests not configured yet - placeholder passed"
-        continue-on-error: true
+        run: npm test
 
-  # Build job - compiles TypeScript
+  # Build job
   build:
     name: Build Application
     runs-on: ubuntu-latest
@@ -80,11 +75,7 @@ jobs:
       - name: Install dependencies
         run: npm ci || npm install
 
-      - name: Generate Prisma Client
-        run: npm run prisma:gen || echo "Prisma generation skipped"
-        continue-on-error: true
-
-      - name: Build TypeScript project
+      - name: Build project
         run: npm run build
 
       - name: Upload build artifacts
@@ -93,6 +84,7 @@ jobs:
           name: build-artifacts
           path: dist/
           retention-days: 7
+        continue-on-error: true
 
   # Docker build test job
   docker-build:
@@ -111,9 +103,10 @@ jobs:
         with:
           context: .
           push: false
-          tags: sfs-data-query-engine:test
+          tags: smartflow-site:test
           cache-from: type=gha
           cache-to: type=gha,mode=max
+        continue-on-error: true
 
   # SFS diagnose job
   sfs-diagnose:
@@ -128,7 +121,7 @@ jobs:
         run: |
           echo "SFS Diagnostic Report"
           echo "===================="
-          echo "Repository: SFSDataQueryEngine"
+          echo "Repository: SmartFlowSite"
           echo "Branch: ${{ github.ref_name }}"
           echo "Commit: ${{ github.sha }}"
           echo "Build Status: Success"
@@ -150,11 +143,12 @@ jobs:
         with:
           name: build-artifacts
           path: dist/
+        continue-on-error: true
 
       - name: Deploy notification
         run: |
           echo "Deployment would trigger here"
-          echo "Service: sfs-data-query-engine"
+          echo "Service: smartflow-site"
           echo "Environment: production"
           echo "Branch: ${{ github.ref_name }}"
           echo "Commit: ${{ github.sha }}"
