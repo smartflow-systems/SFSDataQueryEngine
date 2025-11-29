@@ -11,7 +11,7 @@ class CircuitBoardAnimation {
     this.isTabVisible = true;
     
     this.colors = {
-      gold: '#d4af37',
+      gold: '#FFD700',
       goldBright: '#ffdd00',
       goldDim: 'rgba(212, 175, 55, 0.3)',
       connection: 'rgba(212, 175, 55, 0.2)',

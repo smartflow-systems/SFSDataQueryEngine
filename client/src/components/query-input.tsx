@@ -131,17 +131,17 @@ export default function QueryInput({ onQueryExecuted }: QueryInputProps) {
               value={naturalLanguage}
               onChange={(e) => setNaturalLanguage(e.target.value)}
               onKeyPress={(e) => e.key === 'Enter' && handleTranslate()}
-              className="w-full p-3 bg-[rgba(212,175,55,0.08)] backdrop-blur-sm border-2 border-[rgba(212,175,55,0.3)] rounded-lg text-[#e9e6df] placeholder:text-[#9a8f80] focus:outline-none focus:ring-2 focus:ring-[#d4af37] focus:border-[#d4af37] smooth-transition pr-12 text-sm hover:border-[#d4af37] shadow-[0_4px_15px_rgba(212,175,55,0.1)]"
+              className="w-full p-3 bg-[rgba(212,175,55,0.08)] backdrop-blur-sm border-2 border-[rgba(212,175,55,0.3)] rounded-lg text-[#e9e6df] placeholder:text-[#9a8f80] focus:outline-none focus:ring-2 focus:ring-[#FFD700] focus:border-[#FFD700] smooth-transition pr-12 text-sm hover:border-[#FFD700] shadow-[0_4px_15px_rgba(212,175,55,0.1)]"
               data-testid="input-natural-language"
             />
             <Button
               onClick={handleTranslate}
               disabled={translateMutation.isPending}
-              className="absolute right-2 top-1/2 transform -translate-y-1/2 p-2 gradient-gold text-[#0b0b0b] font-bold rounded-lg hover:shadow-[0_8px_25px_rgba(212,175,55,0.4)] hover:scale-105 smooth-transition disabled:opacity-50 disabled:scale-100 border-2 border-[#d4af37]"
+              className="absolute right-2 top-1/2 transform -translate-y-1/2 p-2 gradient-gold text-[#0D0D0D] font-bold rounded-lg hover:shadow-[0_8px_25px_rgba(212,175,55,0.4)] hover:scale-105 smooth-transition disabled:opacity-50 disabled:scale-100 border-2 border-[#FFD700]"
               data-testid="button-translate"
             >
               {translateMutation.isPending ? (
-                <div className="animate-spin w-5 h-5 border-2 border-[#0b0b0b] border-t-transparent rounded-full" />
+                <div className="animate-spin w-5 h-5 border-2 border-[#0D0D0D] border-t-transparent rounded-full" />
               ) : (
                 <Sparkles size={20} className="animate-pulse-gold" />
               )}

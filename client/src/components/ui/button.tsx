@@ -5,7 +5,7 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/utils"
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-semibold ring-offset-background transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#d4af37] focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-semibold ring-offset-background transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FFD700] focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
   {
     variants: {
       variant: {
@@ -13,11 +13,11 @@ const buttonVariants = cva(
         destructive:
           "bg-[#8b2020] text-[#ffffff] hover:bg-[#a52525] border border-[#8b2020] sfs-card",
         outline:
-          "border-2 border-[rgba(212,175,55,0.35)] bg-transparent text-[#d4af37] hover:bg-[rgba(212,175,55,0.1)] hover:border-[#d4af37] smooth-transition",
+          "border-2 border-[rgba(212,175,55,0.35)] bg-transparent text-[#FFD700] hover:bg-[rgba(212,175,55,0.1)] hover:border-[#FFD700] smooth-transition",
         secondary:
-          "sfs-card text-[#d4af37] hover:transform hover:-translate-y-1",
-        ghost: "hover:bg-[rgba(212,175,55,0.1)] hover:text-[#ffdd00] text-[#d4af37] smooth-transition",
-        link: "text-[#d4af37] underline-offset-4 hover:underline hover:text-[#ffdd00] smooth-transition",
+          "sfs-card text-[#FFD700] hover:transform hover:-translate-y-1",
+        ghost: "hover:bg-[rgba(212,175,55,0.1)] hover:text-[#ffdd00] text-[#FFD700] smooth-transition",
+        link: "text-[#FFD700] underline-offset-4 hover:underline hover:text-[#ffdd00] smooth-transition",
       },
       size: {
         default: "h-11 px-5 py-2",

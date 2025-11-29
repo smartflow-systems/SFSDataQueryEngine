@@ -16,35 +16,35 @@
   --sf-gold-grad: linear-gradient(90deg, #FFD700 0%, #E6C200 100%);
   
   /* Legacy Tailwind Compatibility */
-  --background: #0b0b0b;
+  --background: #0D0D0D;
   --foreground: #ffffff;
   --card: rgba(20, 17, 15, 0.7);
   --card-foreground: rgba(233, 230, 223, 0.8);
   --popover: rgba(20, 17, 15, 0.7);
   --popover-foreground: rgba(233, 230, 223, 0.8);
-  --primary: #d4af37;
-  --primary-foreground: #0b0b0b;
+  --primary: #FFD700;
+  --primary-foreground: #0D0D0D;
   --secondary: rgba(20, 17, 15, 0.7);
   --secondary-foreground: rgba(233, 230, 223, 0.8);
   --muted: rgba(20, 17, 15, 0.7);
   --muted-foreground: rgba(233, 230, 223, 0.8);
   --accent: rgba(20, 17, 15, 0.7);
-  --accent-foreground: #d4af37;
+  --accent-foreground: #FFD700;
   --destructive: #8b2020;
   --destructive-foreground: #ffffff;
   --border: rgba(212, 175, 55, 0.35);
   --input: rgba(212, 175, 55, 0.08);
-  --ring: #d4af37;
+  --ring: #FFD700;
   --success: #4a7c4a;
   --warning: #b8941f;
-  --chart-1: #d4af37;
+  --chart-1: #FFD700;
   --chart-2: #ffdd00;
   --chart-3: #b8941f;
   --chart-4: #9a8f80;
   --chart-5: #cbbf9b;
   
   /* SFS Enhanced Colors */
-  --sfs-gold: #d4af37;
+  --sfs-gold: #FFD700;
   --sfs-gold-bright: #ffdd00;
   --sfs-text-primary: #ffffff;
   --sfs-text-muted: rgba(233, 230, 223, 0.8);
@@ -100,7 +100,7 @@
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    background-color: #0b0b0b;
+    background-color: #0D0D0D;
     color: #ffffff;
     font-family: var(--font-sans);
     overflow-x: hidden;
@@ -125,12 +125,12 @@
   }
 
   ::-webkit-scrollbar-thumb {
-    background: linear-gradient(180deg, #d4af37, #ffdd00);
+    background: linear-gradient(180deg, #FFD700, #ffdd00);
     border-radius: 4px;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(180deg, #ffdd00, #d4af37);
+    background: linear-gradient(180deg, #ffdd00, #FFD700);
   }
 }
 
@@ -146,12 +146,12 @@
   }
   
   .gradient-gold {
-    background: linear-gradient(135deg, #d4af37, #f4e4bc, #b8941f);
+    background: linear-gradient(135deg, #FFD700, #f4e4bc, #b8941f);
   }
   
   /* Enhanced Gradient Text */
   .gradient-gold-text {
-    background: linear-gradient(135deg, #d4af37 0%, #ffdd00 50%, #d4af37 100%);
+    background: linear-gradient(135deg, #FFD700 0%, #ffdd00 50%, #FFD700 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -200,7 +200,7 @@
       radial-gradient(circle at 20% 80%, rgba(212, 175, 55, 0.12) 0%, transparent 50%),
       radial-gradient(circle at 80% 20%, rgba(255, 221, 0, 0.08) 0%, transparent 50%),
       radial-gradient(circle at 40% 40%, rgba(20, 17, 15, 0.9) 0%, transparent 60%),
-      linear-gradient(135deg, #0b0b0b 0%, rgba(20, 17, 15, 0.95) 50%, #0b0b0b 100%);
+      linear-gradient(135deg, #0D0D0D 0%, rgba(20, 17, 15, 0.95) 50%, #0D0D0D 100%);
     background-size: 400% 400%, 300% 300%, 200% 200%, 100% 100%;
     animation: marbledTexture 25s ease-in-out infinite;
     position: relative;
@@ -230,9 +230,9 @@
   .sfs-button {
     position: relative;
     overflow: hidden;
-    background: linear-gradient(145deg, #d4af37, #ffdd00, #d4af37);
-    border: 2px solid #d4af37;
-    color: #0b0b0b;
+    background: linear-gradient(145deg, #FFD700, #ffdd00, #FFD700);
+    border: 2px solid #FFD700;
+    color: #0D0D0D;
     font-weight: 700;
     text-shadow: none;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);

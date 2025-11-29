@@ -13,14 +13,14 @@ export default function Sidebar() {
       {/* Database Connections */}
       <div className="p-3 border-b-2 border-[rgba(212,175,55,0.16)]">
         <div className="flex items-center justify-between mb-3">
-          <h3 className="text-xs font-bold text-[#d4af37] uppercase tracking-wider flex items-center gap-2">
-            <Database className="text-[#d4af37]" size={14} />
+          <h3 className="text-xs font-bold text-[#FFD700] uppercase tracking-wider flex items-center gap-2">
+            <Database className="text-[#FFD700]" size={14} />
             Connections
           </h3>
           <Button 
             variant="ghost" 
             size="sm" 
-            className="p-1.5 hover:bg-[rgba(212,175,55,0.1)] rounded-lg text-[#9a8f80] hover:text-[#d4af37] smooth-transition hover:scale-110"
+            className="p-1.5 hover:bg-[rgba(212,175,55,0.1)] rounded-lg text-[#9a8f80] hover:text-[#FFD700] smooth-transition hover:scale-110"
             data-testid="button-add-connection"
           >
             <Plus size={14} />
@@ -31,14 +31,14 @@ export default function Sidebar() {
             <div 
               key={db.id} 
               className={`flex items-center space-x-2 p-2 rounded-lg cursor-pointer smooth-transition group sfs-card ${
-                db.isActive ? 'bg-[rgba(212,175,55,0.15)] border-[#d4af37]' : ''
+                db.isActive ? 'bg-[rgba(212,175,55,0.15)] border-[#FFD700]' : ''
               }`}
               data-testid={`connection-${db.name}`}
             >
               <div className={`w-2 h-2 rounded-full ${
                 db.isActive ? 'bg-[#4a7c4a] shadow-lg shadow-[rgba(74,124,74,0.5)] animate-pulse' : 'bg-[#9a8f80]'
               }`} />
-              <Database className={`${db.isActive ? 'text-[#d4af37]' : 'text-[#9a8f80]'} group-hover:text-[#d4af37] smooth-transition`} size={14} />
+              <Database className={`${db.isActive ? 'text-[#FFD700]' : 'text-[#9a8f80]'} group-hover:text-[#FFD700] smooth-transition`} size={14} />
               <span className={`text-sm font-medium ${
                 db.isActive ? 'text-[#e9e6df]' : 'text-[#9a8f80]'
               } group-hover:text-[#e9e6df] smooth-transition`}>
@@ -52,8 +52,8 @@ export default function Sidebar() {
       {/* Saved Queries */}
       <div className="p-3 border-b-2 border-[rgba(212,175,55,0.16)]">
         <div className="flex items-center justify-between mb-3">
-          <h3 className="text-xs font-bold text-[#d4af37] uppercase tracking-wider flex items-center gap-2">
-            <Code className="text-[#d4af37]" size={14} />
+          <h3 className="text-xs font-bold text-[#FFD700] uppercase tracking-wider flex items-center gap-2">
+            <Code className="text-[#FFD700]" size={14} />
             Saved Queries
           </h3>
           <Button 
@@ -86,8 +86,8 @@ export default function Sidebar() {
 
       {/* Recent History */}
       <div className="p-3 flex-1">
-        <h3 className="text-xs font-bold text-[#d4af37] uppercase tracking-wider mb-3 flex items-center gap-2">
-          <Clock className="text-[#d4af37]" size={14} />
+        <h3 className="text-xs font-bold text-[#FFD700] uppercase tracking-wider mb-3 flex items-center gap-2">
+          <Clock className="text-[#FFD700]" size={14} />
           Recent History
         </h3>
         <div className="space-y-1">

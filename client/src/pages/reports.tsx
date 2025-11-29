@@ -7,7 +7,7 @@ import { BarChart, LineChart, PieChart, FileText, Download, Plus } from "lucide-
 
 export default function ReportsPage() {
   return (
-    <div className="min-h-screen flex flex-col bg-[#0b0b0b] text-[#e9e6df]">
+    <div className="min-h-screen flex flex-col bg-[#0D0D0D] text-[#e9e6df]">
       <Header />
 
       <div className="flex flex-1 overflow-hidden">
@@ -23,7 +23,7 @@ export default function ReportsPage() {
                     Build polished insights from your SmartFlow queries, then share or export them with golden clarity.
                   </p>
                 </div>
-                <Button className="bg-[#d4af37] text-[#0b0b0b] hover:bg-[#d4af37]/90 shadow-[0_0_25px_rgba(212,175,55,0.3)]">
+                <Button className="bg-[#FFD700] text-[#0D0D0D] hover:bg-[#FFD700]/90 shadow-[0_0_25px_rgba(212,175,55,0.3)]">
                   <Plus className="mr-2" size={16} />
                   New Report
                 </Button>
@@ -38,7 +38,7 @@ export default function ReportsPage() {
                       header={
                         <div className="mb-3">
                           <div className="flex items-center gap-3 mb-2">
-                            <BarChart className="text-[#d4af37]" size={32} />
+                            <BarChart className="text-[#FFD700]" size={32} />
                             <h3 className="text-lg font-semibold gradient-gold-text">Sales Performance</h3>
                           </div>
                           <p className="text-sm text-[rgba(233,230,223,0.7)]">
@@ -52,7 +52,7 @@ export default function ReportsPage() {
                       <Button
                         variant="outline"
                         size="sm"
-                        className="border-[#d4af37]/60 text-[#d4af37] hover:bg-[#d4af37]/10"
+                        className="border-[#FFD700]/60 text-[#FFD700] hover:bg-[#FFD700]/10"
                       >
                         Create Report
                       </Button>
@@ -63,7 +63,7 @@ export default function ReportsPage() {
                       header={
                         <div className="mb-3">
                           <div className="flex items-center gap-3 mb-2">
-                            <PieChart className="text-[#d4af37]" size={32} />
+                            <PieChart className="text-[#FFD700]" size={32} />
                             <h3 className="text-lg font-semibold gradient-gold-text">User Analytics</h3>
                           </div>
                           <p className="text-sm text-[rgba(233,230,223,0.7)]">
@@ -77,7 +77,7 @@ export default function ReportsPage() {
                       <Button
                         variant="outline"
                         size="sm"
-                        className="border-[#d4af37]/60 text-[#d4af37] hover:bg-[#d4af37]/10"
+                        className="border-[#FFD700]/60 text-[#FFD700] hover:bg-[#FFD700]/10"
                       >
                         Create Report
                       </Button>
@@ -88,7 +88,7 @@ export default function ReportsPage() {
                       header={
                         <div className="mb-3">
                           <div className="flex items-center gap-3 mb-2">
-                            <LineChart className="text-[#d4af37]" size={32} />
+                            <LineChart className="text-[#FFD700]" size={32} />
                             <h3 className="text-lg font-semibold gradient-gold-text">Growth Metrics</h3>
                           </div>
                           <p className="text-sm text-[rgba(233,230,223,0.7)]">
@@ -102,7 +102,7 @@ export default function ReportsPage() {
                       <Button
                         variant="outline"
                         size="sm"
-                        className="border-[#d4af37]/60 text-[#d4af37] hover:bg-[#d4af37]/10"
+                        className="border-[#FFD700]/60 text-[#FFD700] hover:bg-[#FFD700]/10"
                       >
                         Create Report
                       </Button>
@@ -115,7 +115,7 @@ export default function ReportsPage() {
                   <GlassCard title="Recent Reports" bodyClassName="py-10">
                     <div className="flex items-center justify-center text-center">
                       <div className="space-y-4">
-                        <FileText className="mx-auto text-[#d4af37]/60" size={48} />
+                        <FileText className="mx-auto text-[#FFD700]/60" size={48} />
                         <h3 className="text-lg font-semibold text-[rgba(233,230,223,0.95)]">No reports yet</h3>
                         <p className="text-sm text-[rgba(233,230,223,0.7)] max-w-lg">
                           Ask a question on the Dashboard or start from a template above to generate your first shareable insight.
@@ -123,7 +123,7 @@ export default function ReportsPage() {
                         <Link href="/">
                           <Button
                             variant="outline"
-                            className="border-[#d4af37]/60 text-[#d4af37] hover:bg-[#d4af37]/10"
+                            className="border-[#FFD700]/60 text-[#FFD700] hover:bg-[#FFD700]/10"
                           >
                             Go to Dashboard
                           </Button>
@@ -138,8 +138,8 @@ export default function ReportsPage() {
                   <GlassCard
                     header={
                       <div className="flex flex-wrap items-center gap-4 mb-4">
-                        <div className="flex h-12 w-12 items-center justify-center rounded-full border border-[#d4af37]/30 bg-black/40">
-                          <Download className="text-[#d4af37]" size={24} />
+                        <div className="flex h-12 w-12 items-center justify-center rounded-full border border-[#FFD700]/30 bg-black/40">
+                          <Download className="text-[#FFD700]" size={24} />
                         </div>
                         <div className="min-w-0">
                           <h3 className="text-lg font-semibold gradient-gold-text">Export Data</h3>
@@ -152,13 +152,13 @@ export default function ReportsPage() {
                     bodyClassName="mt-0"
                   >
                     <div className="flex flex-wrap gap-2">
-                      <Button variant="outline" size="sm" className="border-[#d4af37]/60 text-[#d4af37] hover:bg-[#d4af37]/10">
+                      <Button variant="outline" size="sm" className="border-[#FFD700]/60 text-[#FFD700] hover:bg-[#FFD700]/10">
                         CSV
                       </Button>
-                      <Button variant="outline" size="sm" className="border-[#d4af37]/60 text-[#d4af37] hover:bg-[#d4af37]/10">
+                      <Button variant="outline" size="sm" className="border-[#FFD700]/60 text-[#FFD700] hover:bg-[#FFD700]/10">
                         Excel
                       </Button>
-                      <Button variant="outline" size="sm" className="border-[#d4af37]/60 text-[#d4af37] hover:bg-[#d4af37]/10">
+                      <Button variant="outline" size="sm" className="border-[#FFD700]/60 text-[#FFD700] hover:bg-[#FFD700]/10">
                         PDF
                       </Button>
                     </div>

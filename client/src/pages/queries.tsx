@@ -10,7 +10,7 @@ export default function QueriesPage() {
   const { data: savedQueries = [] } = useQueries({ saved: true });
   
   return (
-    <div className="min-h-screen flex flex-col bg-[#0b0b0b] text-[#e9e6df]">
+    <div className="min-h-screen flex flex-col bg-[#0D0D0D] text-[#e9e6df]">
       <Header />
 
       <div className="flex flex-1 overflow-hidden">
@@ -32,10 +32,10 @@ export default function QueriesPage() {
                   header={
                     <div className="flex items-center justify-between gap-3 mb-4">
                       <div className="flex items-center gap-2">
-                        <Code className="text-[#d4af37]" size={20} />
+                        <Code className="text-[#FFD700]" size={20} />
                         <h2 className="text-lg font-semibold gradient-gold-text">Saved Queries</h2>
                       </div>
-                      <Badge className="border border-[#d4af37]/40 bg-[#d4af37]/10 text-[#d4af37]">
+                      <Badge className="border border-[#FFD700]/40 bg-[#FFD700]/10 text-[#FFD700]">
                         {savedQueries.length}
                       </Badge>
                     </div>
@@ -47,7 +47,7 @@ export default function QueriesPage() {
                     savedQueries.map((query) => (
                       <div
                         key={query.id}
-                        className="rounded-lg border border-[#d4af37]/20 bg-black/40 p-4 shadow-sm"
+                        className="rounded-lg border border-[#FFD700]/20 bg-black/40 p-4 shadow-sm"
                       >
                         <div className="text-sm font-semibold text-[rgba(233,230,223,0.95)] mb-1">
                           {query.name || "Untitled Query"}
@@ -68,10 +68,10 @@ export default function QueriesPage() {
                   header={
                     <div className="flex items-center justify-between gap-3 mb-4">
                       <div className="flex items-center gap-2">
-                        <Clock className="text-[#d4af37]" size={20} />
+                        <Clock className="text-[#FFD700]" size={20} />
                         <h2 className="text-lg font-semibold gradient-gold-text">Recent Activity</h2>
                       </div>
-                      <Badge className="border border-[#d4af37]/40 bg-[#d4af37]/10 text-[#d4af37]">
+                      <Badge className="border border-[#FFD700]/40 bg-[#FFD700]/10 text-[#FFD700]">
                         {allQueries.length}
                       </Badge>
                     </div>
@@ -83,7 +83,7 @@ export default function QueriesPage() {
                     allQueries.slice(0, 5).map((query) => (
                       <div
                         key={query.id}
-                        className="rounded-lg border border-[#d4af37]/20 bg-black/40 p-4"
+                        className="rounded-lg border border-[#FFD700]/20 bg-black/40 p-4"
                       >
                         <div className="text-xs text-[rgba(233,230,223,0.6)] mb-1">
                           {query.createdAt
@@ -109,19 +109,19 @@ export default function QueriesPage() {
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div className="sfs-card sf-stars p-5 text-center">
-                  <Database className="mx-auto text-[#d4af37] mb-3" size={26} />
+                  <Database className="mx-auto text-[#FFD700] mb-3" size={26} />
                   <div className="text-3xl font-semibold gradient-gold-text">{allQueries.length}</div>
                   <p className="mt-1 text-sm text-[rgba(233,230,223,0.7)]">Total Queries</p>
                 </div>
 
                 <div className="sfs-card sf-stars p-5 text-center">
-                  <Code className="mx-auto text-[#d4af37] mb-3" size={26} />
+                  <Code className="mx-auto text-[#FFD700] mb-3" size={26} />
                   <div className="text-3xl font-semibold gradient-gold-text">{savedQueries.length}</div>
                   <p className="mt-1 text-sm text-[rgba(233,230,223,0.7)]">Saved Queries</p>
                 </div>
 
                 <div className="sfs-card sf-stars p-5 text-center">
-                  <Clock className="mx-auto text-[#d4af37] mb-3" size={26} />
+                  <Clock className="mx-auto text-[#FFD700] mb-3" size={26} />
                   <div className="text-3xl font-semibold gradient-gold-text">
                     {allQueries.filter((q) => q.executionTime && q.executionTime < 100).length}
                   </div>

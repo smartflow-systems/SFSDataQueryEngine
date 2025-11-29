@@ -23,7 +23,7 @@ export default function Dashboard() {
     return (
       <div className="flex items-center justify-center h-screen marbled-bg">
         <div className="text-center">
-          <div className="w-16 h-16 border-4 border-[#d4af37] border-t-transparent rounded-full animate-spin mx-auto mb-4 gold-glow" />
+          <div className="w-16 h-16 border-4 border-[#FFD700] border-t-transparent rounded-full animate-spin mx-auto mb-4 gold-glow" />
           <h2 className="text-2xl font-bold gradient-gold-text mb-2">Loading DataLens</h2>
           <p className="text-[#cbbf9b]">Preparing your analytics workspace...</p>
         </div>
@@ -32,7 +32,7 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#0b0b0b] text-[#e9e6df]">
+    <div className="min-h-screen flex flex-col bg-[#0D0D0D] text-[#e9e6df]">
       <Header />
       
       <div className="flex flex-1 overflow-hidden">
@@ -56,7 +56,7 @@ export default function Dashboard() {
                     className="sfs-float-card smooth-transition hover:transform hover:-translate-y-1"
                   >
                     <div className="flex items-center gap-2 mb-2">
-                      <Activity className="text-[#d4af37]" size={20} />
+                      <Activity className="text-[#FFD700]" size={20} />
                       <span className="text-sm font-medium text-[rgba(233,230,223,0.9)]">Natural Language to SQL</span>
                     </div>
                     <p className="text-sm text-[rgba(233,230,223,0.8)]">Ask questions in natural language and get SQL queries instantly with AI-powered translation</p>
@@ -67,7 +67,7 @@ export default function Dashboard() {
                     className="sfs-float-card smooth-transition hover:transform hover:-translate-y-1"
                   >
                     <div className="flex items-center gap-2 mb-2">
-                      <BarChart2 className="text-[#d4af37]" size={20} />
+                      <BarChart2 className="text-[#FFD700]" size={20} />
                       <span className="text-sm font-medium text-[rgba(233,230,223,0.9)]">Interactive Charts</span>
                     </div>
                     <p className="text-sm text-[rgba(233,230,223,0.8)]">Create beautiful, interactive charts and visualizations from your query results</p>
@@ -78,7 +78,7 @@ export default function Dashboard() {
                     className="sfs-float-card smooth-transition hover:transform hover:-translate-y-1"
                   >
                     <div className="flex items-center gap-2 mb-2">
-                      <TrendingUp className="text-[#d4af37]" size={20} />
+                      <TrendingUp className="text-[#FFD700]" size={20} />
                       <span className="text-sm font-medium text-[rgba(233,230,223,0.9)]">Smart Dashboards</span>
                     </div>
                     <p className="text-sm text-[rgba(233,230,223,0.8)]">Save queries and build custom dashboards to track your key business metrics</p>

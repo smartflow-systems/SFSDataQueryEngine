@@ -8,7 +8,7 @@ import { Database, Key, Bell, Palette, Shield, User } from "lucide-react";
 
 export default function SettingsPage() {
   return (
-    <div className="min-h-screen flex flex-col bg-[#0b0b0b] text-[#e9e6df]">
+    <div className="min-h-screen flex flex-col bg-[#0D0D0D] text-[#e9e6df]">
       <Header />
 
       <div className="flex flex-1 overflow-hidden">
@@ -28,7 +28,7 @@ export default function SettingsPage() {
                 <GlassCard
                   header={
                     <div className="flex items-center gap-2 mb-4">
-                      <User className="text-[#d4af37]" size={20} />
+                      <User className="text-[#FFD700]" size={20} />
                       <h2 className="text-lg font-semibold gradient-gold-text">Profile</h2>
                     </div>
                   }
@@ -42,7 +42,7 @@ export default function SettingsPage() {
                     <Input
                       placeholder="Enter your name"
                       defaultValue="Developer"
-                      className="bg-black/60 border border-[#d4af37]/20 text-[#e9e6df] placeholder:text-[rgba(233,230,223,0.45)] focus:border-[#d4af37]/50 focus-visible:ring-0"
+                      className="bg-black/60 border border-[#FFD700]/20 text-[#e9e6df] placeholder:text-[rgba(233,230,223,0.45)] focus:border-[#FFD700]/50 focus-visible:ring-0"
                     />
                   </div>
                   <div>
@@ -52,7 +52,7 @@ export default function SettingsPage() {
                     <Input
                       placeholder="Enter your email"
                       defaultValue="developer@example.com"
-                      className="bg-black/60 border border-[#d4af37]/20 text-[#e9e6df] placeholder:text-[rgba(233,230,223,0.45)] focus:border-[#d4af37]/50 focus-visible:ring-0"
+                      className="bg-black/60 border border-[#FFD700]/20 text-[#e9e6df] placeholder:text-[rgba(233,230,223,0.45)] focus:border-[#FFD700]/50 focus-visible:ring-0"
                     />
                   </div>
                 </GlassCard>
@@ -60,14 +60,14 @@ export default function SettingsPage() {
                 <GlassCard
                   header={
                     <div className="flex items-center gap-2 mb-4">
-                      <Database className="text-[#d4af37]" size={20} />
+                      <Database className="text-[#FFD700]" size={20} />
                       <h2 className="text-lg font-semibold gradient-gold-text">Database Connections</h2>
                     </div>
                   }
                   bodyClassName="space-y-4"
                   dataTestId="glass-card-database-connections"
                 >
-                  <div className="flex flex-wrap items-center justify-between gap-4 rounded-lg border border-[#d4af37]/20 bg-black/40 p-4">
+                  <div className="flex flex-wrap items-center justify-between gap-4 rounded-lg border border-[#FFD700]/20 bg-black/40 p-4">
                     <div>
                       <div className="font-medium text-[rgba(233,230,223,0.95)]">SQLite - main.db</div>
                       <div className="text-sm text-[rgba(233,230,223,0.65)]">./data/main.db</div>
@@ -79,7 +79,7 @@ export default function SettingsPage() {
                   </div>
                   <Button
                     variant="outline"
-                    className="w-full border-[#d4af37]/60 text-[#d4af37] hover:bg-[#d4af37]/10"
+                    className="w-full border-[#FFD700]/60 text-[#FFD700] hover:bg-[#FFD700]/10"
                   >
                     <Database className="mr-2" size={16} />
                     Add New Connection
@@ -89,7 +89,7 @@ export default function SettingsPage() {
                 <GlassCard
                   header={
                     <div className="flex items-center gap-2 mb-4">
-                      <Key className="text-[#d4af37]" size={20} />
+                      <Key className="text-[#FFD700]" size={20} />
                       <h2 className="text-lg font-semibold gradient-gold-text">API Configuration</h2>
                     </div>
                   }
@@ -112,7 +112,7 @@ export default function SettingsPage() {
                     <Input
                       disabled
                       defaultValue="GPT-4o"
-                      className="bg-black/30 border border-[#d4af37]/20 text-[#e9e6df]/70"
+                      className="bg-black/30 border border-[#FFD700]/20 text-[#e9e6df]/70"
                     />
                   </div>
                 </GlassCard>
@@ -120,7 +120,7 @@ export default function SettingsPage() {
                 <GlassCard
                   header={
                     <div className="flex items-center gap-2 mb-4">
-                      <Palette className="text-[#d4af37]" size={20} />
+                      <Palette className="text-[#FFD700]" size={20} />
                       <h2 className="text-lg font-semibold gradient-gold-text">Preferences</h2>
                     </div>
                   }
@@ -153,7 +153,7 @@ export default function SettingsPage() {
                 <GlassCard
                   header={
                     <div className="flex items-center gap-2 mb-4">
-                      <Bell className="text-[#d4af37]" size={20} />
+                      <Bell className="text-[#FFD700]" size={20} />
                       <h2 className="text-lg font-semibold gradient-gold-text">Notifications</h2>
                     </div>
                   }
@@ -186,7 +186,7 @@ export default function SettingsPage() {
                 <GlassCard
                   header={
                     <div className="flex items-center gap-2 mb-4">
-                      <Shield className="text-[#d4af37]" size={20} />
+                      <Shield className="text-[#FFD700]" size={20} />
                       <h2 className="text-lg font-semibold gradient-gold-text">Data Governance</h2>
                     </div>
                   }
@@ -197,20 +197,20 @@ export default function SettingsPage() {
                     Manage retention, anonymization, and audit log preferences to stay compliant with enterprise controls.
                   </p>
                   <div className="flex flex-wrap gap-3">
-                    <Button variant="outline" size="sm" className="border-[#d4af37]/60 text-[#d4af37] hover:bg-[#d4af37]/10">
+                    <Button variant="outline" size="sm" className="border-[#FFD700]/60 text-[#FFD700] hover:bg-[#FFD700]/10">
                       Configure Retention
                     </Button>
-                    <Button variant="outline" size="sm" className="border-[#d4af37]/60 text-[#d4af37] hover:bg-[#d4af37]/10">
+                    <Button variant="outline" size="sm" className="border-[#FFD700]/60 text-[#FFD700] hover:bg-[#FFD700]/10">
                       Review Audit Log
                     </Button>
                   </div>
                 </GlassCard>
 
                 <div className="flex flex-col gap-3 sm:flex-row sm:justify-end">
-                  <Button variant="outline" className="border-[#d4af37]/60 text-[#d4af37] hover:bg-[#d4af37]/10">
+                  <Button variant="outline" className="border-[#FFD700]/60 text-[#FFD700] hover:bg-[#FFD700]/10">
                     Reset to Defaults
                   </Button>
-                  <Button className="bg-[#d4af37] text-[#0b0b0b] hover:bg-[#d4af37]/90 shadow-[0_0_20px_rgba(212,175,55,0.3)]">
+                  <Button className="bg-[#FFD700] text-[#0D0D0D] hover:bg-[#FFD700]/90 shadow-[0_0_20px_rgba(212,175,55,0.3)]">
                     Save Changes
                   </Button>
                 </div>

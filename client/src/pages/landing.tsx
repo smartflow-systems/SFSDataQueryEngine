@@ -100,13 +100,13 @@ export default function LandingPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#0b0b0b] text-[#e9e6df]">
+    <div className="min-h-screen bg-[#0D0D0D] text-[#e9e6df]">
       {/* Navigation */}
       <nav className="sfs-card border-b-[3px] border-[rgba(212,175,55,0.35)] px-6 py-4 sticky top-0 z-50 backdrop-blur-md">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <div className="flex items-center space-x-2">
             <div className="w-9 h-9 sfs-button rounded-lg flex items-center justify-center shadow-lg">
-              <ChartLine className="text-[#0b0b0b] font-bold" size={18} />
+              <ChartLine className="text-[#0D0D0D] font-bold" size={18} />
             </div>
             <h1 className="text-2xl font-bold gradient-gold-text drop-shadow-[0_4px_8px_rgba(212,175,55,0.3)]">
               DataLens
@@ -114,12 +114,12 @@ export default function LandingPage() {
           </div>
           <div className="flex items-center space-x-4">
             <Link href="/login">
-              <Button variant="ghost" className="text-[#d4af37] hover:text-[#ffdd00]">
+              <Button variant="ghost" className="text-[#FFD700] hover:text-[#ffdd00]">
                 Sign In
               </Button>
             </Link>
             <Link href="/signup">
-              <Button className="gradient-gold text-[#0b0b0b] font-semibold hover:shadow-[0_8px_25px_rgba(212,175,55,0.4)] smooth-transition">
+              <Button className="gradient-gold text-[#0D0D0D] font-semibold hover:shadow-[0_8px_25px_rgba(212,175,55,0.4)] smooth-transition">
                 Get Started Free
               </Button>
             </Link>
@@ -130,7 +130,7 @@ export default function LandingPage() {
       {/* Hero Section */}
       <section className="marbled-bg py-20 px-6">
         <div className="max-w-7xl mx-auto text-center">
-          <div className="inline-block mb-4 px-4 py-2 sfs-card border border-[#d4af37] rounded-full">
+          <div className="inline-block mb-4 px-4 py-2 sfs-card border border-[#FFD700] rounded-full">
             <span className="text-sm gradient-gold-text font-semibold">
               <Sparkles className="inline w-4 h-4 mr-2" />
               AI-Powered Data Analytics Platform
@@ -147,13 +147,13 @@ export default function LandingPage() {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link href="/signup">
-              <Button size="lg" className="gradient-gold text-[#0b0b0b] font-bold text-lg px-8 py-6 hover:shadow-[0_8px_25px_rgba(212,175,55,0.4)] smooth-transition hover:scale-105">
+              <Button size="lg" className="gradient-gold text-[#0D0D0D] font-bold text-lg px-8 py-6 hover:shadow-[0_8px_25px_rgba(212,175,55,0.4)] smooth-transition hover:scale-105">
                 Start Free Trial
                 <ArrowRight className="ml-2" size={20} />
               </Button>
             </Link>
             <Link href="/dashboard">
-              <Button size="lg" variant="outline" className="border-2 border-[#d4af37] text-[#d4af37] text-lg px-8 py-6 hover:bg-[rgba(212,175,55,0.1)] smooth-transition">
+              <Button size="lg" variant="outline" className="border-2 border-[#FFD700] text-[#FFD700] text-lg px-8 py-6 hover:bg-[rgba(212,175,55,0.1)] smooth-transition">
                 View Demo
               </Button>
             </Link>
@@ -190,12 +190,12 @@ export default function LandingPage() {
             {features.map((feature, index) => (
               <div
                 key={index}
-                className="sfs-card p-6 smooth-transition hover:transform hover:-translate-y-2 hover:border-[#d4af37]"
+                className="sfs-card p-6 smooth-transition hover:transform hover:-translate-y-2 hover:border-[#FFD700]"
               >
                 <div className="w-12 h-12 gradient-gold rounded-lg flex items-center justify-center mb-4">
-                  <feature.icon className="text-[#0b0b0b]" size={24} />
+                  <feature.icon className="text-[#0D0D0D]" size={24} />
                 </div>
-                <h3 className="text-xl font-bold text-[#d4af37] mb-2">
+                <h3 className="text-xl font-bold text-[#FFD700] mb-2">
                   {feature.title}
                 </h3>
                 <p className="text-[#cbbf9b]">
@@ -223,15 +223,15 @@ export default function LandingPage() {
               <div
                 key={index}
                 className={`sfs-card p-8 smooth-transition hover:transform hover:-translate-y-2 ${
-                  plan.popular ? 'border-2 border-[#d4af37] shadow-[0_8px_25px_rgba(212,175,55,0.3)]' : ''
+                  plan.popular ? 'border-2 border-[#FFD700] shadow-[0_8px_25px_rgba(212,175,55,0.3)]' : ''
                 }`}
               >
                 {plan.popular && (
                   <div className="inline-block mb-4 px-3 py-1 gradient-gold rounded-full">
-                    <span className="text-xs text-[#0b0b0b] font-bold">MOST POPULAR</span>
+                    <span className="text-xs text-[#0D0D0D] font-bold">MOST POPULAR</span>
                   </div>
                 )}
-                <h3 className="text-2xl font-bold text-[#d4af37] mb-2">{plan.name}</h3>
+                <h3 className="text-2xl font-bold text-[#FFD700] mb-2">{plan.name}</h3>
                 <div className="mb-4">
                   <span className="text-4xl font-bold gradient-gold-text">{plan.price}</span>
                   <span className="text-[#9a8f80]">{plan.period}</span>
@@ -249,8 +249,8 @@ export default function LandingPage() {
                   <Button
                     className={`w-full ${
                       plan.popular
-                        ? 'gradient-gold text-[#0b0b0b] font-bold hover:shadow-[0_8px_25px_rgba(212,175,55,0.4)]'
-                        : 'sfs-card text-[#d4af37] hover:border-[#d4af37]'
+                        ? 'gradient-gold text-[#0D0D0D] font-bold hover:shadow-[0_8px_25px_rgba(212,175,55,0.4)]'
+                        : 'sfs-card text-[#FFD700] hover:border-[#FFD700]'
                     } smooth-transition`}
                   >
                     {plan.cta}
@@ -272,7 +272,7 @@ export default function LandingPage() {
             Join thousands of companies making better decisions with DataLens
           </p>
           <Link href="/signup">
-            <Button size="lg" className="gradient-gold text-[#0b0b0b] font-bold text-lg px-10 py-6 hover:shadow-[0_8px_25px_rgba(212,175,55,0.4)] smooth-transition hover:scale-105">
+            <Button size="lg" className="gradient-gold text-[#0D0D0D] font-bold text-lg px-10 py-6 hover:shadow-[0_8px_25px_rgba(212,175,55,0.4)] smooth-transition hover:scale-105">
               Get Started Free - No Credit Card Required
               <ArrowRight className="ml-2" size={20} />
             </Button>
@@ -284,7 +284,7 @@ export default function LandingPage() {
       <footer className="border-t-2 border-[rgba(212,175,55,0.3)] py-8 px-6">
         <div className="max-w-7xl mx-auto text-center text-[#9a8f80]">
           <div className="flex items-center justify-center space-x-2 mb-4">
-            <ChartLine className="text-[#d4af37]" size={20} />
+            <ChartLine className="text-[#FFD700]" size={20} />
             <span className="font-bold gradient-gold-text">DataLens</span>
           </div>
           <p className="text-sm">

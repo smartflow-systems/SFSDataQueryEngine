@@ -125,7 +125,7 @@ export default function QueryResults({ results, query }: QueryResultsProps) {
                   variant="secondary"
                   size="sm"
                   disabled={isExporting}
-                  className="px-3 py-1 sfs-card text-[#d4af37] hover:border-[#d4af37] rounded text-sm transition-colors"
+                  className="px-3 py-1 sfs-card text-[#FFD700] hover:border-[#FFD700] rounded text-sm transition-colors"
                   data-testid="button-export-results"
                 >
                   <Download className="mr-1" size={12} />
@@ -133,24 +133,24 @@ export default function QueryResults({ results, query }: QueryResultsProps) {
                   <ChevronDown className="ml-1" size={12} />
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent className="sfs-card border-[#d4af37]" align="end">
+              <DropdownMenuContent className="sfs-card border-[#FFD700]" align="end">
                 <DropdownMenuItem
                   onClick={handleExportCSV}
-                  className="cursor-pointer text-[#e9e6df] hover:bg-[rgba(212,175,55,0.15)] hover:text-[#d4af37]"
+                  className="cursor-pointer text-[#e9e6df] hover:bg-[rgba(212,175,55,0.15)] hover:text-[#FFD700]"
                 >
                   <Download className="mr-2" size={14} />
                   Export as CSV
                 </DropdownMenuItem>
                 <DropdownMenuItem
                   onClick={handleExportJSON}
-                  className="cursor-pointer text-[#e9e6df] hover:bg-[rgba(212,175,55,0.15)] hover:text-[#d4af37]"
+                  className="cursor-pointer text-[#e9e6df] hover:bg-[rgba(212,175,55,0.15)] hover:text-[#FFD700]"
                 >
                   <FileJson className="mr-2" size={14} />
                   Export as JSON
                 </DropdownMenuItem>
                 <DropdownMenuItem
                   onClick={handleExportExcel}
-                  className="cursor-pointer text-[#e9e6df] hover:bg-[rgba(212,175,55,0.15)] hover:text-[#d4af37]"
+                  className="cursor-pointer text-[#e9e6df] hover:bg-[rgba(212,175,55,0.15)] hover:text-[#FFD700]"
                 >
                   <FileSpreadsheet className="mr-2" size={14} />
                   Export as Excel
@@ -160,7 +160,7 @@ export default function QueryResults({ results, query }: QueryResultsProps) {
             <Button
               variant="default"
               size="sm"
-              className="px-3 py-1 gradient-gold text-[#0b0b0b] font-semibold rounded text-sm hover:shadow-[0_8px_25px_rgba(212,175,55,0.4)] smooth-transition"
+              className="px-3 py-1 gradient-gold text-[#0D0D0D] font-semibold rounded text-sm hover:shadow-[0_8px_25px_rgba(212,175,55,0.4)] smooth-transition"
               data-testid="button-visualize-results"
             >
               <BarChart className="mr-1" size={12} />

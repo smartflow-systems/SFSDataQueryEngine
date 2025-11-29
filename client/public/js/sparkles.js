@@ -11,7 +11,7 @@ class SparklesSystem {
     this.isMobile = window.innerWidth < 768;
     
     this.colors = {
-      gold: '#d4af37',
+      gold: '#FFD700',
       goldBright: '#ffdd00',
       white: '#ffffff',
       goldFade: 'rgba(212, 175, 55, 0.8)',

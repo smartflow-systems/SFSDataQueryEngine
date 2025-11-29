@@ -59,7 +59,7 @@ export default function SignupPage() {
         <Link href="/">
           <div className="flex items-center justify-center space-x-2 mb-8 cursor-pointer group">
             <div className="w-12 h-12 sfs-button rounded-lg flex items-center justify-center shadow-lg group-hover:shadow-[0_8px_25px_rgba(212,175,55,0.4)] smooth-transition group-hover:scale-110">
-              <ChartLine className="text-[#0b0b0b] font-bold" size={24} />
+              <ChartLine className="text-[#0D0D0D] font-bold" size={24} />
             </div>
             <h1 className="text-3xl font-bold gradient-gold-text drop-shadow-[0_4px_8px_rgba(212,175,55,0.3)]">
               DataLens
@@ -81,7 +81,7 @@ export default function SignupPage() {
           <form onSubmit={handleSignup} className="space-y-5">
             {/* Name Input */}
             <div className="space-y-2">
-              <label htmlFor="name" className="text-sm font-medium text-[#d4af37]">
+              <label htmlFor="name" className="text-sm font-medium text-[#FFD700]">
                 Full Name
               </label>
               <div className="relative">
@@ -93,7 +93,7 @@ export default function SignupPage() {
                   placeholder="John Doe"
                   value={formData.name}
                   onChange={handleChange}
-                  className="pl-10 bg-[rgba(212,175,55,0.08)] border-2 border-[rgba(212,175,55,0.3)] text-[#e9e6df] placeholder:text-[#9a8f80] focus:border-[#d4af37] smooth-transition"
+                  className="pl-10 bg-[rgba(212,175,55,0.08)] border-2 border-[rgba(212,175,55,0.3)] text-[#e9e6df] placeholder:text-[#9a8f80] focus:border-[#FFD700] smooth-transition"
                   required
                 />
               </div>
@@ -101,7 +101,7 @@ export default function SignupPage() {
 
             {/* Email Input */}
             <div className="space-y-2">
-              <label htmlFor="email" className="text-sm font-medium text-[#d4af37]">
+              <label htmlFor="email" className="text-sm font-medium text-[#FFD700]">
                 Work Email
               </label>
               <div className="relative">
@@ -113,7 +113,7 @@ export default function SignupPage() {
                   placeholder="you@company.com"
                   value={formData.email}
                   onChange={handleChange}
-                  className="pl-10 bg-[rgba(212,175,55,0.08)] border-2 border-[rgba(212,175,55,0.3)] text-[#e9e6df] placeholder:text-[#9a8f80] focus:border-[#d4af37] smooth-transition"
+                  className="pl-10 bg-[rgba(212,175,55,0.08)] border-2 border-[rgba(212,175,55,0.3)] text-[#e9e6df] placeholder:text-[#9a8f80] focus:border-[#FFD700] smooth-transition"
                   required
                 />
               </div>
@@ -121,7 +121,7 @@ export default function SignupPage() {
 
             {/* Company Input */}
             <div className="space-y-2">
-              <label htmlFor="company" className="text-sm font-medium text-[#d4af37]">
+              <label htmlFor="company" className="text-sm font-medium text-[#FFD700]">
                 Company Name (Optional)
               </label>
               <div className="relative">
@@ -133,14 +133,14 @@ export default function SignupPage() {
                   placeholder="Your Company"
                   value={formData.company}
                   onChange={handleChange}
-                  className="pl-10 bg-[rgba(212,175,55,0.08)] border-2 border-[rgba(212,175,55,0.3)] text-[#e9e6df] placeholder:text-[#9a8f80] focus:border-[#d4af37] smooth-transition"
+                  className="pl-10 bg-[rgba(212,175,55,0.08)] border-2 border-[rgba(212,175,55,0.3)] text-[#e9e6df] placeholder:text-[#9a8f80] focus:border-[#FFD700] smooth-transition"
                 />
               </div>
             </div>
 
             {/* Password Input */}
             <div className="space-y-2">
-              <label htmlFor="password" className="text-sm font-medium text-[#d4af37]">
+              <label htmlFor="password" className="text-sm font-medium text-[#FFD700]">
                 Password
               </label>
               <div className="relative">
@@ -152,13 +152,13 @@ export default function SignupPage() {
                   placeholder="Create a strong password"
                   value={formData.password}
                   onChange={handleChange}
-                  className="pl-10 pr-10 bg-[rgba(212,175,55,0.08)] border-2 border-[rgba(212,175,55,0.3)] text-[#e9e6df] placeholder:text-[#9a8f80] focus:border-[#d4af37] smooth-transition"
+                  className="pl-10 pr-10 bg-[rgba(212,175,55,0.08)] border-2 border-[rgba(212,175,55,0.3)] text-[#e9e6df] placeholder:text-[#9a8f80] focus:border-[#FFD700] smooth-transition"
                   required
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-[#9a8f80] hover:text-[#d4af37] smooth-transition"
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-[#9a8f80] hover:text-[#FFD700] smooth-transition"
                 >
                   {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                 </button>
@@ -167,7 +167,7 @@ export default function SignupPage() {
 
             {/* Confirm Password Input */}
             <div className="space-y-2">
-              <label htmlFor="confirmPassword" className="text-sm font-medium text-[#d4af37]">
+              <label htmlFor="confirmPassword" className="text-sm font-medium text-[#FFD700]">
                 Confirm Password
               </label>
               <div className="relative">
@@ -179,13 +179,13 @@ export default function SignupPage() {
                   placeholder="Confirm your password"
                   value={formData.confirmPassword}
                   onChange={handleChange}
-                  className="pl-10 pr-10 bg-[rgba(212,175,55,0.08)] border-2 border-[rgba(212,175,55,0.3)] text-[#e9e6df] placeholder:text-[#9a8f80] focus:border-[#d4af37] smooth-transition"
+                  className="pl-10 pr-10 bg-[rgba(212,175,55,0.08)] border-2 border-[rgba(212,175,55,0.3)] text-[#e9e6df] placeholder:text-[#9a8f80] focus:border-[#FFD700] smooth-transition"
                   required
                 />
                 <button
                   type="button"
                   onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-[#9a8f80] hover:text-[#d4af37] smooth-transition"
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-[#9a8f80] hover:text-[#FFD700] smooth-transition"
                 >
                   {showConfirmPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                 </button>
@@ -197,16 +197,16 @@ export default function SignupPage() {
               <input
                 type="checkbox"
                 id="terms"
-                className="w-4 h-4 mt-0.5 rounded border-[#d4af37] bg-[rgba(212,175,55,0.08)] text-[#d4af37] focus:ring-[#d4af37]"
+                className="w-4 h-4 mt-0.5 rounded border-[#FFD700] bg-[rgba(212,175,55,0.08)] text-[#FFD700] focus:ring-[#FFD700]"
                 required
               />
               <label htmlFor="terms" className="text-sm text-[#cbbf9b]">
                 I agree to the{" "}
-                <a href="#" className="text-[#d4af37] hover:text-[#ffdd00] smooth-transition">
+                <a href="#" className="text-[#FFD700] hover:text-[#ffdd00] smooth-transition">
                   Terms of Service
                 </a>{" "}
                 and{" "}
-                <a href="#" className="text-[#d4af37] hover:text-[#ffdd00] smooth-transition">
+                <a href="#" className="text-[#FFD700] hover:text-[#ffdd00] smooth-transition">
                   Privacy Policy
                 </a>
               </label>
@@ -216,10 +216,10 @@ export default function SignupPage() {
             <Button
               type="submit"
               disabled={isLoading}
-              className="w-full gradient-gold text-[#0b0b0b] font-bold py-6 hover:shadow-[0_8px_25px_rgba(212,175,55,0.4)] smooth-transition"
+              className="w-full gradient-gold text-[#0D0D0D] font-bold py-6 hover:shadow-[0_8px_25px_rgba(212,175,55,0.4)] smooth-transition"
             >
               {isLoading ? (
-                <div className="w-5 h-5 border-2 border-[#0b0b0b] border-t-transparent rounded-full animate-spin" />
+                <div className="w-5 h-5 border-2 border-[#0D0D0D] border-t-transparent rounded-full animate-spin" />
               ) : (
                 "Create Account"
               )}
@@ -242,7 +242,7 @@ export default function SignupPage() {
           <div className="grid grid-cols-2 gap-3">
             <Button
               variant="outline"
-              className="border-2 border-[rgba(212,175,55,0.3)] text-[#e9e6df] hover:bg-[rgba(212,175,55,0.1)] hover:border-[#d4af37] smooth-transition"
+              className="border-2 border-[rgba(212,175,55,0.3)] text-[#e9e6df] hover:bg-[rgba(212,175,55,0.1)] hover:border-[#FFD700] smooth-transition"
             >
               <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24">
                 <path fill="currentColor" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
@@ -254,7 +254,7 @@ export default function SignupPage() {
             </Button>
             <Button
               variant="outline"
-              className="border-2 border-[rgba(212,175,55,0.3)] text-[#e9e6df] hover:bg-[rgba(212,175,55,0.1)] hover:border-[#d4af37] smooth-transition"
+              className="border-2 border-[rgba(212,175,55,0.3)] text-[#e9e6df] hover:bg-[rgba(212,175,55,0.1)] hover:border-[#FFD700] smooth-transition"
             >
               <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
@@ -267,7 +267,7 @@ export default function SignupPage() {
           <p className="mt-6 text-center text-sm text-[#cbbf9b]">
             Already have an account?{" "}
             <Link href="/login">
-              <a className="text-[#d4af37] hover:text-[#ffdd00] font-semibold smooth-transition">
+              <a className="text-[#FFD700] hover:text-[#ffdd00] font-semibold smooth-transition">
                 Sign in
               </a>
             </Link>
