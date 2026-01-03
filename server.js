@@ -1,6 +1,7 @@
 import express from "express";
 import { readFileSync, writeFileSync, existsSync, mkdirSync } from "fs";
 import { join } from "path";
+import { requireAuth, rateLimitAuth } from './middleware/auth.js';
 
 const app = express();
 
@@ -137,8 +138,8 @@ app.post("/api/leads", (req, res) => {
   }
 });
 
-// API: Get All Leads (admin only - no auth for now, add later)
-app.get("/api/leads", (_req, res) => {
+// API: Get All Leads (admin only - authentication required)
+app.get("/api/leads", rateLimitAuth, requireAuth, (req, res) => {
   try {
     const data = readLeads();
     res.json({

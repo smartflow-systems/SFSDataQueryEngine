@@ -127,6 +127,7 @@ PORT=5000
 DATABASE_URL="file:./prod.db"
 OPENAI_API_KEY=your_openai_api_key_here
 SESSION_SECRET=your_random_secret_here
+ADMIN_API_KEY=your_secure_admin_api_key_here
 ```
 
 ### Database Setup
@@ -153,15 +154,27 @@ curl http://localhost:5000/health
 
 ## 🎯 Key Endpoints
 
-| Endpoint | Method | Description |
-|----------|--------|-------------|
-| `/` | GET | Landing page with pricing |
-| `/login` | GET | User login page |
-| `/signup` | GET | User registration page |
-| `/dashboard` | GET | Main analytics dashboard |
-| `/api/queries/translate` | POST | Translate natural language to SQL |
-| `/api/queries/execute` | POST | Execute SQL queries |
-| `/api/databases` | GET | List database connections |
+| Endpoint | Method | Description | Auth Required |
+|----------|--------|-------------|---------------|
+| `/` | GET | Landing page with pricing | No |
+| `/login` | GET | User login page | No |
+| `/signup` | GET | User registration page | No |
+| `/dashboard` | GET | Main analytics dashboard | No |
+| `/api/leads` | POST | Submit lead form data | No |
+| `/api/leads` | GET | Get all leads (admin only) | Yes (X-API-Key header) |
+| `/api/queries/translate` | POST | Translate natural language to SQL | No |
+| `/api/queries/execute` | POST | Execute SQL queries | No |
+| `/api/databases` | GET | List database connections | No |
+
+### Admin Authentication
+
+Protected admin endpoints require the `X-API-Key` header:
+
+```bash
+curl -H "X-API-Key: your_admin_api_key" http://localhost:5000/api/leads
+```
+
+Rate limiting is applied to prevent brute force attacks (5 attempts per 15 minutes).
 
 ## 🛡️ Security Features
 
