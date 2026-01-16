@@ -2,30 +2,21 @@
   "siteName": "SmartFlow Systems",
   "description": "Professional automation solutions for modern businesses",
   "version": "1.0.0",
+  "env": "production",
+  "clientUrl": "https://app.smartflowsystems.com",
+  "corsOrigin": "https://app.smartflowsystems.com",
+
   "smartPartUrl": "https://smartflow-smart-part.replit.app",
   "calendlyUrl": "https://calendly.com/smartflow-systems",
+
   "leadWebhook": "/lead",
   "leadMagnetUrl": "/assets/lead-magnet-smartflow.pdf",
   "googleFormsBase": "https://forms.gle/",
+
   "projects": [
-    {
-      "name": "AI Social Bot",
-      "repo": "boweazy/SocialScaleBoosterAIbot",
-      "demo": "https://socialscalebooster.replit.app"
-    },
-    {
-      "name": "Booking System",
-      "repo": "smartflow-systems/SmartFlowKit",
-      "demo": "https://smartflow-booking-demo.replit.app"
-    },
-    {
-      "name": "E-commerce",
-      "repo": "smartflow-systems/SmartFlowSite",
-      "demo": "https://smartflow-ecom-demo.replit.app"
-    }
+    { "name": "AI Social Bot", "repo": "boweazy/SocialScaleBoosterAIbot", "demo": "https://socialscalebooster.replit.app" },
+    { "name": "Booking System", "repo": "smartflow-systems/SmartFlowKit", "demo": "https://smartflow-booking-demo.replit.app" },
+    { "name": "E-commerce", "repo": "smartflow-systems/SmartFlowSite", "demo": "https://smartflow-ecom-demo.replit.app" }
   ],
-  "features": {
-    "leadCapture": true,
-    "emailNotifications": false
-  }
+  "features": { "leadCapture": true, "emailNotifications": false }
 }
