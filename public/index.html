@@ -3,13 +3,152 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>SFSDataQueryEngine — SmartFlow Systems</title>
-  <meta name="description" content="Transform natural language questions into SQL queries with AI-powered data visualization"/>
+  <title>SmartFlow Systems — Professional Automation Solutions</title>
+  <meta name="description" content="Transform your business with AI-powered automation. From social media bots to booking systems and e-commerce solutions."/>
   <meta name="theme-color" content="#0D0D0D"/>
   <link rel="icon" href="assets/favicon.png"/>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="SmartFlow Systems — Professional Automation Solutions"/>
+  <meta property="og:description" content="Transform your business with AI-powered automation solutions"/>
+  <meta property="og:type" content="website"/>
 
   <!-- SFS Master Theme -->
   <link rel="stylesheet" href="/css/sfs-complete-theme.css"/>
+  <style>
+    /* Additional styles for enhanced sections */
+    .nav-links { display: flex; gap: 1.5rem; align-items: center; flex-wrap: wrap; }
+    .nav-links a { color: #f5f5f5; text-decoration: none; font-weight: 500; transition: color 0.3s; }
+    .nav-links a:hover { color: #FFD700; }
+    
+    .section { padding: 5rem 2rem; }
+    .section-subtitle { color: #999; font-size: 1.1rem; margin-bottom: 3rem; text-align: center; }
+    
+    .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; margin-top: 2rem; }
+    
+    .project-card {
+      background: linear-gradient(135deg, rgba(30, 20, 10, 0.9), rgba(15, 10, 5, 0.95));
+      border: 1px solid rgba(255, 215, 0, 0.2);
+      border-radius: 16px;
+      padding: 2rem;
+      transition: transform 0.3s, box-shadow 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+    .project-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 40px rgba(255, 215, 0, 0.15);
+      border-color: rgba(255, 215, 0, 0.5);
+    }
+    .project-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, #FFD700, #FFA500);
+    }
+    .project-icon { font-size: 3rem; margin-bottom: 1rem; }
+    .project-card h3 { color: #FFD700; font-size: 1.5rem; margin-bottom: 0.75rem; }
+    .project-card p { color: #ccc; line-height: 1.7; margin-bottom: 1.5rem; }
+    .project-card .btn { font-size: 0.9rem; padding: 0.6rem 1.2rem; }
+    
+    .testimonials-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
+    .testimonial-card {
+      background: rgba(20, 15, 10, 0.8);
+      border: 1px solid rgba(255, 215, 0, 0.1);
+      border-radius: 16px;
+      padding: 2rem;
+    }
+    .testimonial-card blockquote {
+      font-style: italic;
+      color: #ddd;
+      line-height: 1.8;
+      margin-bottom: 1.5rem;
+      font-size: 1.05rem;
+    }
+    .testimonial-author { display: flex; align-items: center; gap: 1rem; }
+    .testimonial-avatar {
+      width: 50px;
+      height: 50px;
+      background: linear-gradient(135deg, #FFD700, #FFA500);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      color: #0D0D0D;
+      font-size: 1.2rem;
+    }
+    .testimonial-info h4 { color: #f5f5f5; margin: 0; font-size: 1rem; }
+    .testimonial-info span { color: #888; font-size: 0.9rem; }
+    
+    .resources-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; }
+    .resource-card {
+      background: rgba(20, 15, 10, 0.6);
+      border: 1px solid rgba(255, 215, 0, 0.15);
+      border-radius: 12px;
+      padding: 2rem;
+      text-align: center;
+      transition: all 0.3s;
+    }
+    .resource-card:hover {
+      background: rgba(30, 25, 15, 0.8);
+      border-color: rgba(255, 215, 0, 0.4);
+    }
+    .resource-icon { font-size: 2.5rem; margin-bottom: 1rem; }
+    .resource-card h3 { color: #FFD700; margin-bottom: 0.75rem; }
+    .resource-card p { color: #aaa; font-size: 0.95rem; }
+    
+    .pricing-section { background: rgba(15, 10, 5, 0.5); }
+    .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; max-width: 900px; margin: 0 auto; }
+    .pricing-card {
+      background: linear-gradient(135deg, rgba(30, 20, 10, 0.9), rgba(20, 15, 8, 0.95));
+      border: 1px solid rgba(255, 215, 0, 0.2);
+      border-radius: 16px;
+      padding: 2.5rem;
+      text-align: center;
+    }
+    .pricing-card.featured {
+      border-color: #FFD700;
+      transform: scale(1.05);
+      box-shadow: 0 0 40px rgba(255, 215, 0, 0.2);
+    }
+    .pricing-card h3 { color: #FFD700; font-size: 1.4rem; margin-bottom: 0.5rem; }
+    .pricing-price { font-size: 2.5rem; font-weight: bold; color: #f5f5f5; margin: 1rem 0; }
+    .pricing-price span { font-size: 1rem; color: #888; }
+    .pricing-features { list-style: none; padding: 0; margin: 1.5rem 0; text-align: left; }
+    .pricing-features li { color: #ccc; padding: 0.5rem 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+    .pricing-features li::before { content: '✓ '; color: #FFD700; }
+    
+    .contact-section { text-align: center; }
+    .contact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; max-width: 800px; margin: 2rem auto; }
+    .contact-item { padding: 1.5rem; }
+    .contact-item h4 { color: #FFD700; margin-bottom: 0.5rem; }
+    .contact-item p, .contact-item a { color: #ccc; text-decoration: none; }
+    .contact-item a:hover { color: #FFD700; }
+    
+    .footer { background: rgba(5, 3, 2, 0.95); padding: 4rem 2rem 2rem; border-top: 1px solid rgba(255, 215, 0, 0.1); }
+    .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 3rem; max-width: 1200px; margin: 0 auto 3rem; }
+    .footer-col h4 { color: #FFD700; margin-bottom: 1.5rem; font-size: 1.1rem; }
+    .footer-col ul { list-style: none; padding: 0; }
+    .footer-col li { margin-bottom: 0.75rem; }
+    .footer-col a { color: #999; text-decoration: none; transition: color 0.3s; }
+    .footer-col a:hover { color: #FFD700; }
+    .footer-bottom { text-align: center; padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.05); color: #666; }
+    
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 10px; }
+    .hamburger span { width: 25px; height: 3px; background: #FFD700; border-radius: 2px; }
+    
+    @media (max-width: 768px) {
+      .nav-links { display: none; flex-direction: column; position: absolute; top: 100%; left: 0; right: 0; background: rgba(13, 13, 13, 0.98); padding: 2rem; }
+      .nav-links.active { display: flex; }
+      .hamburger { display: flex; }
+      .nav { position: relative; }
+      .pricing-card.featured { transform: scale(1); }
+    }
+  </style>
 </head>
 <body>
   <!-- SFS Circuit Flow Background -->
@@ -17,73 +156,292 @@
 
   <!-- Navigation Header -->
   <header class="nav">
-    <a class="brand" href="/">SFSDataQueryEngine</a>
-    <nav>
-      <a href="#features">Features</a>
-      <a href="#about">About</a>
-      <a href="https://smartflowsite.replit.app" target="_blank">SmartFlow Systems</a>
+    <a class="brand" href="/">SmartFlow Systems</a>
+    <div class="hamburger" onclick="this.nextElementSibling.classList.toggle('active')">
+      <span></span><span></span><span></span>
+    </div>
+    <nav class="nav-links">
+      <a href="#home">🏠 Home</a>
+      <a href="#projects">💼 Projects</a>
+      <a href="#news">📰 Latest News</a>
+      <a href="#testimonials">👥 Testimonials</a>
       <a class="btn btn-gold" href="#get-started">Get Started</a>
     </nav>
   </header>
 
   <!-- Hero Section -->
-  <section id="hero" class="hero">
+  <section id="home" class="hero">
     <div class="hero-inner">
-      <h1>AI-Powered Data Query Engine</h1>
-      <p>Ask questions in plain English, get SQL insights instantly</p>
+      <h1>Professional Automation Solutions</h1>
+      <p>Transform your business with AI-powered tools. From social media automation to booking systems and e-commerce — we build solutions that scale.</p>
       <div class="hero-ctas">
-        <a class="btn btn-gold" href="#features">Explore Features</a>
-        <a class="btn btn-ghost" href="https://github.com/smartflow-systems/SFSDataQueryEngine" target="_blank">View Code</a>
+        <a class="btn btn-gold" href="#projects">Explore Our Projects</a>
+        <a class="btn btn-ghost" href="#contact">Contact Us</a>
       </div>
     </div>
   </section>
 
-  <!-- Features Section -->
-  <section id="features" class="section container">
-    <h2 class="section-title">Key Features</h2>
+  <!-- Projects Section -->
+  <section id="projects" class="section container">
+    <h2 class="section-title">Our Projects</h2>
+    <p class="section-subtitle">Cutting-edge solutions built to help your business thrive</p>
     <div class="projects-grid">
       <article class="project-card">
-        <h3>Feature 1</h3>
-        <p>Description of feature 1</p>
+        <div class="project-icon">🤖</div>
+        <h3>AI Social Bot</h3>
+        <p>Intelligent social media automation that engages your audience 24/7. Boost your online presence with AI-powered content creation, scheduling, and community management.</p>
+        <a class="btn btn-gold" href="https://socialscalebooster.replit.app" target="_blank">View Demo →</a>
       </article>
 
       <article class="project-card">
-        <h3>Feature 2</h3>
-        <p>Description of feature 2</p>
+        <div class="project-icon">📅</div>
+        <h3>Booking System</h3>
+        <p>Streamlined appointment scheduling for service businesses. Reduce no-shows, automate reminders, and let customers book anytime with our smart booking platform.</p>
+        <a class="btn btn-gold" href="https://smartflow-booking-demo.replit.app" target="_blank">View Demo →</a>
       </article>
 
       <article class="project-card">
-        <h3>Feature 3</h3>
-        <p>Description of feature 3</p>
+        <div class="project-icon">🛒</div>
+        <h3>E-commerce Shops</h3>
+        <p>Complete online store solutions with inventory management, secure payments, and beautiful storefronts. Everything you need to sell online successfully.</p>
+        <a class="btn btn-gold" href="https://smartflow-ecom-demo.replit.app" target="_blank">View Demo →</a>
+      </article>
+
+      <article class="project-card">
+        <div class="project-icon">🌐</div>
+        <h3>Custom Websites</h3>
+        <p>Stunning, responsive websites tailored to your brand. From landing pages to full-featured web applications — we bring your vision to life.</p>
+        <a class="btn btn-gold" href="#contact">Get a Quote →</a>
       </article>
     </div>
   </section>
 
-  <!-- About Section -->
-  <section id="about" class="section container">
-    <h2 class="section-title">About This Project</h2>
-    <div class="glass-card">
-      <p>Part of the SmartFlow Systems ecosystem.</p>
-      <p>Built with the signature brown/black/gold aesthetic and glass card design.</p>
+  <!-- Latest News Section -->
+  <section id="news" class="section container">
+    <h2 class="section-title">📰 Latest News</h2>
+    <p class="section-subtitle">Stay updated with our latest developments and industry insights</p>
+    <div class="projects-grid">
+      <article class="project-card">
+        <h3>AI Social Bot v2.0 Released</h3>
+        <p>Our flagship social media automation tool now features advanced sentiment analysis, multi-platform support, and improved engagement algorithms.</p>
+        <span style="color: #888; font-size: 0.9rem;">January 2026</span>
+      </article>
+
+      <article class="project-card">
+        <h3>New Booking Features</h3>
+        <p>Introducing group bookings, recurring appointments, and payment integration. Make scheduling even easier for your clients.</p>
+        <span style="color: #888; font-size: 0.9rem;">December 2025</span>
+      </article>
+
+      <article class="project-card">
+        <h3>E-commerce Success Stories</h3>
+        <p>See how our clients increased their online sales by 150% using our SmartFlow e-commerce solutions.</p>
+        <span style="color: #888; font-size: 0.9rem;">November 2025</span>
+      </article>
+    </div>
+  </section>
+
+  <!-- Testimonials Section -->
+  <section id="testimonials" class="section container">
+    <h2 class="section-title">👥 What Our Clients Say</h2>
+    <p class="section-subtitle">Trusted by businesses worldwide</p>
+    <div class="testimonials-grid">
+      <div class="testimonial-card">
+        <blockquote>"SmartFlow's AI Social Bot transformed our online presence. We went from 500 to 15,000 followers in just 3 months. The automation is incredible!"</blockquote>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">JD</div>
+          <div class="testimonial-info">
+            <h4>James Davidson</h4>
+            <span>CEO, TechStart Inc.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial-card">
+        <blockquote>"The booking system saved us 20+ hours per week on admin. Our clients love how easy it is to schedule appointments. Worth every penny!"</blockquote>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">SM</div>
+          <div class="testimonial-info">
+            <h4>Sarah Mitchell</h4>
+            <span>Owner, Wellness Studio</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial-card">
+        <blockquote>"We launched our online store in record time. The SmartFlow team delivered a beautiful, functional shop that our customers love browsing."</blockquote>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">MK</div>
+          <div class="testimonial-info">
+            <h4>Michael Kim</h4>
+            <span>Founder, Artisan Goods Co.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Resources Section -->
+  <section id="resources" class="section container">
+    <h2 class="section-title">Resources</h2>
+    <p class="section-subtitle">Everything you need to get started and succeed</p>
+    <div class="resources-grid">
+      <div class="resource-card">
+        <div class="resource-icon">📚</div>
+        <h3>Blog</h3>
+        <p>Tips, tutorials, and insights on automation, e-commerce, and growing your business online.</p>
+      </div>
+
+      <div class="resource-card">
+        <div class="resource-icon">📄</div>
+        <h3>Documentation</h3>
+        <p>Comprehensive guides to help you get the most out of our products and services.</p>
+      </div>
+
+      <div class="resource-card">
+        <div class="resource-icon">❓</div>
+        <h3>Support</h3>
+        <p>Our team is here to help. Get answers to your questions and resolve issues quickly.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing Section -->
+  <section id="get-started" class="section pricing-section">
+    <div class="container">
+      <h2 class="section-title">💰 Simple, Transparent Pricing</h2>
+      <p class="section-subtitle">Choose the plan that fits your business needs</p>
+      <div class="pricing-grid">
+        <div class="pricing-card">
+          <h3>Starter</h3>
+          <div class="pricing-price">$99<span>/month</span></div>
+          <ul class="pricing-features">
+            <li>1 Project</li>
+            <li>Basic automation</li>
+            <li>Email support</li>
+            <li>Standard updates</li>
+          </ul>
+          <a class="btn btn-ghost" href="#contact">Get Started</a>
+        </div>
+
+        <div class="pricing-card featured">
+          <h3>Professional</h3>
+          <div class="pricing-price">$299<span>/month</span></div>
+          <ul class="pricing-features">
+            <li>Up to 5 Projects</li>
+            <li>Advanced AI features</li>
+            <li>Priority support</li>
+            <li>Custom integrations</li>
+            <li>Analytics dashboard</li>
+          </ul>
+          <a class="btn btn-gold" href="#contact">Get Started</a>
+        </div>
+
+        <div class="pricing-card">
+          <h3>Enterprise</h3>
+          <div class="pricing-price">Custom</div>
+          <ul class="pricing-features">
+            <li>Unlimited projects</li>
+            <li>Dedicated support</li>
+            <li>White-label options</li>
+            <li>SLA guarantee</li>
+            <li>On-premise deployment</li>
+          </ul>
+          <a class="btn btn-ghost" href="#contact">Contact Sales</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section id="contact" class="section contact-section container">
+    <h2 class="section-title">✉️ Get In Touch</h2>
+    <p class="section-subtitle">Ready to transform your business? Let's talk.</p>
+    <div class="contact-grid">
+      <div class="contact-item">
+        <h4>📧 Email</h4>
+        <a href="mailto:hello@smartflowsystems.com">hello@smartflowsystems.com</a>
+      </div>
+      <div class="contact-item">
+        <h4>📅 Book a Call</h4>
+        <a href="https://calendly.com/smartflow-systems" target="_blank">Schedule on Calendly</a>
+      </div>
+      <div class="contact-item">
+        <h4>💬 Live Chat</h4>
+        <p>Available Mon-Fri, 9am-6pm</p>
+      </div>
+    </div>
+    <div style="margin-top: 2rem;">
+      <a class="btn btn-gold" href="https://calendly.com/smartflow-systems" target="_blank" style="font-size: 1.1rem; padding: 1rem 2.5rem;">Book Your Free Consultation</a>
     </div>
   </section>
 
   <!-- Footer -->
   <footer class="footer">
-    <div class="container">
-      <p>&copy; 2024 SmartFlow Systems. All rights reserved.</p>
-      <p>
-        <a href="https://github.com/smartflow-systems" target="_blank">GitHub</a> |
-        <a href="https://smartflowsite.replit.app" target="_blank">Main Site</a>
+    <div class="footer-grid">
+      <div class="footer-col">
+        <h4>🏠 SmartFlow Systems</h4>
+        <p style="color: #888; line-height: 1.7;">Professional automation solutions for modern businesses. We help you scale with smart technology.</p>
+      </div>
+      
+      <div class="footer-col">
+        <h4>💼 Projects</h4>
+        <ul>
+          <li><a href="https://socialscalebooster.replit.app">🤖 AI Social Bot</a></li>
+          <li><a href="https://smartflow-booking-demo.replit.app">📅 Booking System</a></li>
+          <li><a href="https://smartflow-ecom-demo.replit.app">🛒 E-commerce Shops</a></li>
+          <li><a href="#contact">🌐 Custom Websites</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-col">
+        <h4>📚 Resources</h4>
+        <ul>
+          <li><a href="#">📚 Blog</a></li>
+          <li><a href="#">📄 Documentation</a></li>
+          <li><a href="#">❓ Support</a></li>
+          <li><a href="#">📋 FAQ</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-col">
+        <h4>🚀 Get Started</h4>
+        <ul>
+          <li><a href="#get-started">💰 Pricing</a></li>
+          <li><a href="#contact">✉️ Contact Us</a></li>
+          <li><a href="https://calendly.com/smartflow-systems">📅 Book a Demo</a></li>
+          <li><a href="https://github.com/smartflow-systems">💻 GitHub</a></li>
+        </ul>
+      </div>
+    </div>
+    
+    <div class="footer-bottom">
+      <p>&copy; 2026 SmartFlow Systems. All rights reserved.</p>
+      <p style="margin-top: 0.5rem;">
+        <a href="#" style="color: #888; text-decoration: none;">Privacy Policy</a> · 
+        <a href="#" style="color: #888; text-decoration: none;">Terms of Service</a>
       </p>
     </div>
   </footer>
 
-  <!-- SFS Circuit Flow Animation -->
+  <!-- SFS Scripts -->
   <script src="/js/sfs-circuit-flow.js"></script>
-
-  <!-- SFS Hamburger Menu -->
   <script src="/js/sfs-hamburger-menu.js"></script>
   <script src="/js/sfs-currency.js"></script>
+  
+  <script>
+    // Smooth scrolling for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          // Close mobile menu if open
+          document.querySelector('.nav-links')?.classList.remove('active');
+        }
+      });
+    });
+  </script>
 </body>
 </html>
