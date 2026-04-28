@@ -8,6 +8,7 @@ import {
   insertDashboardSchema,
   insertChartSchema
 } from "../shared/schema.js";
+import { requireAuth } from "./middleware/sfs-auth.js";
 
 interface RouteOptions {
   queryLimiter?: RequestHandler;
@@ -18,17 +19,19 @@ export function registerRoutes(app: Express, options: RouteOptions = {}): void {
   // Database routes
   app.get("/api/databases", async (req, res) => {
     try {
-      const databases = await storage.getDatabases();
+      // Filter by orgId when the caller is authenticated
+      const orgId = req.user?.orgId;
+      const databases = await storage.getDatabases(orgId);
       res.json(databases);
     } catch (error) {
       res.status(500).json({ message: error instanceof Error ? error.message : 'Unknown error' });
     }
   });
 
-  app.post("/api/databases", async (req, res) => {
+  app.post("/api/databases", requireAuth, async (req, res) => {
     try {
       const validatedData = insertDatabaseSchema.parse(req.body);
-      const database = await storage.createDatabase(validatedData);
+      const database = await storage.createDatabase({ ...validatedData, orgId: req.user!.orgId });
       res.json(database);
     } catch (error) {
       res.status(400).json({ message: error instanceof Error ? error.message : 'Unknown error' });
@@ -117,9 +120,9 @@ export function registerRoutes(app: Express, options: RouteOptions = {}): void {
   };
 
   if (queryLimiter) {
-    app.post("/api/queries/translate", queryLimiter, translateHandler);
+    app.post("/api/queries/translate", requireAuth, queryLimiter, translateHandler);
   } else {
-    app.post("/api/queries/translate", translateHandler);
+    app.post("/api/queries/translate", requireAuth, translateHandler);
   }
 
   const executeHandler = async (req: Request, res: Response) => {
@@ -207,9 +210,9 @@ export function registerRoutes(app: Express, options: RouteOptions = {}): void {
   };
 
   if (queryLimiter) {
-    app.post("/api/queries/execute", queryLimiter, executeHandler);
+    app.post("/api/queries/execute", requireAuth, queryLimiter, executeHandler);
   } else {
-    app.post("/api/queries/execute", executeHandler);
+    app.post("/api/queries/execute", requireAuth, executeHandler);
   }
 
   app.post("/api/queries/:id/save", async (req, res) => {
@@ -233,17 +236,19 @@ export function registerRoutes(app: Express, options: RouteOptions = {}): void {
   // Dashboard routes
   app.get("/api/dashboards", async (req, res) => {
     try {
-      const dashboards = await storage.getDashboards();
+      // Filter by orgId when the caller is authenticated
+      const orgId = req.user?.orgId;
+      const dashboards = await storage.getDashboards(orgId);
       res.json(dashboards);
     } catch (error) {
       res.status(500).json({ message: error instanceof Error ? error.message : 'Unknown error' });
     }
   });
 
-  app.post("/api/dashboards", async (req, res) => {
+  app.post("/api/dashboards", requireAuth, async (req, res) => {
     try {
       const validatedData = insertDashboardSchema.parse(req.body);
-      const dashboard = await storage.createDashboard(validatedData);
+      const dashboard = await storage.createDashboard({ ...validatedData, orgId: req.user!.orgId });
       res.json(dashboard);
     } catch (error) {
       res.status(400).json({ message: error instanceof Error ? error.message : 'Unknown error' });
@@ -265,7 +270,7 @@ export function registerRoutes(app: Express, options: RouteOptions = {}): void {
   });
 
   // Chart routes
-  app.post("/api/charts", async (req, res) => {
+  app.post("/api/charts", requireAuth, async (req, res) => {
     try {
       const validatedData = insertChartSchema.parse(req.body);
       const chart = await storage.createChart(validatedData);
@@ -275,11 +280,11 @@ export function registerRoutes(app: Express, options: RouteOptions = {}): void {
     }
   });
 
-  app.put("/api/charts/:id", async (req, res) => {
+  app.put("/api/charts/:id", requireAuth, async (req, res) => {
     try {
       const updates = req.body;
       const chart = await storage.updateChart(req.params.id, updates);
-      
+
       if (!chart) {
         return res.status(404).json({ message: "Chart not found" });
       }
@@ -290,7 +295,7 @@ export function registerRoutes(app: Express, options: RouteOptions = {}): void {
     }
   });
 
-  app.delete("/api/charts/:id", async (req, res) => {
+  app.delete("/api/charts/:id", requireAuth, async (req, res) => {
     try {
       const success = await storage.deleteChart(req.params.id);
       if (!success) {
@@ -351,7 +356,7 @@ export function registerRoutes(app: Express, options: RouteOptions = {}): void {
   });
 
   // Execute a query from a pre-built template
-  app.post("/api/social/query-from-template", async (req, res) => {
+  app.post("/api/social/query-from-template", requireAuth, async (req, res) => {
     try {
       const { templateId, parameters, databaseId } = req.body;
 

@@ -15,6 +15,7 @@ export interface Database {
   type: string;
   connectionString: string | null;
   isActive: boolean;
+  orgId: string | null;
   createdAt: Date;
 }
 
@@ -23,6 +24,7 @@ export interface InsertDatabase {
   type?: string;
   connectionString?: string | null;
   isActive?: boolean;
+  orgId?: string | null;
 }
 
 export interface Query {
@@ -55,6 +57,7 @@ export interface Dashboard {
   description: string | null;
   layout: unknown;
   isShared: boolean;
+  orgId: string | null;
   createdAt?: Date;
 }
 
@@ -63,6 +66,7 @@ export interface InsertDashboard {
   description?: string | null;
   layout: unknown;
   isShared?: boolean;
+  orgId?: string | null;
 }
 
 export interface Chart {
@@ -173,12 +177,14 @@ export const insertDatabaseSchema = {
     const type = readString(obj, "type", { optional: true });
     const connectionString = readString(obj, "connectionString", { optional: true, allowNull: true });
     const isActive = readBoolean(obj, "isActive", { optional: true });
+    const orgId = readString(obj, "orgId", { optional: true, allowNull: true });
 
     return buildObject({
       name: name!,
       type: type ?? undefined,
       connectionString: connectionString ?? undefined,
       isActive,
+      orgId: orgId ?? undefined,
     });
   }
 };
@@ -223,12 +229,14 @@ export const insertDashboardSchema = {
     const description = readString(obj, "description", { optional: true, allowNull: true });
     const layout = readUnknown(obj, "layout");
     const isShared = readBoolean(obj, "isShared", { optional: true });
+    const orgId = readString(obj, "orgId", { optional: true, allowNull: true });
 
     return buildObject({
       name: name!,
       description: description ?? null,
       layout,
       isShared,
+      orgId: orgId ?? undefined,
     });
   }
 };

@@ -19,7 +19,7 @@ export interface IStorage {
   createUser(user: InsertUser): Promise<User>;
 
   // Database methods
-  getDatabases(): Promise<Database[]>;
+  getDatabases(orgId?: string): Promise<Database[]>;
   getDatabase(id: string): Promise<Database | undefined>;
   createDatabase(database: InsertDatabase): Promise<Database>;
   updateDatabase(id: string, updates: Partial<InsertDatabase>): Promise<Database | undefined>;
@@ -36,7 +36,7 @@ export interface IStorage {
   deleteQuery(id: string): Promise<boolean>;
 
   // Dashboard methods
-  getDashboards(): Promise<Dashboard[]>;
+  getDashboards(orgId?: string): Promise<Dashboard[]>;
   getDashboard(id: string): Promise<Dashboard | undefined>;
   createDashboard(dashboard: InsertDashboard): Promise<Dashboard>;
   updateDashboard(id: string, updates: Partial<InsertDashboard>): Promise<Dashboard | undefined>;
@@ -88,8 +88,10 @@ export class MemStorage implements IStorage {
   }
 
   // Database methods
-  async getDatabases(): Promise<Database[]> {
-    return Array.from(this.databases.values());
+  async getDatabases(orgId?: string): Promise<Database[]> {
+    const all = Array.from(this.databases.values());
+    if (orgId) return all.filter(db => db.orgId === orgId);
+    return all;
   }
 
   async getDatabase(id: string): Promise<Database | undefined> {
@@ -98,13 +100,14 @@ export class MemStorage implements IStorage {
 
   async createDatabase(insertDatabase: InsertDatabase): Promise<Database> {
     const id = randomUUID();
-    const database: Database = { 
+    const database: Database = {
       ...insertDatabase,
       type: insertDatabase.type || 'sqlite',
       connectionString: insertDatabase.connectionString ?? null,
       isActive: insertDatabase.isActive ?? false,
-      id, 
-      createdAt: new Date() 
+      orgId: insertDatabase.orgId ?? null,
+      id,
+      createdAt: new Date()
     };
     this.databases.set(id, database);
     return database;
@@ -176,8 +179,10 @@ export class MemStorage implements IStorage {
   }
 
   // Dashboard methods
-  async getDashboards(): Promise<Dashboard[]> {
-    return Array.from(this.dashboards.values());
+  async getDashboards(orgId?: string): Promise<Dashboard[]> {
+    const all = Array.from(this.dashboards.values());
+    if (orgId) return all.filter(d => d.orgId === orgId);
+    return all;
   }
 
   async getDashboard(id: string): Promise<Dashboard | undefined> {
@@ -186,12 +191,13 @@ export class MemStorage implements IStorage {
 
   async createDashboard(insertDashboard: InsertDashboard): Promise<Dashboard> {
     const id = randomUUID();
-    const dashboard: Dashboard = { 
+    const dashboard: Dashboard = {
       ...insertDashboard,
       description: insertDashboard.description ?? null,
       isShared: insertDashboard.isShared ?? false,
-      id, 
-      createdAt: new Date() 
+      orgId: insertDashboard.orgId ?? null,
+      id,
+      createdAt: new Date()
     };
     this.dashboards.set(id, dashboard);
     return dashboard;
