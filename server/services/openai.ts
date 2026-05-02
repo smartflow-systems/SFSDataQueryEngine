@@ -4,7 +4,8 @@ async function getOpenAIClient() {
   if (!openAIClientPromise) {
     openAIClientPromise = import("openai").then(({ default: OpenAI }) => {
       return new OpenAI({
-        apiKey: process.env.OPENAI_API_KEY || process.env.OPENAI_API_KEY_ENV_VAR || "default_key"
+        apiKey: process.env.OPENAI_API_KEY || process.env.OPENAI_API_KEY_ENV_VAR || "default_key",
+        ...(process.env.OPENAI_BASE_URL && { baseURL: process.env.OPENAI_BASE_URL })
       });
     }).catch(error => {
       openAIClientPromise = null;
@@ -45,7 +46,7 @@ Ensure the SQL is safe, properly formatted, and follows best practices. If you'r
 
     const openai = await getOpenAIClient();
     const response = await openai.chat.completions.create({
-      model: "gpt-4o",
+      model: process.env.AI_MODEL || "gpt-4o",
       messages: [
         {
           role: "system",
@@ -91,7 +92,7 @@ Please respond with a JSON object containing:
 
     const openai = await getOpenAIClient();
     const response = await openai.chat.completions.create({
-      model: "gpt-4o",
+      model: process.env.AI_MODEL || "gpt-4o",
       messages: [
         {
           role: "system",
