@@ -3,7 +3,7 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -13,6 +13,7 @@ model User {
   name      String
   company   String?
   password  String
+  orgId     String   @default("")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -24,6 +25,7 @@ model User {
 model DatabaseConnection {
   id              String   @id @default(cuid())
   userId          String
+  orgId           String   @default("")
   name            String
   type            String   // "sqlite", "postgresql", "mysql"
   host            String?
@@ -65,6 +67,7 @@ model Query {
 model Dashboard {
   id          String   @id @default(cuid())
   userId      String
+  orgId       String   @default("")
   name        String
   description String?
   isShareable Boolean  @default(false)
