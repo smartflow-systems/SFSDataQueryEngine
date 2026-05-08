@@ -12,7 +12,7 @@ BK=".sfs-backups/$TS"; mkdir -p "$BK"
 backup(){ [ -f "$1" ] && { mkdir -p "$BK/$(dirname "$1")"; cp -a "$1" "$BK/$1"; echo "backup → $BK/$1"; } || true; }
 
 # keep existing layout (server/) — do NOT overwrite if present
-mkdir -p prisma src scripts
+mkdir -p src scripts
 
 # package.json (only if missing)
 if [ ! -f package.json ]; then
@@ -60,20 +60,6 @@ cat > tsconfig.json <<'JSON'
 JSON
 fi
 
-# prisma schema (only if missing)
-if [ ! -f prisma/schema.prisma ]; then
-mkdir -p prisma
-cat > prisma/schema.prisma <<'PRISMA'
-generator client { provider = "prisma-client-js" }
-datasource db   { provider = "sqlite"; url = env("DATABASE_URL") }
-
-model Boost {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-}
-PRISMA
-fi
-
 # health script
 mkdir -p scripts
 cat > scripts/health.sh <<'SH2'
@@ -94,13 +80,6 @@ grep -q '^DATABASE_URL=' .env || echo 'DATABASE_URL="file:./dev.db"' >> .env
 # deps (idempotent)
 npm i >/dev/null
 npm i -D typescript tsx @types/node >/dev/null || true
-
-# Prisma only if schema exists
-if [ -f prisma/schema.prisma ]; then
-  npm i @prisma/client prisma >/dev/null
-  npx prisma generate >/dev/null
-  npx prisma migrate dev -n init || true
-fi
 
 echo "== Done. Use =="
 echo "npm run dev      # starts server (PORT from .env)"
