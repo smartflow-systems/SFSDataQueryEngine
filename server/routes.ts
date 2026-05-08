@@ -159,19 +159,6 @@ export function registerRoutes(app: Express, options: RouteOptions = {}): void {
       if (params && params.length > 0 && placeholderCount !== params.length) {
         return res.status(400).json({ message: "Mismatch between number of SQL placeholders and provided parameters. Only use parameter placeholders (?) for user data." });
       }
-      if (/(['"]).+?\1/.test(sql)) {
-        return res.status(400).json({ message: "Unsafe SQL statement: Do not interpolate user data directly into the query string. Use parameter placeholders." });
-      }
-      // Layer 2: Enforce parameterized queries for user data
-      // Count SQL placeholders (?) in the query
-      const placeholderCount = (sql.match(/\?/g) || []).length;
-
-      // Ensure params array matches placeholder count if params provided
-      if (params && params.length > 0 && placeholderCount !== params.length) {
-        return res.status(400).json({
-          message: "Mismatch between number of SQL placeholders and provided parameters. Only use parameter placeholders (?) for user data."
-        });
-      }
 
       // Layer 3: Detect and block direct string interpolation (quotes in SQL)
       // This catches attempts to embed user data directly in SQL instead of using params
