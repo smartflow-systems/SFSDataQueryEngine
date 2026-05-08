@@ -21,6 +21,7 @@
     "sync-all": "npm run auto-commit && npm run sync"
   },
   "dependencies": {
+    "@smartflow-systems/auth-core": "^1.0.0",
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.5",
     "@types/jsonwebtoken": "^9.0.10",
@@ -35,7 +36,6 @@
     "jsonwebtoken": "^9.0.2",
     "stripe": "^16.12.0"
   },
-  "devDependencies": {},
   "engines": {
     "node": ">=18"
   },
