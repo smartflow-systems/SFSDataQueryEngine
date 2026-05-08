@@ -226,3 +226,9 @@ lerna-debug.log*
 *.swp
 *.swo
 *~
+
+# SQLite / database files
+*.sqlite
+*.sqlite3
+*.db
+data/
