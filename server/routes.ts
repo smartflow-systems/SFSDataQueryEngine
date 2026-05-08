@@ -8,7 +8,7 @@ import {
   insertDashboardSchema,
   insertChartSchema
 } from "../shared/schema.js";
-import { requireAuth } from "./middleware/sfs-auth.js";
+import { requireAuth, requireOrg } from "@smartflow-systems/auth-core";
 
 interface RouteOptions {
   queryLimiter?: RequestHandler;
@@ -17,10 +17,9 @@ interface RouteOptions {
 export function registerRoutes(app: Express, options: RouteOptions = {}): void {
   const { queryLimiter } = options;
   // Database routes
-  app.get("/api/databases", async (req, res) => {
+  app.get("/api/databases", requireAuth, requireOrg, async (req, res) => {
     try {
-      // Filter by orgId when the caller is authenticated
-      const orgId = req.user?.orgId;
+      const orgId = req.user!.orgId;
       const databases = await storage.getDatabases(orgId);
       res.json(databases);
     } catch (error) {
@@ -28,7 +27,7 @@ export function registerRoutes(app: Express, options: RouteOptions = {}): void {
     }
   });
 
-  app.post("/api/databases", requireAuth, async (req, res) => {
+  app.post("/api/databases", requireAuth, requireOrg, async (req, res) => {
     try {
       const validatedData = insertDatabaseSchema.parse(req.body);
       const database = await storage.createDatabase({ ...validatedData, orgId: req.user!.orgId });
@@ -120,9 +119,9 @@ export function registerRoutes(app: Express, options: RouteOptions = {}): void {
   };
 
   if (queryLimiter) {
-    app.post("/api/queries/translate", requireAuth, queryLimiter, translateHandler);
+    app.post("/api/queries/translate", requireAuth, requireOrg, queryLimiter, translateHandler);
   } else {
-    app.post("/api/queries/translate", requireAuth, translateHandler);
+    app.post("/api/queries/translate", requireAuth, requireOrg, translateHandler);
   }
 
   const executeHandler = async (req: Request, res: Response) => {
@@ -159,19 +158,6 @@ export function registerRoutes(app: Express, options: RouteOptions = {}): void {
       const placeholderCount = (sql.match(/\?/g) || []).length;
       if (params && params.length > 0 && placeholderCount !== params.length) {
         return res.status(400).json({ message: "Mismatch between number of SQL placeholders and provided parameters. Only use parameter placeholders (?) for user data." });
-      }
-      if (/(['"]).+?\1/.test(sql)) {
-        return res.status(400).json({ message: "Unsafe SQL statement: Do not interpolate user data directly into the query string. Use parameter placeholders." });
-      }
-      // Layer 2: Enforce parameterized queries for user data
-      // Count SQL placeholders (?) in the query
-      const placeholderCount = (sql.match(/\?/g) || []).length;
-
-      // Ensure params array matches placeholder count if params provided
-      if (params && params.length > 0 && placeholderCount !== params.length) {
-        return res.status(400).json({
-          message: "Mismatch between number of SQL placeholders and provided parameters. Only use parameter placeholders (?) for user data."
-        });
       }
 
       // Layer 3: Detect and block direct string interpolation (quotes in SQL)
@@ -210,9 +196,9 @@ export function registerRoutes(app: Express, options: RouteOptions = {}): void {
   };
 
   if (queryLimiter) {
-    app.post("/api/queries/execute", requireAuth, queryLimiter, executeHandler);
+    app.post("/api/queries/execute", requireAuth, requireOrg, queryLimiter, executeHandler);
   } else {
-    app.post("/api/queries/execute", requireAuth, executeHandler);
+    app.post("/api/queries/execute", requireAuth, requireOrg, executeHandler);
   }
 
   app.post("/api/queries/:id/save", async (req, res) => {
@@ -234,10 +220,9 @@ export function registerRoutes(app: Express, options: RouteOptions = {}): void {
   });
 
   // Dashboard routes
-  app.get("/api/dashboards", async (req, res) => {
+  app.get("/api/dashboards", requireAuth, requireOrg, async (req, res) => {
     try {
-      // Filter by orgId when the caller is authenticated
-      const orgId = req.user?.orgId;
+      const orgId = req.user!.orgId;
       const dashboards = await storage.getDashboards(orgId);
       res.json(dashboards);
     } catch (error) {
@@ -245,7 +230,7 @@ export function registerRoutes(app: Express, options: RouteOptions = {}): void {
     }
   });
 
-  app.post("/api/dashboards", requireAuth, async (req, res) => {
+  app.post("/api/dashboards", requireAuth, requireOrg, async (req, res) => {
     try {
       const validatedData = insertDashboardSchema.parse(req.body);
       const dashboard = await storage.createDashboard({ ...validatedData, orgId: req.user!.orgId });
@@ -270,7 +255,7 @@ export function registerRoutes(app: Express, options: RouteOptions = {}): void {
   });
 
   // Chart routes
-  app.post("/api/charts", requireAuth, async (req, res) => {
+  app.post("/api/charts", requireAuth, requireOrg, async (req, res) => {
     try {
       const validatedData = insertChartSchema.parse(req.body);
       const chart = await storage.createChart(validatedData);
@@ -280,7 +265,7 @@ export function registerRoutes(app: Express, options: RouteOptions = {}): void {
     }
   });
 
-  app.put("/api/charts/:id", requireAuth, async (req, res) => {
+  app.put("/api/charts/:id", requireAuth, requireOrg, async (req, res) => {
     try {
       const updates = req.body;
       const chart = await storage.updateChart(req.params.id, updates);
@@ -295,7 +280,7 @@ export function registerRoutes(app: Express, options: RouteOptions = {}): void {
     }
   });
 
-  app.delete("/api/charts/:id", requireAuth, async (req, res) => {
+  app.delete("/api/charts/:id", requireAuth, requireOrg, async (req, res) => {
     try {
       const success = await storage.deleteChart(req.params.id);
       if (!success) {
@@ -356,7 +341,7 @@ export function registerRoutes(app: Express, options: RouteOptions = {}): void {
   });
 
   // Execute a query from a pre-built template
-  app.post("/api/social/query-from-template", requireAuth, async (req, res) => {
+  app.post("/api/social/query-from-template", requireAuth, requireOrg, async (req, res) => {
     try {
       const { templateId, parameters, databaseId } = req.body;
 
