@@ -11,7 +11,7 @@ const buttonVariants = cva(
       variant: {
         default: "sfs-button",
         destructive:
-          "bg-[#8b2020] text-[#ffffff] hover:bg-[#a52525] border border-[#8b2020] sfs-card",
+          "bg-[#4a2b2b] text-[#F5F5DC] hover:bg-[#5a3535] border border-[#5a3535] sfs-card",
         outline:
           "border-2 border-[rgba(212,175,55,0.35)] bg-transparent text-[#FFD700] hover:bg-[rgba(212,175,55,0.1)] hover:border-[#FFD700] smooth-transition",
         secondary:

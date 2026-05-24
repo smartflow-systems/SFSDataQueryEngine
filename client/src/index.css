@@ -30,17 +30,17 @@
   --muted-foreground: rgba(233, 230, 223, 0.8);
   --accent: rgba(20, 17, 15, 0.7);
   --accent-foreground: #FFD700;
-  --destructive: #8b2020;
-  --destructive-foreground: #ffffff;
+  --destructive: #4a2b2b;
+  --destructive-foreground: #F5F5DC;
   --border: rgba(212, 175, 55, 0.35);
   --input: rgba(212, 175, 55, 0.08);
   --ring: #FFD700;
-  --success: #4a7c4a;
+  --success: #6f8a5f;
   --warning: #b8941f;
   --chart-1: #FFD700;
   --chart-2: #ffdd00;
   --chart-3: #b8941f;
-  --chart-4: #9a8f80;
+  --chart-4: #8a6f4b;
   --chart-5: #cbbf9b;
   
   /* SFS Enhanced Colors */
@@ -63,32 +63,32 @@
 }
 
 .dark {
-  --background: hsl(222, 84%, 5%);
-  --foreground: hsl(210, 40%, 98%);
-  --card: hsl(222, 84%, 5%);
-  --card-foreground: hsl(210, 40%, 98%);
-  --popover: hsl(222, 84%, 5%);
-  --popover-foreground: hsl(210, 40%, 98%);
-  --primary: hsl(217, 91%, 60%);
-  --primary-foreground: hsl(222, 84%, 5%);
-  --secondary: hsl(217, 32%, 17%);
-  --secondary-foreground: hsl(210, 40%, 98%);
-  --muted: hsl(217, 32%, 17%);
-  --muted-foreground: hsl(215, 20%, 65%);
-  --accent: hsl(217, 32%, 17%);
-  --accent-foreground: hsl(210, 40%, 98%);
-  --destructive: hsl(0, 62%, 30%);
-  --destructive-foreground: hsl(210, 40%, 98%);
-  --border: hsl(217, 32%, 17%);
-  --input: hsl(217, 32%, 17%);
-  --ring: hsl(217, 91%, 60%);
-  --success: hsl(142, 71%, 45%);
-  --warning: hsl(38, 92%, 50%);
-  --chart-1: hsl(217, 91%, 60%);
-  --chart-2: hsl(142, 71%, 45%);
-  --chart-3: hsl(38, 92%, 50%);
-  --chart-4: hsl(268, 83%, 58%);
-  --chart-5: hsl(0, 62%, 30%);
+  --background: #0D0D0D;
+  --foreground: #F5F5DC;
+  --card: rgba(20, 17, 15, 0.7);
+  --card-foreground: rgba(233, 230, 223, 0.8);
+  --popover: rgba(20, 17, 15, 0.7);
+  --popover-foreground: rgba(233, 230, 223, 0.8);
+  --primary: #FFD700;
+  --primary-foreground: #0D0D0D;
+  --secondary: rgba(20, 17, 15, 0.7);
+  --secondary-foreground: rgba(233, 230, 223, 0.8);
+  --muted: rgba(20, 17, 15, 0.7);
+  --muted-foreground: rgba(233, 230, 223, 0.8);
+  --accent: rgba(20, 17, 15, 0.7);
+  --accent-foreground: #FFD700;
+  --destructive: #4a2b2b;
+  --destructive-foreground: #F5F5DC;
+  --border: rgba(212, 175, 55, 0.35);
+  --input: rgba(212, 175, 55, 0.08);
+  --ring: #FFD700;
+  --success: #6f8a5f;
+  --warning: #b8941f;
+  --chart-1: #FFD700;
+  --chart-2: #ffdd00;
+  --chart-3: #b8941f;
+  --chart-4: #8a6f4b;
+  --chart-5: #cbbf9b;
 }
 
 @layer base {
